@@ -14,9 +14,16 @@ LEXICON: dict[str, dict[str, str]] = {
     '/help': {
         'en': "Commands",
         'ru': "Команды"
+    },
+    'not_updated_user': {
+        'en': "Hello! We have updated the structure of our bot, and your account has been successfully updated. Don't"
+              " worry, you can continue using the bot as usual.",
+        'ru': "Здравствуйте! Мы обновили структуру нашего бота, и ваш аккаунт был успешно обновлен. Не беспокойтесь, вы"
+              " можете продолжать пользоваться ботом как обычно."
     }
 }
 
 LEXICON_COMMANDS: dict[str, str] = {
-    '/help': 'list of available commands',
+    '/help': 'description of available commands',
+    '/settings': 'your settings'
 }

@@ -14,8 +14,20 @@ router = Router()
 @router.message(CommandStart())
 async def process_start_command(message: Message):
     await message.answer(LEXICON[message.text]['en'])
-    if str(message.from_user.id) not in get_users():
-        add_user(str(message.from_user.id))
+    if message.from_user.id not in get_users():
+        add_user(message.from_user.id)
+
+
+@router.message(lambda message: message.from_user.id not in get_users())
+async def unregistered_user(message: Message):
+    await message.answer(LEXICON['/start']['en'])
+    add_user(message.from_user.id)
+
+
+@router.message(lambda message: not is_user_updated(message.from_user.id))
+async def unregistered_user(message: Message):
+    await message.answer(LEXICON['not_updated_user']['en'])
+    update_user(message.from_user.id)
 
 
 # Этот хэндлер будет срабатывать на команду "/help"
