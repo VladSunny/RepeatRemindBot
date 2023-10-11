@@ -46,3 +46,8 @@ def update_user(uid: Union[int, str]) -> None:
             new_user[key] = old_user[key]
 
     users_db.document(str(uid)).update(new_user)
+
+
+def update_value(uid: Union[int, str], update: dict) -> None:
+    user = users_db.document(str(uid))
+    user.update(update)

@@ -30,8 +30,12 @@ LEXICON: dict[str, dict[str, str]] = {
         'ru': "выберете нужный вам язык:"
     },
     'language': {
-        'en': "🇷🇺",
-        'ru': "🇺🇸"
+        'en': "🇺🇸",
+        'ru': "🇷🇺",
+    },
+    'change_language': {
+        'en': "you have successfully changed your language to English!",
+        'ru': "вы успешно сменили язык на русский!"
     }
 }
 

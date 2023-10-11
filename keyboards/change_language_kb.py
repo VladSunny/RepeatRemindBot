@@ -8,9 +8,12 @@ def create_change_language_keyboard() -> InlineKeyboardMarkup:
     # Инициализируем билдер
     kb_builder = InlineKeyboardBuilder()
     # Добавляем в билдер ряд с кнопками
-    kb_builder.row(*[InlineKeyboardButton(
-        text=LEXICON['language'][button[0]],
-        callback_data=button[1]) for button in LEXICON['language'].items()]
-    )
+    kb_builder.row(*[
+        InlineKeyboardButton(text=LEXICON['language'][button],
+                             callback_data=button+"lang")
+        for button in LEXICON['language'].keys()
+    ])
+
+    print([button for button in LEXICON['language'].keys()])
     # Возвращаем объект инлайн-клавиатуры
     return kb_builder.as_markup()
