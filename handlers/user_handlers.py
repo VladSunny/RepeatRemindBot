@@ -2,7 +2,7 @@ from aiogram import F, Router
 from aiogram.filters import Command, CommandStart
 from aiogram.types import CallbackQuery, Message
 from database.database import *
-from filters.filters import IsChangeLanguage
+from filters.CallbackDataFactory import LanguageSelectionCF
 
 from keyboards.change_language_kb import create_change_language_keyboard
 
@@ -27,7 +27,6 @@ async def process_start_command(message: Message):
 @router.message(Command(commands='help'))
 async def process_help_command(message: Message):
     user = get_user(message.from_user.id)
-    print(user)
     await message.answer(LEXICON[message.text][user['lang']])
 
 
@@ -43,9 +42,9 @@ async def process_change_language_command(message: Message):
     await message.answer(LEXICON[message.text][user['lang']], reply_markup=create_change_language_keyboard())
 
 
-@router.callback_query(IsChangeLanguage())
-async def process_del_bookmark_press(callback: CallbackQuery):
-    new_lang: str = callback.data[:-4]
-    print(new_lang)
+@router.callback_query(LanguageSelectionCF.filter())
+async def process_change_language_press(callback: CallbackQuery,
+                                        callback_data: LanguageSelectionCF):
+    new_lang: str = callback_data.language
     update_value(callback.from_user.id, {'lang': new_lang})
     await callback.answer(LEXICON['change_language'][new_lang])
