@@ -12,8 +12,12 @@ LEXICON: dict[str, dict[str, str]] = {
               " сегодня?"
     },
     '/help': {
-        'en': "Commands",
-        'ru': "Команды"
+        'en': "While the following commands are available in the bot:\n\n"
+              "\t<b>/help</b> - a list of all commands and their description\n"
+              "\t<b>/settings</b> - a list of available settings for the bot",
+        'ru': "Пока в боте доступны такие команды:\n\n"
+              "\t<b>/help</b> - список всех команд и их описание\n"
+              "\t<b>/settings</b> - список доступных настроек для бота"
     },
     'not_updated_user': {
         'en': "Hello! We have updated the structure of our bot, and your account has been successfully updated. Don't"
@@ -22,8 +26,10 @@ LEXICON: dict[str, dict[str, str]] = {
               " можете продолжать пользоваться ботом как обычно."
     },
     '/settings': {
-        'en': '''/change_lang - change bot language''',
-        'ru': '''/change_lang - изменить язык бота'''
+        'en': "While the following settings are available in the bot:\n\n"
+              "\t<b>/change_lang</b> - change the language of the bot",
+        'ru': "Пока в боте доступны такие настройки:\n\n"
+              "\t<b>/change_lang</b> - изменить язык бота"
     },
     '/change_lang': {
         'en': "choose your language:",
