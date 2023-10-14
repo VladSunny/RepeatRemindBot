@@ -12,10 +12,10 @@ LEXICON: dict[str, dict[str, str]] = {
               " сегодня?"
     },
     '/help': {
-        'en': "While the following commands are available in the bot:\n\n"
+        'en': "The following commands are currently available:\n\n"
               "\t<b>/help</b> - a list of all commands and their description\n"
               "\t<b>/settings</b> - a list of available settings for the bot",
-        'ru': "Пока в боте доступны такие команды:\n\n"
+        'ru': "В данный момент доступны такие команды:\n\n"
               "\t<b>/help</b> - список всех команд и их описание\n"
               "\t<b>/settings</b> - список доступных настроек для бота"
     },
