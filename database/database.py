@@ -1,53 +1,42 @@
+from __future__ import annotations
 from copy import deepcopy
-from typing import Union
+from environs import Env
 
-import firebase_admin
-from firebase_admin import credentials, firestore
+from supabase import create_client, Client
+from icecream import ic
 
 # Создаем шаблон заполнения словаря с пользователями
 user_dict_template = {
-    'state': None,
     'lang': 'en'
 }
 
-# Подключаемся к firebase
-cred = credentials.Certificate("serviceAccountKey.json")
-app = firebase_admin.initialize_app(cred)
+env = Env()
+env.read_env(None)
 
-# Инициализируем "базу данных"
-db = firestore.client()
-users_db = db.collection('users_tg')
+url: str = env("SUPABASE_URL")
+key: str = env("SUPABASE_KEY")
+
+supabase: Client = create_client(url, key)
 
 
-def get_users() -> list[int]:
-    users = list(map(lambda x: int(x.id), users_db.stream()))
+def get_users_chat_ids() -> list[int]:
+    response = supabase.table("users_tg").select("chat_id").execute()
+    users = list(map(lambda d: int(list(d.values())[0]), response.data))
     return users
 
 
-def add_user(uid: Union[int, str]) -> None:
-    users_db.document(str(uid)).set(deepcopy(user_dict_template))
-
-
-def get_user(uid: Union[int, str]) -> dict:
-    user = users_db.document(str(uid)).get()
-    return user.to_dict()
-
-
-def is_user_updated(uid: Union[int, str]) -> bool:
-    return set(get_user(uid).keys()) == set(user_dict_template.keys())
-
-
-def update_user(uid: Union[int, str]) -> None:
-    old_user = get_user(uid)
+def add_user(chat_id: int | str) -> None:
     new_user = deepcopy(user_dict_template)
+    new_user["chat_id"] = chat_id
 
-    for key in old_user.keys():
-        if new_user.get(key):
-            new_user[key] = old_user[key]
-
-    users_db.document(str(uid)).update(new_user)
+    response = supabase.table("users_tg").insert(new_user).execute()
 
 
-def update_value(uid: Union[int, str], update: dict) -> None:
-    user = users_db.document(str(uid))
-    user.update(update)
+def get_user(chat_id: int | str) -> dict:
+    response = supabase.table("users_tg").select('*').eq("chat_id", str(chat_id)).execute()
+    user = response.data[0]
+    return user
+
+
+def update_value(chat_id: int | str, update: dict) -> None:
+    response = supabase.table("users_tg").update(update).eq("chat_id", chat_id).execute()

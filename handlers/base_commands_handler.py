@@ -11,7 +11,7 @@ from lexicon.lexicon import LEXICON
 router = Router()
 
 
-@router.message(lambda message: message.from_user.id not in get_users())
+@router.message(lambda message: message.from_user.id not in get_users_chat_ids())
 async def unregistered_user(message: Message):
     await message.answer(LEXICON['/start']['en'])
     add_user(message.from_user.id)
@@ -20,7 +20,7 @@ async def unregistered_user(message: Message):
 @router.message(CommandStart())
 async def process_start_command(message: Message):
     await message.answer(LEXICON[message.text]['en'])
-    if message.from_user.id not in get_users():
+    if message.from_user.id not in get_users_chat_ids():
         add_user(message.from_user.id)
 
 
