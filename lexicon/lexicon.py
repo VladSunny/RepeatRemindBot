@@ -1,12 +1,3 @@
-import enum
-# COMMANDS_NAMES: dict[str, str] = {
-#     'settings': '/settings',
-#     'create_new_module': '/new_module',
-#     'change language': '/change_language',
-#     'help': '/help'
-# }
-
-
 class CommandsNames:
     settings = 'settings'
     change_language = 'change_language'
@@ -15,6 +6,9 @@ class CommandsNames:
 
 
 LEXICON: dict[str, dict[str, str]] = {
+
+    # Base Commands
+
     '/start': {
         'en': "Hello! I'm a RepeatRemindBot. I am ready to help you with repetition and reminders. What can I do for"
               " you today? /help",
@@ -37,10 +31,24 @@ LEXICON: dict[str, dict[str, str]] = {
               f"\t<b>/{CommandsNames.change_language}</b> - изменить язык бота"
               "\n\n/help"
     },
+
+    # - Settings
+    # -- Change Language
     CommandsNames.change_language: {
         'en': "choose your language: /help",
         'ru': "выберете нужный вам язык: /help"
     },
+    'language': {
+        'en': "🇺🇸",
+        'ru': "🇷🇺",
+    },
+    'changed_language': {
+        'en': "you have successfully changed your language to English!",
+        'ru': "вы успешно сменили язык на русский!"
+    },
+
+    # - Creating New Module
+
     CommandsNames.create_new_module: {
         'en': "Please enter the name of the module."
               "\nThe module name must contain from 5 to 20 characters."
@@ -59,19 +67,25 @@ LEXICON: dict[str, dict[str, str]] = {
               "\n\nПожалуйста, убедитесь, что название модуля соответствует этим условиям перед вводом."
               f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
     },
+    'cancel_creating_module': {
+        'en': "You have exited the module creation mode. Now you can perform other actions."
+              "\n/help",
+        'ru': "Вы вышли из режима создания модуля. Теперь вы можете выполнить другие действия."
+              "\n/help"
+    },
+    'unintended_creating_module': {
+        'en': "Your message is not provided by the bot in the current state."
+              f"\n/{CommandsNames.cancel} - to cancel the module creation",
+        'ru': "Ваше сообщение не предоставлено ботом в текущем состоянии."
+              f"\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
+    },
+
+    # Other
     'not_updated_user': {
         'en': "Hello! We have updated the structure of our bot, and your account has been successfully updated. Don't"
               " worry, you can continue using the bot as usual. /help",
         'ru': "Здравствуйте! Мы обновили структуру нашего бота, и ваш аккаунт был успешно обновлен. Не беспокойтесь, вы"
               " можете продолжать пользоваться ботом как обычно. /help"
-    },
-    'language': {
-        'en': "🇺🇸",
-        'ru': "🇷🇺",
-    },
-    'changed_language': {
-        'en': "you have successfully changed your language to English!",
-        'ru': "вы успешно сменили язык на русский!"
     },
     'default_response': {
         'en': "Sorry, I don't understand this command. Please use one of the available commands or ask me for help by"
@@ -88,18 +102,6 @@ LEXICON: dict[str, dict[str, str]] = {
               " уточните их, и я постараюсь вам помочь."
               "\n/help"
     },
-    'cancel_creating_module': {
-        'en': "You have exited the module creation mode. Now you can perform other actions."
-              "\n/help",
-        'ru': "Вы вышли из режима создания модуля. Теперь вы можете выполнить другие действия."
-              "\n/help"
-    },
-    'unintended_creating_module': {
-        'en': "Your message is not provided by the bot in the current state."
-              f"\n/{CommandsNames.cancel} - to cancel the module creation",
-        'ru': "Ваше сообщение не предоставлено ботом в текущем состоянии."
-              f"\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
-    }
 }
 
 LEXICON_COMMANDS: dict[str, str] = {

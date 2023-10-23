@@ -1,6 +1,9 @@
 from aiogram import F, Router
 from aiogram.filters import Command, CommandStart, StateFilter
 from aiogram.types import CallbackQuery, Message
+from aiogram.fsm.state import default_state
+from aiogram.fsm.context import FSMContext
+
 from database.database import *
 from filters.CallbackDataFactory import LanguageSelectionCF
 
@@ -8,8 +11,6 @@ from keyboards.change_language_kb import create_change_language_keyboard
 
 from lexicon.lexicon import LEXICON, CommandsNames
 from FSM.fsm import FSMCreatingModule
-from aiogram.fsm.state import default_state
-from aiogram.fsm.context import FSMContext
 
 router = Router()
 

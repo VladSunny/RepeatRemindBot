@@ -3,17 +3,15 @@ from __future__ import annotations
 from aiogram import F, Router, Dispatcher
 from aiogram.filters import Command, CommandStart, StateFilter
 from aiogram.types import CallbackQuery, Message
-from database.database import *
-from filters.CallbackDataFactory import LanguageSelectionCF
-
-from keyboards.change_language_kb import create_change_language_keyboard
-
-from lexicon.lexicon import LEXICON, CommandsNames
-
-from FSM.fsm import FSMCreatingModule, creating_module_states
 from aiogram.fsm.state import default_state, State, StatesGroup
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.storage.memory import MemoryStorage
+
+from database.database import *
+from filters.CallbackDataFactory import LanguageSelectionCF
+from keyboards.change_language_kb import create_change_language_keyboard
+from lexicon.lexicon import LEXICON, CommandsNames
+from FSM.fsm import FSMCreatingModule, creating_module_states
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
