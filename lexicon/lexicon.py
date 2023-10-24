@@ -18,10 +18,12 @@ LEXICON: dict[str, dict[str, str]] = {
     '/help': {
         'en': "The following commands are currently available:\n\n"
               "\t<b>/help</b> - a list of all commands and their description\n"
-              f"\t<b>/{CommandsNames.settings}</b> - a list of available settings for the bot",
+              f"\t<b>/{CommandsNames.settings}</b> - a list of available settings for the bot\n"
+              f"\t<b>/{CommandsNames.create_new_module}</b> - allows you to create a module for further study.",
         'ru': "В данный момент доступны такие команды:\n\n"
-              "\t<b>/help</b> - список всех команд и их описание\n"
-              f"\t<b>/{CommandsNames.settings}</b> - список доступных настроек для бота"
+              "\t<b>/help</b> - список всех команд и их описание.\n"
+              f"\t<b>/{CommandsNames.settings}</b> - список доступных настроек для бота.\n"
+              f"\t<b>/{CommandsNames.create_new_module}</b> - позволяет создать модуль для последующего изучения."
     },
     CommandsNames.settings: {
         'en': "While the following settings are available in the bot:\n\n"
@@ -67,6 +69,72 @@ LEXICON: dict[str, dict[str, str]] = {
               "\n\nПожалуйста, убедитесь, что название модуля соответствует этим условиям перед вводом."
               f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
     },
+    'not_valid_name': {
+        'en': "The module name must contain from 5 to 20 characters."
+              "\n\nModule can include only the following characters: "
+              "\n - Latin letters (in any case)."
+              "\n - Digits."
+              "\n - Character '_'."
+              "\n\nPlease make sure that the module name meets these conditions before entering."
+              f"\n\n/{CommandsNames.cancel} - to cancel the module creation",
+        'ru': "Название модуля должно содержать от 5 до 20 символов."
+              "\n\nМодуль может включать только следующие символы:"
+              "\n - Латинские буквы (в любом регистре)."
+              "\n - Цифры."
+              "\n - Символ '_'."
+              "\n\nПожалуйста, убедитесь, что название модуля соответствует этим условиям перед вводом."
+              f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
+    },
+    'rename_module_button': {
+        'en': "Change the module name ✏️",
+        'ru': "Изменить название модуля ✏️"
+    },
+    'fill_separator': {
+        'en': "Great! Now, please enter one character that will be a convenient separator for you."
+              " This character will be used to separate words in your module by adding spaces in the text."
+              "\n\n Please enter one character (for example, '/', '|', ',', etc.),"
+              " which you want to use as a separator."
+              "\n\n Most often used for example - = :"
+              f"\n\n/{CommandsNames.cancel} - to cancel the module creation",
+        'ru': "Отлично! Теперь, пожалуйста, введите один символ, который будет удобным для вас разделителем."
+              " Этот символ будет использоваться для разделения слов в вашем модуле, добавляя пробелы в тексте."
+              "\n\nПожалуйста, введите один символ (например, '/', '|', ',', и т. д.),"
+              " который вы хотите использовать в качестве разделителя."
+              "\n\nЧаще всего используются например - = :"
+              f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля",
+    },
+    'not_valid_separator': {
+        'en': "Please enter one character (for example, '/', '|', ',', etc.),"
+              " which you want to use as a separator."
+              f"\n\n/{CommandsNames.cancel} - to cancel the module creation",
+        'ru': "\n\nПожалуйста, введите один символ (например, '/', '|', ',', и т. д.),"
+              " который вы хотите использовать в качестве разделителя."
+              f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
+    },
+    'edit_module_separator_button': {
+        'en': "Change the separator✏️",
+        'ru': "Изменить разделитель✏️"
+    },
+    'fill_content': {
+        'en': "Now enter pairs of values separated by your chosen delimiter:"
+              "\nkey {delimiter} value \n"
+              "\nYour pairs will be added to the message keyboard below this."
+              "\n\nYou can also send multiple pairs of values at once, each on the next line:"
+              "\nkey1 {delimiter} value"
+              "\nkey2 {delimiter} value"
+              f"\n\n/{CommandsNames.cancel} - to cancel module creation",
+        'ru': "Теперь вводите пары значений, разделенных выбранным вам разделителем:"
+              "\nключ {разделитель} значение \n"
+              "\nВаши пары будут добавляться в клавиатуру сообщения под этим."
+              "\n\nТакже вы можете сразу отправить несколько пар значений, каждая из которых на следующей строке:"
+              "\nключ1 {разделитель} значение"
+              "\nключ2 {разделитель} значение"
+              f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
+    },
+    'finish_module_button': {
+        'en': "Save ✅",
+        'ru': "Сохранить ✅"
+    },
     'cancel_creating_module': {
         'en': "You have exited the module creation mode. Now you can perform other actions."
               "\n/help",
@@ -76,7 +144,7 @@ LEXICON: dict[str, dict[str, str]] = {
     'unintended_creating_module': {
         'en': "Your message is not provided by the bot in the current state."
               f"\n/{CommandsNames.cancel} - to cancel the module creation",
-        'ru': "Ваше сообщение не предоставлено ботом в текущем состоянии."
+        'ru': "Ваше сообщение не предусмотренно ботом в текущем состоянии."
               f"\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
     },
 
@@ -107,5 +175,5 @@ LEXICON: dict[str, dict[str, str]] = {
 LEXICON_COMMANDS: dict[str, str] = {
     '/help': 'description of available commands',
     f'/{CommandsNames.settings}': 'your settings',
-    f'/{CommandsNames.create_new_module}': 'create new module'
+    f'/{CommandsNames.create_new_module}': 'create new module',
 }

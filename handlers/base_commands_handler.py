@@ -46,13 +46,6 @@ async def process_settings_command(message: Message):
     await message.answer(LEXICON[CommandsNames.settings][user['lang']])
 
 
-@router.message(Command(commands=CommandsNames.change_language))
-async def process_change_language_command(message: Message):
-    user = get_user(message.from_user.id)
-    await message.answer(LEXICON[CommandsNames.change_language][user['lang']],
-                         reply_markup=create_change_language_keyboard())
-
-
 @router.message(Command(commands=CommandsNames.cancel))
 async def process_cancel_command(message: Message):
     user = get_user(message.from_user.id)
@@ -61,6 +54,13 @@ async def process_cancel_command(message: Message):
     )
 
 # interactive commands
+
+
+@router.message(Command(commands=CommandsNames.change_language))
+async def process_change_language_command(message: Message):
+    user = get_user(message.from_user.id)
+    await message.answer(LEXICON[CommandsNames.change_language][user['lang']],
+                         reply_markup=create_change_language_keyboard())
 
 
 @router.message(Command(commands=CommandsNames.create_new_module))
