@@ -9,6 +9,12 @@ from keyboards.main_menu import set_main_menu
 # Инициализируем логгер
 logger = logging.getLogger(__name__)
 
+# Загружаем конфиг в переменную config
+config: Config = load_config()
+
+# Инициализччируем бот и диспетчер
+bot = Bot(token=config.tg_bot.token,
+          parse_mode='HTML')
 
 # Функция конфигурирования и запуска бота
 async def main():
@@ -20,13 +26,6 @@ async def main():
 
     # Выводим в консоль информацию о начале запуска бота
     logger.info('Starting bot')
-
-    # Загружаем конфиг в переменную config
-    config: Config = load_config()
-
-    # Инициализччируем бот и диспетчер
-    bot = Bot(token=config.tg_bot.token,
-              parse_mode='HTML')
     dp = Dispatcher()
 
     # Настраиваем главное меню бота
