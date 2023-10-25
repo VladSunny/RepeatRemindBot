@@ -117,11 +117,11 @@ LEXICON: dict[str, dict[str, str]] = {
     },
     'fill_content': {
         'en': "Now enter pairs of values separated by your chosen delimiter:"
-              "\nkey {delimiter} value \n"
+              "\nkey {separator} value \n"
               "\nYour pairs will be added to the message keyboard below this."
               "\n\nYou can also send multiple pairs of values at once, each on the next line:"
-              "\nkey1 {delimiter} value"
-              "\nkey2 {delimiter} value"
+              "\nkey1 {separator} value"
+              "\nkey2 {separator} value"
               f"\n\n/{CommandsNames.cancel} - to cancel module creation",
         'ru': "Теперь вводите пары значений, разделенных выбранным вам разделителем:"
               "\nключ {разделитель} значение \n"
@@ -130,6 +130,20 @@ LEXICON: dict[str, dict[str, str]] = {
               "\nключ1 {разделитель} значение"
               "\nключ2 {разделитель} значение"
               f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
+    },
+    'incorrect_pair': {
+        'en': "Incorrect format!"
+              "\n\nExample:"
+              "\nfruit {separator} apple"
+              f"\n\n/{CommandsNames.cancel} - to cancel module creation",
+        'ru': "Неправильный формат!"
+              "\n\nПример:"
+              "\nфрукт {separator} яблоко"
+              f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
+    },
+    'new_module_info': {
+        'en': "Module name - '{module_name}', separator - '{separator}'",
+        'ru': "Название модуля - '{module_name}', разделитель - '{separator}'"
     },
     'finish_module_button': {
         'en': "Save ✅",

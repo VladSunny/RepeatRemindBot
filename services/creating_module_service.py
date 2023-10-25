@@ -18,6 +18,15 @@ def is_valid_separator(separator: str) -> bool:
     return bool(re.match(pattern, separator))
 
 
-def is_valid_pairs(pairs: str) -> dict[str, str] | None:
-    pairs = ic(pairs.split('\n'))
-    return None
+def get_valid_pairs(pairs: str, separator: str) -> dict[str, str] | None:
+    pairs: list[str] = pairs.split('\n')
+
+    valid_pairs: dict[str, str] = {}
+
+    for pair in pairs:
+        pair = pair.split(f' {separator} ')
+        if len(pair) != 2:
+            return None
+        valid_pairs[pair[0]] = pair[1]
+
+    return valid_pairs
