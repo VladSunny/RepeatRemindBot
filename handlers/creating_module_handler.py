@@ -18,7 +18,7 @@ from services.service import send_and_delete_message, change_reply_markup
 
 from keyboards.new_module_kb import create_new_module_keyboard
 
-from filters.CallbackDataFactory import DelPairFromNewModuleCF
+from filters.CallbackDataFactory import DelPairFromNewModuleCF, RenameNewModuleCF
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
@@ -116,8 +116,8 @@ async def process_content_sent(message: Message, state: FSMContext):
     )
 
 
-@router.callback_query(DelPairFromNewModuleCF.filter())
-async def process_change_language_press(callback: CallbackQuery,
+@router.callback_query(DelPairFromNewModuleCF.filter(), StateFilter(FSMCreatingModule.fill_content))
+async def process_delete_pair(callback: CallbackQuery,
                                         callback_data: DelPairFromNewModuleCF,
                                         state: FSMContext):
     user = get_user(callback.from_user.id)
@@ -126,10 +126,12 @@ async def process_change_language_press(callback: CallbackQuery,
     data = await state.get_data()
     content: dict[str, str] = ic(data['content'])
 
+    deleted_pair: str = f"{key} {data['separator']} {content[key]}"
+
     ic(content.pop(key))
 
     await state.update_data(content=content)
-    await callback.answer(LEXICON['deleted_pair_from_new_model'][user['lang']])
+    await callback.answer(LEXICON['deleted_pair_from_new_model'][user['lang']].format(deleted_pair=deleted_pair))
 
     await change_reply_markup(
         callback.from_user.id, data['message_id'],
@@ -138,6 +140,30 @@ async def process_change_language_press(callback: CallbackQuery,
                                    data['name'],
                                    data['separator'])
     )
+
+
+# @router.callback_query(RenameNewModuleCF.filter())
+# async def process_change_name(callback: CallbackQuery,
+#                                         callback_data: RenameNewModuleCF,
+#                                         state: FSMContext):
+#     user = get_user(callback.from_user.id)
+#     key: str = callback_data.key
+#
+#     data = await state.get_data()
+#     content: dict[str, str] = ic(data['content'])
+#
+#     ic(content.pop(key))
+#
+#     await state.update_data(content=content)
+#     await callback.answer(LEXICON['deleted_pair_from_new_model'][user['lang']])
+#
+#     await change_reply_markup(
+#         callback.from_user.id, data['message_id'],
+#         create_new_module_keyboard(content,
+#                                    user['lang'],
+#                                    data['name'],
+#                                    data['separator'])
+#     )
 
 
 @router.message(StateFilter(*creating_module_states))

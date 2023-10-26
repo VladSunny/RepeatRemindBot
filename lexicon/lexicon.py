@@ -115,6 +115,24 @@ LEXICON: dict[str, dict[str, str]] = {
         'en': "Change the separator✏️",
         'ru': "Изменить разделитель✏️"
     },
+    'rename_new_module': {
+        'en': "Please enter the name of the new module."
+              "\nThe module name must contain from 5 to 20 characters."
+              "\n\nModule can include only the following characters: "
+              "\n - Latin letters (in any case)."
+              "\n - Digits."
+              "\n - Character '_'."
+              "\n\nPlease make sure that the new module name meets these conditions before entering."
+              f"\n\n/{CommandsNames.cancel} - to cancel the module creation",
+        'ru': "Пожалуйста, введите новое название модуля."
+              "\nНазвание модуля должно содержать от 5 до 20 символов."
+              "\n\nМодуль может включать только следующие символы:"
+              "\n - Латинские буквы (в любом регистре)."
+              "\n - Цифры."
+              "\n - Символ '_'."
+              "\n\nПожалуйста, убедитесь, что новое название модуля соответствует этим условиям перед вводом."
+              f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
+    },
     'fill_content': {
         'en': "Now enter pairs of values separated by your chosen delimiter:"
               "\nkey {separator} value \n"
@@ -148,8 +166,8 @@ LEXICON: dict[str, dict[str, str]] = {
               "\n-----------------------------------------------------------------------------------------------------"
     },
     'deleted_pair_from_new_model': {
-        'en': "pair {} was deleted",
-        'ru': "пара {} была удалена"
+        'en': "pair {deleted_pair} was deleted",
+        'ru': "пара {deleted_pair} была удалена"
     },
     'finish_module_button': {
         'en': "Save ✅",
