@@ -8,6 +8,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.storage.memory import MemoryStorage
 
 from database.database import *
+
 from lexicon.lexicon import LEXICON, CommandsNames
 
 from FSM.fsm import FSMCreatingModule, creating_module_states
@@ -17,6 +18,7 @@ from services.service import send_and_delete_message, change_reply_markup
 
 from keyboards.new_module_kb import create_new_module_keyboard
 
+from filters.CallbackDataFactory import DelPairFromNewModuleCF
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
@@ -64,7 +66,7 @@ async def process_name_sent(message: Message, state: FSMContext):
 @router.message(StateFilter(FSMCreatingModule.fill_separator))
 async def process_separator_sent(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
-    if (message.text is None) or (not ic(is_valid_separator(message.text))):
+    if (message.text is None) or (not is_valid_separator(message.text)):
         await message.answer(
             text=LEXICON['not_valid_separator'][user['lang']]
         )
@@ -80,7 +82,7 @@ async def process_separator_sent(message: Message, state: FSMContext):
     )
     msg = await message.answer(
         text=LEXICON['new_module_info'][user['lang']].format(module_name=data['name'], separator=data['separator']),
-        reply_markup=create_new_module_keyboard({}, user['lang'], data['name'])
+        reply_markup=create_new_module_keyboard({}, user['lang'], data['name'], data['separator'])
     )
 
     await state.update_data(message_id=msg.message_id)
@@ -88,12 +90,12 @@ async def process_separator_sent(message: Message, state: FSMContext):
 
 @router.message(StateFilter(FSMCreatingModule.fill_content))
 async def process_content_sent(message: Message, state: FSMContext):
-    user = get_user(message.from_user.id)
+    user = get_user(message.chat.id)
 
     await message.delete()
 
     data = await state.get_data()
-    valid_pairs: dict[str, str] = ic(get_valid_pairs(message.text, data['separator']))
+    valid_pairs: dict[str, str] = get_valid_pairs(message.text, data['separator'])
 
     if get_valid_pairs(message.text, data['separator']) is None:
         await send_and_delete_message(message.chat.id,
@@ -105,7 +107,37 @@ async def process_content_sent(message: Message, state: FSMContext):
 
     await state.update_data(content=valid_pairs)
 
-    await change_reply_markup(message.chat.id, data['message_id'], create_new_module_keyboard(valid_pairs, user['lang'], data['name']))
+    await change_reply_markup(
+        message.chat.id, data['message_id'],
+        create_new_module_keyboard(valid_pairs,
+                                   user['lang'],
+                                   data['name'],
+                                   data['separator'])
+    )
+
+
+@router.callback_query(DelPairFromNewModuleCF.filter())
+async def process_change_language_press(callback: CallbackQuery,
+                                        callback_data: DelPairFromNewModuleCF,
+                                        state: FSMContext):
+    user = get_user(callback.from_user.id)
+    key: str = callback_data.key
+
+    data = await state.get_data()
+    content: dict[str, str] = ic(data['content'])
+
+    ic(content.pop(key))
+
+    await state.update_data(content=content)
+    await callback.answer(LEXICON['deleted_pair_from_new_model'][user['lang']])
+
+    await change_reply_markup(
+        callback.from_user.id, data['message_id'],
+        create_new_module_keyboard(content,
+                                   user['lang'],
+                                   data['name'],
+                                   data['separator'])
+    )
 
 
 @router.message(StateFilter(*creating_module_states))

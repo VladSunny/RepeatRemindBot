@@ -142,8 +142,14 @@ LEXICON: dict[str, dict[str, str]] = {
               f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
     },
     'new_module_info': {
-        'en': "Module name - '{module_name}', separator - '{separator}'",
+        'en': "Module name - '{module_name}', separator - '{separator}'"
+              "\n-----------------------------------------------------------------------------------------------------",
         'ru': "Название модуля - '{module_name}', разделитель - '{separator}'"
+              "\n-----------------------------------------------------------------------------------------------------"
+    },
+    'deleted_pair_from_new_model': {
+        'en': "pair {} was deleted",
+        'ru': "пара {} была удалена"
     },
     'finish_module_button': {
         'en': "Save ✅",
