@@ -116,7 +116,8 @@ LEXICON: dict[str, dict[str, str]] = {
         'ru': "Изменить разделитель✏️"
     },
     'rename_new_module': {
-        'en': "Please enter the name of the new module."
+        'en': "<b>!!!Changing module name!!!</b>\n\n"
+              "Please enter the name of the new module."
               "\nThe module name must contain from 5 to 20 characters."
               "\n\nModule can include only the following characters: "
               "\n - Latin letters (in any case)."
@@ -124,7 +125,8 @@ LEXICON: dict[str, dict[str, str]] = {
               "\n - Character '_'."
               "\n\nPlease make sure that the new module name meets these conditions before entering."
               f"\n\n/{CommandsNames.cancel} - to cancel the module creation",
-        'ru': "Пожалуйста, введите новое название модуля."
+        'ru': "<b>!!!Изменение названия модуля!!!</b>"
+              "Пожалуйста, введите новое название модуля."
               "\nНазвание модуля должно содержать от 5 до 20 символов."
               "\n\nМодуль может включать только следующие символы:"
               "\n - Латинские буквы (в любом регистре)."
@@ -132,6 +134,30 @@ LEXICON: dict[str, dict[str, str]] = {
               "\n - Символ '_'."
               "\n\nПожалуйста, убедитесь, что новое название модуля соответствует этим условиям перед вводом."
               f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
+    },
+    'edit_separator': {
+        'en': "<b>!!!Changing separator!!!</b>\n\n"
+              "Please enter one character that will be a new convenient separator for you."
+              " This character will be used to separate words in your module by adding spaces in the text."
+              "\n\n Please enter one character (for example, '/', '|', ',', etc.),"
+              " which you want to use as a separator."
+              "\n\n Most often used for example - = :"
+              f"\n\n/{CommandsNames.cancel} - to cancel the module creation",
+        'ru': "<b>!!!Изменение разделителя!!!</b>\n\n"
+              "Пожалуйста, введите один символ, который будет удобным для вас разделителем."
+              " Этот символ будет использоваться для разделения слов в вашем модуле, добавляя пробелы в тексте."
+              "\n\nПожалуйста, введите один символ (например, '/', '|', ',', и т. д.),"
+              " который вы хотите использовать в качестве разделителя."
+              "\n\nЧаще всего используются например - = :"
+              f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
+    },
+    'new_module_was_renamed': {
+      'en': "Module successfully renamed!",
+      'ru': "Изменение имени прошло успешно!"
+    },
+    'seperator_was_changed': {
+        'en': "Separator successfully changed!",
+        'ru': "Разделитель успешно изменён!"
     },
     'fill_content': {
         'en': "Now enter pairs of values separated by your chosen delimiter:"
