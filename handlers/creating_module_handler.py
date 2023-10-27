@@ -254,7 +254,7 @@ async def process_save_module(callback: CallbackQuery,
 
     data = await state.get_data()
 
-    save_module(chat_id=callback.from_user.id, name=data['name'], content=data['content'])
+    save_module(chat_id=callback.from_user.id, data=data)
 
     await state.clear()
 

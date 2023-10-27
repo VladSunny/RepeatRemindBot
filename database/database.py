@@ -42,11 +42,12 @@ def update_value(chat_id: int | str, update: dict) -> None:
     response = supabase.table("users_tg").update(update).eq("chat_id", chat_id).execute()
 
 
-def save_module(chat_id: int | str, name: str, content: dict[str, any]) -> None:
+def save_module(chat_id: int | str, data: dict[str, any]) -> None:
     new_module = {
         "chat_id": str(chat_id),
-        "name": name,
-        "content": content
+        "name": data['name'],
+        "content": data['content'],
+        "separator": data['separator']
     }
 
     ic(new_module)
