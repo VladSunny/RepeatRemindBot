@@ -199,6 +199,10 @@ LEXICON: dict[str, dict[str, str]] = {
         'en': "Save ✅",
         'ru': "Сохранить ✅"
     },
+    'module_saved': {
+        'en': "You successfully saved module!",
+        'ru': "Вы успешно сохранили модуль!"
+    },
     'cancel_creating_module': {
         'en': "You have exited the module creation mode. Now you can perform other actions."
               "\n/help",

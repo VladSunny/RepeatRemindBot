@@ -3,7 +3,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from lexicon.lexicon import LEXICON
 
 from filters.CallbackDataFactory import \
-    DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF, SaveNewModule
+    DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF, SaveNewModuleCF
 
 
 def create_new_module_keyboard(content: dict[str, str], lang: str, module_name: str, separator: str)\
@@ -30,7 +30,7 @@ def create_new_module_keyboard(content: dict[str, str], lang: str, module_name: 
         ),
         InlineKeyboardButton(
             text=LEXICON['finish_module_button'][lang],
-            callback_data=SaveNewModule(module_name=module_name).pack()
+            callback_data=SaveNewModuleCF(module_name=module_name).pack()
         ),
         width=1
     )

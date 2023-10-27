@@ -26,3 +26,7 @@ async def change_message(chat_id: int, message_id: int,
         await Bot.edit_message_text(text=text, chat_id=chat_id, message_id=message_id, reply_markup=reply_markup)
     else:
         await Bot.edit_message_reply_markup(chat_id=chat_id, message_id=message_id, reply_markup=reply_markup)
+
+
+async def delete_message(chat_id:int, message_id: int):
+    await Bot.delete_message(chat_id=chat_id, message_id=message_id)

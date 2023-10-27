@@ -17,5 +17,5 @@ class EditNewModuleSeparatorCF(CallbackData, prefix='edit_new_module_separator')
     module_name: str
 
 
-class SaveNewModule(CallbackData, prefix='save_new_module'):
+class SaveNewModuleCF(CallbackData, prefix='save_new_module'):
     module_name: str

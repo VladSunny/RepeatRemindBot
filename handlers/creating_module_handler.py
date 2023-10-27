@@ -14,11 +14,11 @@ from lexicon.lexicon import LEXICON, CommandsNames
 from FSM.fsm import FSMCreatingModule, creating_module_states
 
 from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs
-from services.service import send_and_delete_message, change_message
+from services.service import send_and_delete_message, change_message, delete_message
 
 from keyboards.new_module_kb import create_new_module_keyboard
 
-from filters.CallbackDataFactory import DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF
+from filters.CallbackDataFactory import DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF, SaveNewModuleCF
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
@@ -243,6 +243,24 @@ async def process_change_separator(callback: CallbackQuery,
                          )
 
     await state.set_state(FSMCreatingModule.change_separator)
+
+
+@router.callback_query(SaveNewModuleCF.filter(), StateFilter(FSMCreatingModule.fill_content))
+async def process_save_module(callback: CallbackQuery,
+                              callback_data: SaveNewModuleCF,
+                              state: FSMContext):
+    user = get_user(callback.from_user.id)
+    module_name = callback_data.module_name
+
+    data = await state.get_data()
+
+    save_module(chat_id=callback.from_user.id, name=data['name'], content=data['content'])
+
+    await state.clear()
+
+    await callback.answer(text=LEXICON['module_saved'][user['lang']], show_alert=True)
+
+    await delete_message(chat_id=callback.from_user.id, message_id=data['message_id'])
 
 
 @router.message(StateFilter(*creating_module_states))
