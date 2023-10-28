@@ -34,8 +34,31 @@ LEXICON: dict[str, dict[str, str]] = {
               "\n\n/help"
     },
 
-    # - Settings
-    # -- Change Language
+    # Other
+    'not_updated_user': {
+        'en': "Hello! We have updated the structure of our bot, and your account has been successfully updated. Don't"
+              " worry, you can continue using the bot as usual. /help",
+        'ru': "Здравствуйте! Мы обновили структуру нашего бота, и ваш аккаунт был успешно обновлен. Не беспокойтесь, вы"
+              " можете продолжать пользоваться ботом как обычно. /help"
+    },
+    'default_response': {
+        'en': "Sorry, I don't understand this command. Please use one of the available commands or ask me for help by"
+              " sending /help.",
+        'ru': "Извините, я не понимаю эту команду. Пожалуйста, используйте одну из доступных команд или спросите у меня"
+              " о помощи, отправив /help."
+    },
+    'nothing_to_cancel': {
+        'en': "Sorry, the /cancel command doesn't make sense in this context, since you are in standard mode."
+              " If you have any questions or requests, please clarify them and I will try to help you."
+              "\n/help",
+        'ru': "Извините, команда /cancel не имеет смысла в данном контексте,"
+              " так как вы находитесь в стандартном режиме. Если у вас есть какие-либо вопросы или запросы, пожалуйста,"
+              " уточните их, и я постараюсь вам помочь."
+              "\n/help"
+    },
+}
+
+SETTINGS_LEXICON: dict[str, dict[str, str]] = {
     CommandsNames.change_language: {
         'en': "choose your language: /help",
         'ru': "выберете нужный вам язык: /help"
@@ -48,9 +71,9 @@ LEXICON: dict[str, dict[str, str]] = {
         'en': "you have successfully changed your language to English!",
         'ru': "вы успешно сменили язык на русский!"
     },
+}
 
-    # - Creating New Module
-
+CREATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
     CommandsNames.create_new_module: {
         'en': "Please enter the name of the module."
               "\nThe module name must contain from 5 to 20 characters."
@@ -214,29 +237,6 @@ LEXICON: dict[str, dict[str, str]] = {
               f"\n/{CommandsNames.cancel} - to cancel the module creation",
         'ru': "Ваше сообщение не предусмотренно ботом в текущем состоянии."
               f"\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
-    },
-
-    # Other
-    'not_updated_user': {
-        'en': "Hello! We have updated the structure of our bot, and your account has been successfully updated. Don't"
-              " worry, you can continue using the bot as usual. /help",
-        'ru': "Здравствуйте! Мы обновили структуру нашего бота, и ваш аккаунт был успешно обновлен. Не беспокойтесь, вы"
-              " можете продолжать пользоваться ботом как обычно. /help"
-    },
-    'default_response': {
-        'en': "Sorry, I don't understand this command. Please use one of the available commands or ask me for help by"
-              " sending /help.",
-        'ru': "Извините, я не понимаю эту команду. Пожалуйста, используйте одну из доступных команд или спросите у меня"
-              " о помощи, отправив /help."
-    },
-    'nothing_to_cancel': {
-        'en': "Sorry, the /cancel command doesn't make sense in this context, since you are in standard mode."
-              " If you have any questions or requests, please clarify them and I will try to help you."
-              "\n/help",
-        'ru': "Извините, команда /cancel не имеет смысла в данном контексте,"
-              " так как вы находитесь в стандартном режиме. Если у вас есть какие-либо вопросы или запросы, пожалуйста,"
-              " уточните их, и я постараюсь вам помочь."
-              "\n/help"
     },
 }
 
