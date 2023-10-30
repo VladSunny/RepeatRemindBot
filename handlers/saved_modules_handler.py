@@ -64,7 +64,7 @@ async def process_module_info(callback: CallbackQuery,
         cnt += 1
         elements += f"{cnt}. {i[0]} {module['separator']} {i[1]}\n"
 
-    reply_markup = module_info_keyboard(lang=user['lang'], module_id=module_id)
+    reply_markup = module_info_keyboard(lang=user['lang'], module_id=module_id, module_name=module['name'])
 
     await change_message(chat_id=callback.from_user.id,
                          message_id=callback.message.message_id,
@@ -94,3 +94,26 @@ async def process_back_to_saved_modules(callback: CallbackQuery):
                          )
 
     await callback.answer()
+
+
+@router.callback_query(DeleteSavedModuleCF.filter())
+async def process_delete_saved_module(callback: CallbackQuery,
+                                      callback_data: DeleteSavedModuleCF):
+    user = get_user(callback.from_user.id)
+
+    module_id = callback_data.module_id
+    module_name = callback_data.module_name
+
+    delete_saved_module(module_id=module_id)
+
+    modules = sorted([(module['name'], module['id']) for module in get_modules(callback.message.chat.id)],
+                     key=lambda item: (item[0].lower(), item[1]))
+
+    reply_markup = list_of_saved_modules_keyboard(modules=modules)
+    await change_message(chat_id=callback.from_user.id,
+                         message_id=callback.message.message_id,
+                         reply_markup=reply_markup,
+                         text=SAVED_MODULES_LEXICON['list_of_saved_modules'][user['lang']]
+                         )
+
+    await callback.answer(SAVED_MODULES_LEXICON['module_has_been_deleted'][user['lang']].format(module_name=module_name))

@@ -31,6 +31,7 @@ class OpenSavedModuleCF(CallbackData, prefix='open_saved_module'):
 
 class DeleteSavedModuleCF(CallbackData, prefix='delete_saved_module'):
     module_id: int
+    module_name: str
 
 
 class BackToSavedModulesCF(CallbackData, prefix='back_to_saved_modules'):

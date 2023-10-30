@@ -21,13 +21,13 @@ def list_of_saved_modules_keyboard(modules: list[tuple[str, int]]) -> InlineKeyb
     return kb_builder.as_markup()
 
 
-def module_info_keyboard(lang: str, module_id: int) -> InlineKeyboardMarkup:
+def module_info_keyboard(lang: str, module_id: int, module_name: str) -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
 
     kb_builder.row(
         InlineKeyboardButton(
             text=SAVED_MODULES_LEXICON['delete_module'][lang],
-            callback_data=DeleteSavedModuleCF(module_id=module_id).pack()
+            callback_data=DeleteSavedModuleCF(module_id=module_id, module_name=module_name).pack()
         ),
         InlineKeyboardButton(
             text=SAVED_MODULES_LEXICON['back_to_saved_modules'][lang],

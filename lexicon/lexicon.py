@@ -273,6 +273,10 @@ SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
     'back_to_saved_modules': {
         'en': "⬅️Back to saved modules",
         'ru': "⬅️Вернуться к сохраненным модулям"
+    },
+    'module_has_been_deleted': {
+        'en': "Module {module_name} has been deleted 🗑",
+        'ru': "Модуль {module_name} был удалён 🗑"
     }
 }
 
