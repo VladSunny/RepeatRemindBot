@@ -26,5 +26,12 @@ class SaveNewModuleCF(CallbackData, prefix='save_new_module'):
 
 # Saved Modules
 class OpenSavedModuleCF(CallbackData, prefix='open_saved_module'):
-    module_name: str
-    id: int
+    module_id: int
+
+
+class DeleteSavedModuleCF(CallbackData, prefix='delete_saved_module'):
+    module_id: int
+
+
+class BackToSavedModulesCF(CallbackData, prefix='back_to_saved_modules'):
+    pass

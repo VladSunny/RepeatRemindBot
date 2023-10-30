@@ -20,11 +20,13 @@ LEXICON: dict[str, dict[str, str]] = {
         'en': "The following commands are currently available:\n\n"
               "\t<b>/help</b> - a list of all commands and their description\n"
               f"\t<b>/{CommandsNames.settings}</b> - a list of available settings for the bot\n"
-              f"\t<b>/{CommandsNames.create_new_module}</b> - allows you to create a module for further study.",
+              f"\t<b>/{CommandsNames.create_new_module}</b> - allows you to create a module for further study.\n"
+              f"\t<b>/{CommandsNames.saved_modules}</b> - saved modules.",
         'ru': "В данный момент доступны такие команды:\n\n"
               "\t<b>/help</b> - список всех команд и их описание.\n"
               f"\t<b>/{CommandsNames.settings}</b> - список доступных настроек для бота.\n"
-              f"\t<b>/{CommandsNames.create_new_module}</b> - позволяет создать модуль для последующего изучения."
+              f"\t<b>/{CommandsNames.create_new_module}</b> - позволяет создать модуль для последующего изучения.\n"
+              f"\t<b>/{CommandsNames.saved_modules}</b> - сохраненные модули"
     },
     CommandsNames.settings: {
         'en': "While the following settings are available in the bot:\n\n"
@@ -243,8 +245,34 @@ CREATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
 
 SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
     'list_of_saved_modules': {
-        'en': "Here is your saved modules:",
+        'en': "Here is your saved modules:"
+              "\n\n/help",
         'ru': "Вот ваши сохраненные модули:"
+              "\n\n/help"
+    },
+    'module_info': {
+        'en': "Name: {name}\n"
+              "ID: {id}\n"
+              "Separator: {separator}\n"
+              "Number of elements: {number_of_elements}\n"
+              "\nElements:\n{elements}",
+        'ru': "Название: {name}\n"
+              "ID: {id}\n"
+              "Разделитель: {separator}\n"
+              "Количество элементов: {number_of_elements}\n"
+              "\nЭлементы:\n{elements}"
+    },
+    'module_not_found': {
+        'en': "It seems that this module does not exist",
+        'ru': "Кажется этого модуля не существует"
+    },
+    'delete_module': {
+        'en': "Delete 🗑",
+        'ru': "Удалить 🗑"
+    },
+    'back_to_saved_modules': {
+        'en': "⬅️Back to saved modules",
+        'ru': "⬅️Вернуться к сохраненным модулям"
     }
 }
 

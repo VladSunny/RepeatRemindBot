@@ -43,6 +43,11 @@ def get_modules(chat_id: int | str) -> dict:
     return response.data
 
 
+def get_module(id: int) -> dict | None:
+    response = supabase.table("modules").select('*').eq("id", id).execute()
+    return response.data[0] if response.data != [] else None
+
+
 def update_value(chat_id: int | str, update: dict) -> None:
     response = supabase.table("users_tg").update(update).eq("chat_id", chat_id).execute()
 
