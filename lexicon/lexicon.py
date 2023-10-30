@@ -2,7 +2,8 @@ class CommandsNames:
     settings = 'settings'
     change_language = 'change_language'
     create_new_module = 'new_module'
-    cancel = "cancel"
+    saved_modules = 'saved_modules'
+    cancel = 'cancel'
 
 
 LEXICON: dict[str, dict[str, str]] = {
@@ -32,6 +33,24 @@ LEXICON: dict[str, dict[str, str]] = {
         'ru': "Пока в боте доступны такие настройки:\n\n"
               f"\t<b>/{CommandsNames.change_language}</b> - изменить язык бота"
               "\n\n/help"
+    },
+    CommandsNames.create_new_module: {
+        'en': "Please enter the name of the module."
+              "\nThe module name must contain from 5 to 20 characters."
+              "\n\nModule can include only the following characters: "
+              "\n - Latin letters (in any case)."
+              "\n - Digits."
+              "\n - Character '_'."
+              "\n\nPlease make sure that the module name meets these conditions before entering."
+              f"\n\n/{CommandsNames.cancel} - to cancel the module creation",
+        'ru': "Пожалуйста, введите название модуля."
+              "\nНазвание модуля должно содержать от 5 до 20 символов."
+              "\n\nМодуль может включать только следующие символы:"
+              "\n - Латинские буквы (в любом регистре)."
+              "\n - Цифры."
+              "\n - Символ '_'."
+              "\n\nПожалуйста, убедитесь, что название модуля соответствует этим условиям перед вводом."
+              f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
     },
 
     # Other
@@ -74,24 +93,6 @@ SETTINGS_LEXICON: dict[str, dict[str, str]] = {
 }
 
 CREATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
-    CommandsNames.create_new_module: {
-        'en': "Please enter the name of the module."
-              "\nThe module name must contain from 5 to 20 characters."
-              "\n\nModule can include only the following characters: "
-              "\n - Latin letters (in any case)."
-              "\n - Digits."
-              "\n - Character '_'."
-              "\n\nPlease make sure that the module name meets these conditions before entering."
-              f"\n\n/{CommandsNames.cancel} - to cancel the module creation",
-        'ru': "Пожалуйста, введите название модуля."
-              "\nНазвание модуля должно содержать от 5 до 20 символов."
-              "\n\nМодуль может включать только следующие символы:"
-              "\n - Латинские буквы (в любом регистре)."
-              "\n - Цифры."
-              "\n - Символ '_'."
-              "\n\nПожалуйста, убедитесь, что название модуля соответствует этим условиям перед вводом."
-              f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
-    },
     'not_valid_name': {
         'en': "The module name must contain from 5 to 20 characters."
               "\n\nModule can include only the following characters: "
@@ -240,8 +241,16 @@ CREATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
     },
 }
 
+SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
+    'list_of_saved_modules': {
+        'en': "Here is your saved modules:",
+        'ru': "Вот ваши сохраненные модули:"
+    }
+}
+
 LEXICON_COMMANDS: dict[str, str] = {
     '/help': 'description of available commands',
     f'/{CommandsNames.settings}': 'your settings',
     f'/{CommandsNames.create_new_module}': 'create new module',
+    f'/{CommandsNames.saved_modules}': 'your saved modules'
 }

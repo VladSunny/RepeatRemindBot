@@ -9,7 +9,7 @@ from filters.CallbackDataFactory import LanguageSelectionCF
 
 from keyboards.change_language_kb import create_change_language_keyboard
 
-from lexicon.lexicon import LEXICON, CommandsNames, SETTINGS_LEXICON, CREATING_MODULE_LEXICON
+from lexicon.lexicon import LEXICON, CommandsNames, SETTINGS_LEXICON
 from FSM.fsm import FSMCreatingModule
 
 router = Router()
@@ -66,7 +66,7 @@ async def process_change_language_command(message: Message):
 @router.message(Command(commands=CommandsNames.create_new_module))
 async def process_new_module_command(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
-    await message.answer(CREATING_MODULE_LEXICON[CommandsNames.create_new_module][user['lang']])
+    await message.answer(LEXICON[CommandsNames.create_new_module][user['lang']])
     await state.set_state(FSMCreatingModule.fill_name)
 
 # callback query

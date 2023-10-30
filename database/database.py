@@ -38,6 +38,11 @@ def get_user(chat_id: int | str) -> dict:
     return user
 
 
+def get_modules(chat_id: int | str) -> dict:
+    response = supabase.table("modules").select('*').eq("chat_id", str(chat_id)).execute()
+    return response.data
+
+
 def update_value(chat_id: int | str, update: dict) -> None:
     response = supabase.table("users_tg").update(update).eq("chat_id", chat_id).execute()
 
