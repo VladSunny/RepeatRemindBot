@@ -260,11 +260,13 @@ async def process_save_module(callback: CallbackQuery,
 
     data = await state.get_data()
 
-    save_module(chat_id=callback.from_user.id, data=data)
+    module = save_module(chat_id=callback.from_user.id, data=data)
 
     await state.clear()
 
-    await callback.answer(text=CREATING_MODULE_LEXICON['module_saved'][user['lang']], show_alert=True)
+    await callback.answer(text=CREATING_MODULE_LEXICON['module_saved'][user['lang']].format(module_name=module_name,
+                                                                                            module_id=module['id']),
+                                                                                            show_alert=True)
 
     await delete_message(chat_id=callback.from_user.id, message_id=data['message_id'])
 

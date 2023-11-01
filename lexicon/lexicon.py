@@ -226,8 +226,8 @@ CREATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
         'ru': "Сохранить ✅"
     },
     'module_saved': {
-        'en': "You successfully saved module!",
-        'ru': "Вы успешно сохранили модуль!"
+        'en': "You successfully saved module {module_name}! It has ID: {module_id}",
+        'ru': "Вы успешно сохранили модуль {module_name}! Его ID: {module_id}"
     },
     'cancel_creating_module': {
         'en': "You have exited the module creation mode. Now you can perform other actions."
