@@ -266,6 +266,10 @@ SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
         'en': "It seems that this module does not exist",
         'ru': "Кажется этого модуля не существует"
     },
+    'repeat_module': {
+        'en': "Repeat module 🤓",
+        'ru': "Повторить модуль 🤓"
+    },
     'edit_saved_module': {
         'en': "Edit ✏",
         'ru': "Изменить ✏"

@@ -60,8 +60,6 @@ def save_module(chat_id: int | str, data: dict[str, any]) -> dict:
         "separator": data['separator']
     }
 
-    ic(new_module)
-
     response = supabase.table("modules").insert(new_module).execute()
     return response.data[0]
 

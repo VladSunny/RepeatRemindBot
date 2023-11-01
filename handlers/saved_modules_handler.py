@@ -13,12 +13,16 @@ from keyboards.new_module_kb import create_new_module_keyboard
 
 from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON, SAVED_MODULES_LEXICON
 
-from FSM.fsm import FSMCreatingModule
+from FSM.fsm import FSMCreatingModule, FSMRepeatingModule
 
 from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs
 from services.service import send_and_delete_message, change_message, delete_message
 
-from filters.CallbackDataFactory import OpenSavedModuleCF, DeleteSavedModuleCF, BackToSavedModulesCF, EditModuleCF
+from filters.CallbackDataFactory import OpenSavedModuleCF,\
+    DeleteSavedModuleCF, \
+    BackToSavedModulesCF,\
+    EditModuleCF,\
+    RepeatModuleCF
 
 new_module_dict: dict[str, str | dict[str, str]] = {
     "name": "",
@@ -119,7 +123,7 @@ async def process_delete_saved_module(callback: CallbackQuery,
     )
 
 
-@router.callback_query(EditModuleCF.filter(), StateFilter(default_state))
+@router.callback_query(EditModuleCF.filter())
 async def process_edit_saved_module(callback: CallbackQuery,
                                     callback_data: EditModuleCF,
                                     state: FSMContext):
@@ -127,7 +131,7 @@ async def process_edit_saved_module(callback: CallbackQuery,
 
     module_id = callback_data.module_id
 
-    module = ic(get_module(module_id))
+    module = get_module(module_id)
 
     await state.update_data(name=module['name'],
                             content=module['content'],
@@ -151,3 +155,14 @@ async def process_edit_saved_module(callback: CallbackQuery,
                                                                  module_name=module['name'],
                                                                  separator=module['separator'])
                          )
+
+
+@router.callback_query(RepeatModuleCF.filter())
+async def process_repeat_saved_module(callback: CallbackQuery,
+                                      callback_data: RepeatModuleCF,
+                                      state: FSMContext):
+    user = get_user(callback.from_user.id)
+
+    module_id = callback_data.module_id
+
+    await state.set_state(FSMRepeatingModule.repeating_module)
