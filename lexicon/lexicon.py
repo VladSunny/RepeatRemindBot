@@ -266,6 +266,10 @@ SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
         'en': "It seems that this module does not exist",
         'ru': "Кажется этого модуля не существует"
     },
+    'edit_saved_module': {
+        'en': "Edit ✏",
+        'ru': "Изменить ✏"
+    },
     'delete_module': {
         'en': "Delete 🗑",
         'ru': "Удалить 🗑"
@@ -277,7 +281,21 @@ SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
     'module_has_been_deleted': {
         'en': "Module {module_name} has been deleted 🗑",
         'ru': "Модуль {module_name} был удалён 🗑"
-    }
+    },
+    'edit_instruction': {
+        'en': "Modify the module according to the same rules as you created it."
+              "\nAfter saving, you will have the modified module.\n"
+              "(the old one will also remain, then you can delete it)",
+        'ru': "Изменяйте модуль по тем же правилам, по которым вы его создавали."
+              "\nПосле сохранения у вас появится измененный модуль.\n"
+              "(старый тоже останется, потом вы сможете его удалить)"
+    },
+    'unintended_editing_module': {
+        'en': "Your message is not provided by the bot in the current state."
+              f"\n/{CommandsNames.cancel} - to cancel the module creation",
+        'ru': "Ваше сообщение не предусмотренно ботом в текущем состоянии."
+              f"\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
+    },
 }
 
 LEXICON_COMMANDS: dict[str, str] = {

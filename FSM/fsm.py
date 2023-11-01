@@ -17,3 +17,16 @@ creating_module_states = [
     FSMCreatingModule.change_name,
     FSMCreatingModule.change_separator
 ]
+
+
+class FSMEditingModule(StatesGroup):
+    change_content = State()
+    change_name = State()
+    change_separator = State()
+
+
+editing_module_states = [
+    FSMEditingModule.change_content,
+    FSMEditingModule.change_name,
+    FSMEditingModule.change_separator
+]

@@ -2,7 +2,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from lexicon.lexicon import LEXICON, SAVED_MODULES_LEXICON
 
-from filters.CallbackDataFactory import OpenSavedModuleCF, DeleteSavedModuleCF, BackToSavedModulesCF
+from filters.CallbackDataFactory import OpenSavedModuleCF, DeleteSavedModuleCF, BackToSavedModulesCF, EditModuleCF
 
 
 def list_of_saved_modules_keyboard(modules: list[tuple[str, int]]) -> InlineKeyboardMarkup:
@@ -25,6 +25,10 @@ def module_info_keyboard(lang: str, module_id: int, module_name: str) -> InlineK
     kb_builder = InlineKeyboardBuilder()
 
     kb_builder.row(
+        InlineKeyboardButton(
+            text=SAVED_MODULES_LEXICON['edit_saved_module'][lang],
+            callback_data=EditModuleCF(module_id=module_id).pack()
+        ),
         InlineKeyboardButton(
             text=SAVED_MODULES_LEXICON['delete_module'][lang],
             callback_data=DeleteSavedModuleCF(module_id=module_id, module_name=module_name).pack()

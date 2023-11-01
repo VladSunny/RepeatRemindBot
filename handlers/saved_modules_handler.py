@@ -9,18 +9,16 @@ from aiogram.fsm.storage.memory import MemoryStorage
 
 from database.database import *
 from keyboards.saved_modules_kb import list_of_saved_modules_keyboard, module_info_keyboard
+from keyboards.new_module_kb import create_new_module_keyboard
 
 from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON, SAVED_MODULES_LEXICON
 
-from FSM.fsm import FSMCreatingModule, creating_module_states
+from FSM.fsm import FSMCreatingModule
 
 from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs
 from services.service import send_and_delete_message, change_message, delete_message
 
-from filters.CallbackDataFactory import OpenSavedModuleCF, DeleteSavedModuleCF, BackToSavedModulesCF
-
-storage = MemoryStorage()
-dp = Dispatcher(storage=storage)
+from filters.CallbackDataFactory import OpenSavedModuleCF, DeleteSavedModuleCF, BackToSavedModulesCF, EditModuleCF
 
 new_module_dict: dict[str, str | dict[str, str]] = {
     "name": "",
@@ -116,4 +114,40 @@ async def process_delete_saved_module(callback: CallbackQuery,
                          text=SAVED_MODULES_LEXICON['list_of_saved_modules'][user['lang']]
                          )
 
-    await callback.answer(SAVED_MODULES_LEXICON['module_has_been_deleted'][user['lang']].format(module_name=module_name))
+    await callback.answer(
+        SAVED_MODULES_LEXICON['module_has_been_deleted'][user['lang']].format(module_name=module_name)
+    )
+
+
+@router.callback_query(EditModuleCF.filter(), StateFilter(default_state))
+async def process_edit_saved_module(callback: CallbackQuery,
+                                    callback_data: EditModuleCF,
+                                    state: FSMContext):
+    user = get_user(callback.from_user.id)
+
+    module_id = callback_data.module_id
+
+    module = ic(get_module(module_id))
+
+    await state.update_data(name=module['name'],
+                            content=module['content'],
+                            separator=module['separator'],
+                            message_id=callback.message.message_id)
+
+    await state.set_state(FSMCreatingModule.fill_content)
+
+    await callback.answer(
+        SAVED_MODULES_LEXICON['edit_instruction'][user['lang']], show_alert=True
+    )
+
+    await change_message(chat_id=callback.from_user.id,
+                         message_id=callback.message.message_id,
+                         text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']]
+                         .format(module_name=module['name'],
+                                 separator=module['separator']
+                                 ),
+                         reply_markup=create_new_module_keyboard(content=module['content'],
+                                                                 lang=user['lang'],
+                                                                 module_name=module['name'],
+                                                                 separator=module['separator'])
+                         )

@@ -18,7 +18,8 @@ from services.service import send_and_delete_message, change_message, delete_mes
 
 from keyboards.new_module_kb import create_new_module_keyboard
 
-from filters.CallbackDataFactory import DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF, SaveNewModuleCF
+from filters.CallbackDataFactory import DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF, \
+    SaveNewModuleCF
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
@@ -84,7 +85,8 @@ async def process_separator_sent(message: Message, state: FSMContext):
         text=CREATING_MODULE_LEXICON['fill_content'][user['lang']]
     )
     msg = await message.answer(
-        text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].format(module_name=data['name'], separator=data['separator']),
+        text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].format(module_name=data['name'],
+                                                                             separator=data['separator']),
         reply_markup=create_new_module_keyboard({}, user['lang'], data['name'], data['separator'])
     )
 
@@ -102,7 +104,8 @@ async def process_content_sent(message: Message, state: FSMContext):
 
     if get_valid_pairs(message.text, data['separator']) is None:
         await send_and_delete_message(message.chat.id,
-                                      CREATING_MODULE_LEXICON['incorrect_pair'][user['lang']].format(separator=data['separator']),
+                                      CREATING_MODULE_LEXICON['incorrect_pair'][user['lang']].format(
+                                          separator=data['separator']),
                                       5)
         return
 
@@ -142,7 +145,8 @@ async def process_new_name_sent(message: Message, state: FSMContext):
                                                                  data['name'],
                                                                  data['separator']),
                          text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].format(module_name=data['name'],
-                                                                              separator=data['separator']))
+                                                                                              separator=data[
+                                                                                                  'separator']))
 
     await send_and_delete_message(chat_id=message.chat.id,
                                   text=CREATING_MODULE_LEXICON['new_module_was_renamed'][user['lang']],
@@ -174,7 +178,8 @@ async def process_new_separator_sent(message: Message, state: FSMContext):
                                                                  data['name'],
                                                                  data['separator']),
                          text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].format(module_name=data['name'],
-                                                                              separator=data['separator']))
+                                                                                              separator=data[
+                                                                                                  'separator']))
 
     await send_and_delete_message(chat_id=message.chat.id,
                                   text=CREATING_MODULE_LEXICON['seperator_was_changed'][user['lang']],
@@ -197,7 +202,8 @@ async def process_delete_pair(callback: CallbackQuery,
     content.pop(key)
 
     await state.update_data(content=content)
-    await callback.answer(CREATING_MODULE_LEXICON['deleted_pair_from_new_model'][user['lang']].format(deleted_pair=deleted_pair))
+    await callback.answer(
+        CREATING_MODULE_LEXICON['deleted_pair_from_new_model'][user['lang']].format(deleted_pair=deleted_pair))
 
     await change_message(chat_id=callback.from_user.id,
                          message_id=data['message_id'],
@@ -229,8 +235,8 @@ async def process_change_name(callback: CallbackQuery,
 
 @router.callback_query(EditNewModuleSeparatorCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_change_separator(callback: CallbackQuery,
-                              callback_data: EditNewModuleSeparatorCF,
-                              state: FSMContext):
+                                   callback_data: EditNewModuleSeparatorCF,
+                                   state: FSMContext):
     user = get_user(callback.from_user.id)
     module_name = callback_data.module_name
 
