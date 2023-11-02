@@ -10,4 +10,3 @@ router = Router()
 @router.message()
 async def send_echo(message: Message):
     await message.answer(lexicon.LEXICON['default_response']['en'])
-    print(message.text)

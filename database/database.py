@@ -67,3 +67,7 @@ def save_module(chat_id: int | str, data: dict[str, any]) -> dict:
 def delete_saved_module(module_id: int) -> bool:
     response = supabase.table("modules").delete().eq("id", module_id).execute()
     return True
+
+
+def update_settings(chat_id: int | str, update: dict) -> None:
+    response = supabase.table("settings").update(update).eq("chat_id", chat_id).execute()

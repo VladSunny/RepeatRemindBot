@@ -4,6 +4,8 @@ class CommandsNames:
     create_new_module = 'new_module'
     saved_modules = 'saved_modules'
     cancel = 'cancel'
+    change_words_in_block = 'change_words_in_block'
+    change_repetitions_for_block = 'change_repetitions_for_block'
 
 
 LEXICON: dict[str, dict[str, str]] = {
@@ -30,10 +32,16 @@ LEXICON: dict[str, dict[str, str]] = {
     },
     CommandsNames.settings: {
         'en': "While the following settings are available in the bot:\n\n"
-              f"\t<b>/{CommandsNames.change_language}</b> - change the language of the bot"
+              f"\t<b>/{CommandsNames.change_language}</b> - change the language of the bot\n"
+              f"\t<b>/{CommandsNames.change_words_in_block}</b> - change the number of repeated words in the block\n"
+              f"\t<b>/{CommandsNames.change_repetitions_for_block}</b> - change the number of repetitions"
+              f" in the repeated block"
               "\n\n/help",
         'ru': "Пока в боте доступны такие настройки:\n\n"
-              f"\t<b>/{CommandsNames.change_language}</b> - изменить язык бота"
+              f"\t<b>/{CommandsNames.change_language}</b> - изменить язык бота\n"
+              f"\t<b>/{CommandsNames.change_words_in_block}</b> - поменять количество повторяемых слов в блоке\n"
+              f"\t<b>/{CommandsNames.change_repetitions_for_block}</b> - поменять количество повторений"
+              f" в повторяемом блоке"
               "\n\n/help"
     },
     CommandsNames.create_new_module: {
@@ -92,6 +100,37 @@ SETTINGS_LEXICON: dict[str, dict[str, str]] = {
         'en': "you have successfully changed your language to English!",
         'ru': "вы успешно сменили язык на русский!"
     },
+    CommandsNames.change_words_in_block: {
+        'en': "Enter the number of words that will be convenient for you to repeat in one block."
+              "\nThe number should be from 5 to 20",
+        'ru': "Введите число слов, которое вам будет удобно повторять в одном блоке."
+              "\nЧисло должно быть от 5 до 20"
+    },
+    CommandsNames.change_repetitions_for_block: {
+        'en': "Enter the number of repetitions for each block of words"
+              " that will be convenient for you to repeat the block."
+              "\nThe nuber should be from 1 to 10",
+        'ru': "Введите число повторений для каждого блока, которое вам будет удобно для повторения блока."
+              "\nЧисло должно быть от 1 до 10"
+    },
+    'not_valid_words_in_block': {
+        'en': "The number should be from 5 to 20",
+        'ru': "Число должно быть от 5 до 20"
+    },
+    'not_valid_repetitions_for_block': {
+        'en': "The number should be from 1 to 10",
+        'ru': "Число должно быть от 1 до 10"
+    },
+    'sent_new_words_in_block': {
+        'en': "The number of words that will be convenient for you to repeat in one block was successfully updated ✅",
+        'ru': "Число слов, которое вам будет удобно повторять в одном блоке, было успешно обновлено ✅"
+    },
+    'sent_new_repetitions_for_block': {
+        'en': "The number of repetitions of each block"
+              " that will be convenient for you to repeat the block was successfully updated ✅",
+        'ru': "Число повторений для каждого модуля,"
+              " которое вам будет удобно для повторения, было успешно обновлено ✅"
+    }
 }
 
 CREATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
@@ -300,6 +339,22 @@ SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
         'ru': "Ваше сообщение не предусмотренно ботом в текущем состоянии."
               f"\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
     },
+}
+
+REPEATING_MODULE_COMMANDS: dict[str, dict[str, str]] = {
+    'start_repeating': {
+        # edit it
+        'en': "You enter in repeating state"
+              "\n\n/cancel - for cancel module repeating.",
+        'ru': "Вы вошли в состояние повторения модуля.\n"
+              "Сейчас вам будут предложены вопросы по этому модулю."
+              "\n\n/cancel - чтобы отменить повторение модуля"
+    },
+    'cancel_repeating_module': {
+        # edit it
+        'en': "Repeating was canceled.",
+        'ru': "Повторение было отменено."
+    }
 }
 
 LEXICON_COMMANDS: dict[str, str] = {

@@ -164,5 +164,8 @@ async def process_repeat_saved_module(callback: CallbackQuery,
     user = get_user(callback.from_user.id)
 
     module_id = callback_data.module_id
+    module = get_module(module_id)
+
+    ic(module)
 
     await state.set_state(FSMRepeatingModule.repeating_module)

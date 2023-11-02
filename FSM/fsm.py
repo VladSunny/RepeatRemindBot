@@ -21,3 +21,14 @@ creating_module_states = [
 
 class FSMRepeatingModule(StatesGroup):
     repeating_module = State()
+
+
+class FSMChangeSettings(StatesGroup):
+    change_words_in_block = State()
+    change_repetitions_for_block = State()
+
+
+settings_states = [
+    FSMChangeSettings.change_words_in_block,
+    FSMChangeSettings.change_repetitions_for_block
+]
