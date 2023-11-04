@@ -10,19 +10,18 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from database.database import *
 from keyboards.saved_modules_kb import list_of_saved_modules_keyboard, module_info_keyboard
 from keyboards.new_module_kb import create_new_module_keyboard
+from keyboards.reapeating_module_kb import confirm_repeating_keyboard
 
-from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON, SAVED_MODULES_LEXICON
+from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON, SAVED_MODULES_LEXICON, REPEATING_MODULE_LEXICON
 
 from FSM.fsm import FSMCreatingModule, FSMRepeatingModule
 
 from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs
 from services.service import send_and_delete_message, change_message, delete_message
+from services.repeating_module_service import get_blocks_num, get_blocks, get_blocks_str
 
-from filters.CallbackDataFactory import OpenSavedModuleCF,\
-    DeleteSavedModuleCF, \
-    BackToSavedModulesCF,\
-    EditModuleCF,\
-    RepeatModuleCF
+from filters.CallbackDataFactory import OpenSavedModuleCF, DeleteSavedModuleCF, BackToSavedModulesCF, EditModuleCF, \
+    RepeatModuleCF, MixWordsInRepeatingModuleCF
 
 new_module_dict: dict[str, str | dict[str, str]] = {
     "name": "",
@@ -157,15 +156,63 @@ async def process_edit_saved_module(callback: CallbackQuery,
                          )
 
 
+# Start Repeating Module
 @router.callback_query(RepeatModuleCF.filter())
-async def process_repeat_saved_module(callback: CallbackQuery,
-                                      callback_data: RepeatModuleCF,
-                                      state: FSMContext):
+async def process_ask_to_repeat_saved_module(callback: CallbackQuery,
+                                             callback_data: RepeatModuleCF,
+                                             state: FSMContext):
     user = get_user(callback.from_user.id)
+    user_settings = get_settings(callback.from_user.id)
 
     module_id = callback_data.module_id
     module = get_module(module_id)
 
-    ic(module)
+    await callback.answer()
 
-    await state.set_state(FSMRepeatingModule.repeating_module)
+    await change_message(chat_id=callback.from_user.id,
+                         message_id=callback.message.message_id,
+                         text=REPEATING_MODULE_LEXICON['ask_to_repeating'][user['lang']]
+                         .format(module_name=module['name'],
+                                 blocks_num=str(
+                                     get_blocks_num(len(module['content']), user_settings['words_in_block'])),
+                                 words_in_block_num=user_settings['words_in_block'],
+                                 repetitions_num=user_settings['repetitions_for_block'],
+                                 words_num=len(module['content']),
+                                 content=get_blocks_str(module['content'],
+                                                        user_settings['words_in_block'],
+                                                        module['separator'])
+                                 ),
+                         reply_markup=confirm_repeating_keyboard(user['lang'], module_id)
+                         )
+
+
+@router.callback_query(MixWordsInRepeatingModuleCF.filter())
+async def process_mix_words_in_repeating_module(callback: CallbackQuery,
+                                                callback_data: MixWordsInRepeatingModuleCF,
+                                                state: FSMContext):
+    user = get_user(callback.from_user.id)
+    user_settings = get_settings(callback.from_user.id)
+
+    module_id = callback_data.module_id
+
+    module = get_module(module_id)
+
+    get_blocks_str(module['content'], user_settings['words_in_block'], module['separator'])
+
+    await change_message(chat_id=callback.from_user.id,
+                         message_id=callback.message.message_id,
+                         text=REPEATING_MODULE_LEXICON['ask_to_repeating'][user['lang']]
+                         .format(module_name=module['name'],
+                                 blocks_num=str(
+                                     get_blocks_num(len(module['content']), user_settings['words_in_block'])),
+                                 words_in_block_num=user_settings['words_in_block'],
+                                 repetitions_num=user_settings['repetitions_for_block'],
+                                 words_num=len(module['content']),
+                                 content=get_blocks_str(module['content'],
+                                                        user_settings['words_in_block'],
+                                                        module['separator'])
+                                 ),
+                         reply_markup=confirm_repeating_keyboard(user['lang'], module_id)
+                         )
+
+    await callback.answer(REPEATING_MODULE_LEXICON['words_were_mixed'][user['lang']])

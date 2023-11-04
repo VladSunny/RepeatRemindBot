@@ -220,8 +220,8 @@ CREATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
               f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
     },
     'new_module_was_renamed': {
-      'en': "Module successfully renamed!",
-      'ru': "Изменение имени прошло успешно!"
+        'en': "Module successfully renamed!",
+        'ru': "Изменение имени прошло успешно!"
     },
     'seperator_was_changed': {
         'en': "Separator successfully changed!",
@@ -344,14 +344,37 @@ SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
     },
 }
 
-REPEATING_MODULE_COMMANDS: dict[str, dict[str, str]] = {
-    'start_repeating': {
-        # edit it
-        'en': "You enter in repeating state"
-              "\n\n/cancel - for cancel module repeating.",
-        'ru': "Вы вошли в состояние повторения модуля.\n"
-              "Сейчас вам будут предложены вопросы по этому модулю."
-              "\n\n/cancel - чтобы отменить повторение модуля"
+REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
+    'ask_to_repeating': {
+        'en': "Great! Now you will be reviewing the module {module_name}!"
+              "\n\nThe words in the module will be divided into {blocks_num} blocks,"
+              " each containing {words_in_block_num} words"
+              " (in your module, there are {words_num} words)."
+              "\nYou will repeat each block {repetitions_num} times.\n"
+              "\n<b>In /settings, you can change the number of blocks or their repetitions.</b>"
+              "\n\nHere's how the module you selected was divided into blocks:\n"
+              "{content}\n"
+              "/help",
+        'ru': "Отлично! Сейчас вы будете повторять модуль {module_name}!"
+              "\n\nСлова в модуле будут разделены на {blocks_num} блоков по {words_in_block_num} слов"
+              " (в вашем модуле {words_num} слов)."
+              "\nКаждый блок вы будете вы будете повторять {repetitions_num} раз.\n"
+              "\n<b>В /settings вы можете изменить количество блоков или их повторений.</b>"
+              "\n\nВот как был разделен на блоки выбранный вами модуль:\n"
+              "\n{content}\n"
+              "/help"
+    },
+    'confirm_repeating': {
+        'en': "Start repeating ✅",
+        'ru': "Начать повторять ✅"
+    },
+    'mix_words': {
+        'en': "Shuffle differently 🔄",
+        'ru': "Перемешать по-другому 🔄"
+    },
+    'words_were_mixed': {
+        'en': "The words have been shuffled 🔄",
+        'ru': "Слова были перемешаны 🔄"
     },
     'cancel_repeating_module': {
         # edit it

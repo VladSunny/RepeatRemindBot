@@ -44,3 +44,12 @@ class EditModuleCF(CallbackData, prefix='edit_module'):
 
 class RepeatModuleCF(CallbackData, prefix='repeat_module'):
     module_id: int
+
+
+# Repeating Module
+class ConfirmRepeatingCF(CallbackData, prefix='confirmed_repeating_module'):
+    module_id: int
+
+
+class MixWordsInRepeatingModuleCF(CallbackData, prefix='shuffle_words_in_repeating_module'):
+    module_id: int
