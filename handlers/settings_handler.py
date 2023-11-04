@@ -18,6 +18,17 @@ from services.service import send_and_delete_message
 router = Router()
 
 
+@router.message(Command(commands=CommandsNames.settings), StateFilter(default_state))
+async def process_settings_command(message: Message):
+    user = get_user(message.from_user.id)
+    user_settings = get_settings(message.from_user.id)
+
+    await message.answer(LEXICON[CommandsNames.settings][user['lang']].format(
+        words_in_block_number=user_settings['words_in_block'],
+        repetitions_for_block_number=user_settings['repetitions_for_block']
+    ))
+
+
 @router.message(Command(commands=CommandsNames.change_words_in_block), StateFilter(default_state))
 async def process_change_words_in_block_command(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
@@ -51,7 +62,7 @@ async def process_sent_new_words_in_block_command(message: Message, state: FSMCo
 
     update_settings(message.from_user.id, update)
 
-    await message.answer(SETTINGS_LEXICON['sent_new_words_in_block'][user['lang']])
+    await message.answer(SETTINGS_LEXICON['sent_new_words_in_block'][user['lang']].format(number=message.text))
 
     await state.clear()
 
@@ -73,6 +84,6 @@ async def process_sent_new_repetitions_for_block_command(message: Message, state
 
     update_settings(message.from_user.id, update)
 
-    await message.answer(SETTINGS_LEXICON['sent_new_repetitions_for_block'][user['lang']])
+    await message.answer(SETTINGS_LEXICON['sent_new_repetitions_for_block'][user['lang']].format(number=message.text))
 
     await state.clear()

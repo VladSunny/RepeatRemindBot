@@ -33,15 +33,17 @@ LEXICON: dict[str, dict[str, str]] = {
     CommandsNames.settings: {
         'en': "While the following settings are available in the bot:\n\n"
               f"\t<b>/{CommandsNames.change_language}</b> - change the language of the bot\n"
-              f"\t<b>/{CommandsNames.change_words_in_block}</b> - change the number of repeated words in the block\n"
+              f"\t<b>/{CommandsNames.change_words_in_block}</b> - change the number of repeated words in the block"
+              " (now its {words_in_block_number})\n"
               f"\t<b>/{CommandsNames.change_repetitions_for_block}</b> - change the number of repetitions"
-              f" in the repeated block"
+              " in the repeated block (now its {repetitions_for_block_number})"
               "\n\n/help",
         'ru': "Пока в боте доступны такие настройки:\n\n"
               f"\t<b>/{CommandsNames.change_language}</b> - изменить язык бота\n"
-              f"\t<b>/{CommandsNames.change_words_in_block}</b> - поменять количество повторяемых слов в блоке\n"
+              f"\t<b>/{CommandsNames.change_words_in_block}</b> - поменять количество повторяемых"
+              " слов в блоке (сейчас их {words_in_block_number})\n"
               f"\t<b>/{CommandsNames.change_repetitions_for_block}</b> - поменять количество повторений"
-              f" в повторяемом блоке"
+              " в повторяемом блоке (сейчас их {repetitions_for_block_number})"
               "\n\n/help"
     },
     CommandsNames.create_new_module: {
@@ -122,14 +124,15 @@ SETTINGS_LEXICON: dict[str, dict[str, str]] = {
         'ru': "Число должно быть от 1 до 10"
     },
     'sent_new_words_in_block': {
-        'en': "The number of words that will be convenient for you to repeat in one block was successfully updated ✅",
-        'ru': "Число слов, которое вам будет удобно повторять в одном блоке, было успешно обновлено ✅"
+        'en': "The number of words that will be convenient for you to repeat in one block was"
+              " successfully updated to {number} ✅",
+        'ru': "Число слов, которое вам будет удобно повторять в одном блоке, было успешно обновлено на {number} ✅"
     },
     'sent_new_repetitions_for_block': {
         'en': "The number of repetitions of each block"
-              " that will be convenient for you to repeat the block was successfully updated ✅",
+              " that will be convenient for you to repeat the block was successfully updated to {number} ✅",
         'ru': "Число повторений для каждого модуля,"
-              " которое вам будет удобно для повторения, было успешно обновлено ✅"
+              " которое вам будет удобно для повторения, было успешно обновлено на {number} ✅"
     }
 }
 

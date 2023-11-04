@@ -40,12 +40,6 @@ async def process_help_command(message: Message):
     await message.answer(LEXICON['/help'][user['lang']])
 
 
-@router.message(Command(commands=CommandsNames.settings))
-async def process_settings_command(message: Message):
-    user = get_user(message.from_user.id)
-    await message.answer(LEXICON[CommandsNames.settings][user['lang']])
-
-
 @router.message(Command(commands=CommandsNames.cancel))
 async def process_cancel_command(message: Message):
     user = get_user(message.from_user.id)
