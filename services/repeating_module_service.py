@@ -34,6 +34,4 @@ def get_blocks_str(content: dict[str, str], words_in_block: int, separator: str)
             text += f"\t\t {j + 1}. {pair[0]} {separator} {pair[1]}\n"
         text += "\n"
 
-    ic(text)
-
     return text

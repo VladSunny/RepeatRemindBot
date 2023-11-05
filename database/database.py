@@ -30,6 +30,7 @@ def add_user(chat_id: int | str) -> None:
     new_user["chat_id"] = chat_id
 
     response = supabase.table("users_tg").insert(new_user).execute()
+    response = supabase.table("settings").insert({"chat_id": chat_id}).execute()
 
 
 def get_user(chat_id: int | str) -> dict:
