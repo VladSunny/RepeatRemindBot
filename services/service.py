@@ -16,6 +16,11 @@ bot = Bot(token=config.tg_bot.token,
           parse_mode='HTML')
 
 
+async def send_message(chat_id: int, text: str, reply_markup: InlineKeyboardMarkup | None = None) -> int:
+    message = await bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup)
+    return message.message_id
+
+
 async def send_and_delete_message(chat_id: int, text: str, delete_after: int):
     # Отправляем сообщение
     message = await bot.send_message(chat_id, text)

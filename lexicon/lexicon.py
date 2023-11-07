@@ -347,19 +347,20 @@ SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
 REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
     'ask_to_repeating': {
         'en': "Great! Now you will be reviewing the module {module_name}!"
-              "\n\nThe words in the module will be divided into {blocks_num} blocks,"
-              " each containing {words_in_block_num} words"
-              " (in your module, there are {words_num} words)."
-              "\nYou will repeat each block {repetitions_num} times.\n"
-              "\n<b>In /settings, you can change the number of blocks or their repetitions.</b>"
+              "\n\nReview settings:\n"
+              "\t<b>Number of blocks</b> - {blocks_num}\n"
+              "\t<b>Words in each block</b> - {words_in_block_num}\n"
+              "\t<b>Number of repetitions for each block</b> - {repetitions_num}"
+              "\n\n<b>In /settings, you can change the number of blocks or their repetitions.</b>"
               "\n\nHere's how the module you selected was divided into blocks:\n"
-              "{content}\n"
+              "\n{content}\n"
               "/help",
         'ru': "Отлично! Сейчас вы будете повторять модуль {module_name}!"
-              "\n\nСлова в модуле будут разделены на {blocks_num} блоков по {words_in_block_num} слов"
-              " (в вашем модуле {words_num} слов)."
-              "\nКаждый блок вы будете вы будете повторять {repetitions_num} раз.\n"
-              "\n<b>В /settings вы можете изменить количество блоков или их повторений.</b>"
+              "\n\nНастройки повторения:\n"
+              "\t<b>Количество блоков</b> - {blocks_num}\n"
+              "\t<b>Слов в каждом блоке</b> - {words_in_block_num}\n"
+              "\t<b>Количество повторений на каждый блок</b> - {repetitions_num}"
+              "\n\n<b>В /settings вы можете изменить количество блоков или их повторений.</b>"
               "\n\nВот как был разделен на блоки выбранный вами модуль:\n"
               "\n{content}\n"
               "/help"
@@ -375,6 +376,16 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
     'words_were_mixed': {
         'en': "The words have been shuffled 🔄",
         'ru': "Слова были перемешаны 🔄"
+    },
+    'repeating_module_header': {
+        'en': "You are currently reviewing the module {module_name}.\n"
+              "Block - {cur_block}\n"
+              "Number of completed repetitions for this block - {current_repetitions}"
+              "\n\n/cancel - to stop reviewing the module",
+        'ru': "Сейчас вы повторяете модуль {module_name}.\n"
+              "Блок - {cur_block}\n"
+              "Количество законченных повторений блока - {current_repetitions}"
+              "\n\n/cancel - чтобы остановить повторение модуля"
     },
     'cancel_repeating_module': {
         # edit it

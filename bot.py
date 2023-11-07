@@ -4,7 +4,7 @@ import logging
 from aiogram import Bot, Dispatcher
 from config_data.config import Config, load_config
 from handlers import user_handlers, other_handlers, base_commands_handler, saved_modules_handler,\
-    creating_module_handler, settings_handler
+    creating_module_handler, settings_handler, repeating_module_handler
 from keyboards.main_menu import set_main_menu
 
 # Инициализируем логгер
@@ -37,6 +37,7 @@ async def main():
     dp.include_router(base_commands_handler.router)
     dp.include_router(settings_handler.router)
     dp.include_router(saved_modules_handler.router)
+    dp.include_router(repeating_module_handler.router)
     dp.include_router(creating_module_handler.router)
     dp.include_router(user_handlers.router)
     dp.include_router(other_handlers.router)

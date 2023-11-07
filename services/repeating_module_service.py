@@ -1,6 +1,7 @@
 import math
 import random
 from icecream import ic
+from copy import deepcopy
 
 
 def get_blocks_num(module_len: int, words_in_block: int) -> int:
@@ -22,8 +23,10 @@ def get_blocks(content: dict[str, str], words_in_block: int) -> dict[str, dict[s
     return blocks
 
 
-def get_blocks_str(content: dict[str, str], words_in_block: int, separator: str) -> str:
-    blocks = get_blocks(content, words_in_block)
+def get_blocks_str(content: dict[str, str],
+                   words_in_block: int,
+                   separator: str,
+                   blocks: dict[str, dict[str, str]]) -> str:
     text: str = ""
 
     for i in range(len(blocks)):

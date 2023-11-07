@@ -70,7 +70,7 @@ async def process_new_module_command(message: Message, state: FSMContext):
 async def process_change_language_press(callback: CallbackQuery,
                                         callback_data: LanguageSelectionCF):
     new_lang: str = callback_data.language
-    update_value(callback.from_user.id, {'lang': new_lang})
+    update_user(callback.from_user.id, {'lang': new_lang})
     await callback.answer(SETTINGS_LEXICON['changed_language'][new_lang])
 
 

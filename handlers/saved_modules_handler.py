@@ -167,6 +167,9 @@ async def process_ask_to_repeat_saved_module(callback: CallbackQuery,
     module_id = callback_data.module_id
     module = get_module(module_id)
 
+    learning_content = get_blocks(module['content'], user_settings['words_in_block'])
+    update_learning(callback.from_user.id, {"learning_content": learning_content})
+
     await callback.answer()
 
     await change_message(chat_id=callback.from_user.id,
@@ -180,7 +183,8 @@ async def process_ask_to_repeat_saved_module(callback: CallbackQuery,
                                  words_num=len(module['content']),
                                  content=get_blocks_str(module['content'],
                                                         user_settings['words_in_block'],
-                                                        module['separator'])
+                                                        module['separator'],
+                                                        learning_content)
                                  ),
                          reply_markup=confirm_repeating_keyboard(user['lang'], module_id)
                          )
@@ -194,10 +198,10 @@ async def process_mix_words_in_repeating_module(callback: CallbackQuery,
     user_settings = get_settings(callback.from_user.id)
 
     module_id = callback_data.module_id
-
     module = get_module(module_id)
 
-    get_blocks_str(module['content'], user_settings['words_in_block'], module['separator'])
+    learning_content = get_blocks(module['content'], user_settings['words_in_block'])
+    update_learning(callback.from_user.id, {"learning_content": learning_content})
 
     await change_message(chat_id=callback.from_user.id,
                          message_id=callback.message.message_id,
@@ -210,7 +214,8 @@ async def process_mix_words_in_repeating_module(callback: CallbackQuery,
                                  words_num=len(module['content']),
                                  content=get_blocks_str(module['content'],
                                                         user_settings['words_in_block'],
-                                                        module['separator'])
+                                                        module['separator'],
+                                                        learning_content)
                                  ),
                          reply_markup=confirm_repeating_keyboard(user['lang'], module_id)
                          )

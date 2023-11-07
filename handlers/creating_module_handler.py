@@ -43,8 +43,6 @@ async def process_cancel_command(message: Message, state: FSMContext):
         text=CREATING_MODULE_LEXICON['cancel_creating_module'][user['lang']]
     )
 
-    data: dict[str, any] = await state.get_data()
-
     await state.clear()
 
 

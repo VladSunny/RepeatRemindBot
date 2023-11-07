@@ -31,6 +31,7 @@ def add_user(chat_id: int | str) -> None:
 
     response = supabase.table("users_tg").insert(new_user).execute()
     response = supabase.table("settings").insert({"chat_id": chat_id}).execute()
+    response = supabase.table("learning").insert({"chat_id": chat_id}).execute()
 
 
 def get_user(chat_id: int | str) -> dict:
@@ -49,7 +50,7 @@ def get_module(id: int) -> dict | None:
     return response.data[0] if response.data != [] else None
 
 
-def update_value(chat_id: int | str, update: dict) -> None:
+def update_user(chat_id: int | str, update: dict) -> None:
     response = supabase.table("users_tg").update(update).eq("chat_id", chat_id).execute()
 
 
@@ -76,4 +77,13 @@ def update_settings(chat_id: int | str, update: dict) -> None:
 
 def get_settings(chat_id: int | str) -> dict:
     response = supabase.table("settings").select('*').eq("chat_id", chat_id).execute()
+    return response.data[0]
+
+
+def update_learning(chat_id: int | str, update: dict) -> None:
+    response = supabase.table("learning").update(update).eq("chat_id", chat_id).execute()
+
+
+def get_learning_data(chat_id: int | str) -> dict:
+    response = supabase.table("learning").select('*').eq("chat_id", chat_id).execute()
     return response.data[0]
