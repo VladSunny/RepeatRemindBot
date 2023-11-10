@@ -381,11 +381,11 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
         'en': "You are currently reviewing the module {module_name}.\n"
               "Block - {cur_block}\n"
               "Number of completed repetitions for this block - {current_repetitions}"
-              "\n\n/cancel - to stop reviewing the module",
+              f"\n\n//{CommandsNames.cancel} - to stop reviewing the module",
         'ru': "Сейчас вы повторяете модуль {module_name}.\n"
               "Блок - {cur_block}\n"
               "Количество законченных повторений блока - {current_repetitions}"
-              "\n\n/cancel - чтобы остановить повторение модуля"
+              f"\n\n/{CommandsNames.cancel} - чтобы остановить повторение модуля"
     },
     'cancel_repeating_module': {
         # edit it

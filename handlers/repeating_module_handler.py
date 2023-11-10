@@ -43,6 +43,22 @@ user_data_template = {
 router = Router()
 
 
+@router.message(Command(commands=CommandsNames.cancel), StateFilter(FSMRepeatingModule.repeating_module,
+                                                                    FSMRepeatingModule.wait_next_question))
+async def process_cancel_command(message: Message, state: FSMContext):
+    user = get_user(message.from_user.id)
+    await message.answer(
+        text=REPEATING_MODULE_LEXICON['cancel_repeating_module'][user['lang']],
+        reply_markup=ReplyKeyboardRemove()
+    )
+
+    data = await state.get_data()
+
+    await delete_message(chat_id=message.chat.id, message_id=data['question_message_id'])
+
+    await state.clear()
+
+
 @router.callback_query(ConfirmRepeatingCF.filter(), StateFilter(default_state))
 async def process_start_repeating_module(callback: CallbackQuery,
                                          callback_data: ConfirmRepeatingCF,
@@ -81,26 +97,8 @@ async def process_start_repeating_module(callback: CallbackQuery,
     await callback.answer()
 
 
-router.message.filter(StateFilter(FSMRepeatingModule.repeating_module))
-
-
-@router.message(Command(commands=CommandsNames.cancel), StateFilter(FSMRepeatingModule.wait_next_question))
-async def process_cancel_command(message: Message, state: FSMContext):
-    user = get_user(message.from_user.id)
-    await message.answer(
-        text=REPEATING_MODULE_LEXICON['cancel_repeating_module'][user['lang']],
-        reply_markup=ReplyKeyboardRemove()
-    )
-
-    data = await state.get_data()
-
-    await delete_message(chat_id=message.chat.id, message_id=data['question_message_id'])
-
-    await state.clear()
-
-
-@router.message()
-async def process_get_answer(message: Message, state: FSMContext):
+@router.message(StateFilter(FSMRepeatingModule.repeating_module))
+async def process_got_answer(message: Message, state: FSMContext):
     data = await state.get_data()
     current_pair = data['current_questions'][0]
 
