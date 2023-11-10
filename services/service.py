@@ -3,7 +3,7 @@ from __future__ import annotations
 from aiogram import Bot
 from icecream import ic
 import asyncio
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, Message
 #
 # Bot = bot.bot
 
@@ -16,9 +16,14 @@ bot = Bot(token=config.tg_bot.token,
           parse_mode='HTML')
 
 
-async def send_message(chat_id: int, text: str, reply_markup: InlineKeyboardMarkup | None = None) -> int:
+async def send_message(chat_id: int, text: str, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | None = None)\
+        -> Message:
     message = await bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup)
-    return message.message_id
+    return message
+
+
+async def delete_message(chat_id: int, message_id: int):
+    await bot.delete_message(chat_id=chat_id, message_id=message_id)
 
 
 async def send_and_delete_message(chat_id: int, text: str, delete_after: int):
@@ -33,13 +38,9 @@ async def send_and_delete_message(chat_id: int, text: str, delete_after: int):
 
 
 async def change_message(chat_id: int, message_id: int,
-                         reply_markup: InlineKeyboardMarkup | None | int = -1,
+                         reply_markup: InlineKeyboardMarkup | None | int = None,
                          text: str | None = None):
     if text is not None:
         await bot.edit_message_text(text=text, chat_id=chat_id, message_id=message_id, reply_markup=reply_markup)
     else:
         await bot.edit_message_reply_markup(chat_id=chat_id, message_id=message_id, reply_markup=reply_markup)
-
-
-async def delete_message(chat_id:int, message_id: int):
-    await bot.delete_message(chat_id=chat_id, message_id=message_id)

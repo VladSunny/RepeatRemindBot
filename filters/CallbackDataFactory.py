@@ -53,3 +53,11 @@ class ConfirmRepeatingCF(CallbackData, prefix='confirmed_repeating_module'):
 
 class MixWordsInRepeatingModuleCF(CallbackData, prefix='shuffle_words_in_repeating_module'):
     module_id: int
+
+
+class NextQuestionCF(CallbackData, prefix='next_question'):
+    pass
+
+
+class AnswerWasCorrectCF(CallbackData, prefix='answer_was_correct'):
+    pass

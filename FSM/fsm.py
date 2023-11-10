@@ -21,6 +21,7 @@ creating_module_states = [
 
 class FSMRepeatingModule(StatesGroup):
     repeating_module = State()
+    wait_next_question = State()
 
 
 class FSMChangeSettings(StatesGroup):

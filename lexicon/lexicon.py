@@ -391,7 +391,27 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
         # edit it
         'en': "Repeating was canceled.",
         'ru': "Повторение было отменено."
-    }
+    },
+    'next_question': {
+        'en': "Next question ➡️",
+        'ru': "Следующий вопрос ➡️"
+    },
+    'answer_was_correct': {
+        'en': "Answer was correct 😤",
+        'ru': "Ответ был верный 😤"
+    },
+    'incorrect_answer': {
+        'en': "❌ Incorrect answer!\nCorrect: {correct_answer}",
+        'ru': "❌ Неправильный ответ!\nПравильный: {correct_answer}"
+    },
+    'correct_answer': {
+        'en': "✅ Nice! Yes, {correct_answer}, is correct!",
+        'ru': "✅ Ура! Да, {correct_answer}, это правильный ответ!"
+    },
+    'answer_was_correct_pressed': {
+        'en': "✅ Okay, {correct_answer}, is correct",
+        'ru': "✅ Хорошо, {correct_answer}, это правильный ответ"
+    },
 }
 
 LEXICON_COMMANDS: dict[str, str] = {

@@ -38,3 +38,14 @@ def get_blocks_str(content: dict[str, str],
         text += "\n"
 
     return text
+
+
+def get_current_questions(block: dict[str, str]) -> list:
+    items1 = list(block.items())
+    items2 = [(item[1], item[0]) for item in block.items()]
+
+    items = items1 + items2
+
+    random.shuffle(items)
+
+    return items
