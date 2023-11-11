@@ -13,6 +13,5 @@ router = Router()
 # не предусмотренные логикой работы бота
 @router.message()
 async def send_echo(message: Message, state: FSMContext):
-    ic(await state.get_state())
     await message.delete()
     await send_and_delete_message(message.from_user.id, lexicon.LEXICON['default_response']['en'], 4)

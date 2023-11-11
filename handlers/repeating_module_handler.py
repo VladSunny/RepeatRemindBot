@@ -115,19 +115,27 @@ async def process_got_answer(message: Message, state: FSMContext):
         data['current_questions'].append(data['current_questions'][0])
         data['current_questions'].popleft()
 
+        await state.set_state(FSMRepeatingModule.wait_next_question)
         await state.update_data(data)
 
     else:
         data['current_questions'].popleft()
 
-        await change_message(chat_id=message.from_user.id,
-                             text=REPEATING_MODULE_LEXICON['correct_answer'][data['user_lang']].format(
-                                 correct_answer=f"{current_pair[0]} {data['separator']} {current_pair[1]}"
-                             ),
-                             message_id=data['question_message_id'],
-                             reply_markup=correct_answer_keyboard(data['user_lang']))
+        await state.update_data(data)
 
-    await state.set_state(FSMRepeatingModule.wait_next_question)
+        await next_question(data=data, chat_id=message.from_user.id, state=state)
+
+        await send_and_delete_message(chat_id=message.from_user.id,
+                                      text=REPEATING_MODULE_LEXICON['correct_answer'][data['user_lang']].format(
+                                          correct_answer=f"{current_pair[0]} {data['separator']} {current_pair[1]}"
+                                      ), delete_after=3)
+
+        # await change_message(chat_id=message.from_user.id,
+        #                      text=REPEATING_MODULE_LEXICON['correct_answer'][data['user_lang']].format(
+        #                          correct_answer=f"{current_pair[0]} {data['separator']} {current_pair[1]}"
+        #                      ),
+        #                      message_id=data['question_message_id'],
+        #                      reply_markup=correct_answer_keyboard(data['user_lang']))
 
 
 @router.callback_query(AnswerWasCorrectCF.filter(), StateFilter(FSMRepeatingModule.wait_next_question))
@@ -147,26 +155,21 @@ async def process_answer_was_correct(callback: CallbackQuery,
                          message_id=data['question_message_id'],
                          reply_markup=correct_answer_keyboard(data['user_lang']))
 
+    await state.update_data(data)
     await callback.answer()
 
 
-@router.callback_query(NextQuestionCF.filter(), StateFilter(FSMRepeatingModule.wait_next_question))
-async def process_next_question(callback: CallbackQuery,
-                                callback_data: NextQuestionCF,
-                                state: FSMContext):
-    data = await state.get_data()
-
+async def next_question(data, chat_id, state):
     if len(data['current_questions']) > 0:
         question = data['current_questions'][0]
 
-        await change_message(chat_id=callback.from_user.id,
-                             text=f"{question[0][0]} {data['separator']} ?",
+        await change_message(chat_id=chat_id,
+                             text=f"{question[0]} {data['separator']} ?",
                              message_id=data['question_message_id'],
-                             reply_markup=None)
+                             reply_markup=None,
+                             can_repeat=True)
 
         await state.set_state(FSMRepeatingModule.repeating_module)
-
-        await callback.answer()
 
     else:
         if data['current_repetitions'] == data['repetitions']:
@@ -175,6 +178,33 @@ async def process_next_question(callback: CallbackQuery,
             else:
                 ic("end repeating this block")
         else:
-            ic("end repetition for this block")
+            data['current_repetitions'] += 1
+            data['current_questions'] = deque(get_current_questions(data['learning_content']
+                                                                    [f'block_{data["current_block"]}']))
+            await state.update_data(data)
 
-        await callback.answer()
+            await change_message(chat_id=chat_id,
+                                 text=REPEATING_MODULE_LEXICON['finish_repetition'][data['user_lang']],
+                                 message_id=data['question_message_id'],
+                                 reply_markup=correct_answer_keyboard(data['user_lang']))
+
+            await change_message(chat_id=chat_id,
+                                 message_id=data['header_message_id'],
+                                 reply_markup=None,
+                                 text=REPEATING_MODULE_LEXICON['repeating_module_header'][data['user_lang']]
+                                 .format(module_name=data['module_name'],
+                                         current_repetitions=data['current_repetitions'],
+                                         cur_block=data['current_block']))
+
+            await state.set_state(FSMRepeatingModule.wait_next_question)
+
+
+@router.callback_query(NextQuestionCF.filter(), StateFilter(FSMRepeatingModule.wait_next_question))
+async def process_next_question(callback: CallbackQuery,
+                                callback_data: NextQuestionCF,
+                                state: FSMContext):
+    data = await state.get_data()
+
+    await next_question(data=data, chat_id=callback.from_user.id, state=state)
+
+    await callback.answer()

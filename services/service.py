@@ -39,8 +39,11 @@ async def send_and_delete_message(chat_id: int, text: str, delete_after: int):
 
 async def change_message(chat_id: int, message_id: int,
                          reply_markup: InlineKeyboardMarkup | None | int = None,
-                         text: str | None = None):
+                         text: str | None = None,
+                         can_repeat: bool = False):
     if text is not None:
+        if can_repeat:
+            await bot.edit_message_text(text="...", chat_id=chat_id, message_id=message_id, reply_markup=reply_markup)
         await bot.edit_message_text(text=text, chat_id=chat_id, message_id=message_id, reply_markup=reply_markup)
     else:
         await bot.edit_message_reply_markup(chat_id=chat_id, message_id=message_id, reply_markup=reply_markup)

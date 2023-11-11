@@ -412,6 +412,11 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
         'en': "✅ Okay, {correct_answer}, is correct",
         'ru': "✅ Хорошо, {correct_answer}, это правильный ответ"
     },
+    'finish_repetition': {
+        'en': "You finished repetition",
+        'ru': "Вы закончили одно из повторений блока! 🎉\n"
+              "Советуем вам передохнуть 1-3 минуты перед продолжением"
+    }
 }
 
 LEXICON_COMMANDS: dict[str, str] = {
