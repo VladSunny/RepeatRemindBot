@@ -380,11 +380,11 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
     'repeating_module_header': {
         'en': "You are currently reviewing the module {module_name}.\n"
               "Block - {cur_block}\n"
-              "Number of completed repetitions for this block - {current_repetitions}"
+              "Number of completed repetitions for this block - {current_repetitions}/{repetitions}"
               f"\n\n//{CommandsNames.cancel} - to stop reviewing the module",
         'ru': "Сейчас вы повторяете модуль {module_name}.\n"
               "Блок - {cur_block}\n"
-              "Количество законченных повторений блока - {current_repetitions}"
+              "Количество законченных повторений блока - {current_repetitions}/{repetitions}"
               f"\n\n/{CommandsNames.cancel} - чтобы остановить повторение модуля"
     },
     'cancel_repeating_module': {
@@ -416,6 +416,11 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
         'en': "You finished repetition",
         'ru': "Вы закончили одно из повторений блока! 🎉\n"
               "Советуем вам передохнуть 1-3 минуты перед продолжением"
+    },
+    'finish_block': {
+        'en': "You finished block",
+        'ru': "Вы закончили повторять целый блок! 🎉\n"
+              "Советуем вам передохнуть 1-3 минуты перед началом повторения следующего блока!"
     }
 }
 

@@ -84,7 +84,10 @@ async def process_start_repeating_module(callback: CallbackQuery,
                          message_id=callback.message.message_id,
                          reply_markup=None,
                          text=REPEATING_MODULE_LEXICON['repeating_module_header'][user['lang']]
-                         .format(module_name=module['name'], current_repetitions=0, cur_block=1))
+                         .format(module_name=module['name'],
+                                 current_repetitions=0,
+                                 cur_block=1,
+                                 repetitions=user_settings['repetitions_for_block']))
 
     question_message = await send_message(chat_id=callback.from_user.id,
                                           text=f"{current_questions[0][0]} {module['separator']} ?")
@@ -130,13 +133,6 @@ async def process_got_answer(message: Message, state: FSMContext):
                                           correct_answer=f"{current_pair[0]} {data['separator']} {current_pair[1]}"
                                       ), delete_after=3)
 
-        # await change_message(chat_id=message.from_user.id,
-        #                      text=REPEATING_MODULE_LEXICON['correct_answer'][data['user_lang']].format(
-        #                          correct_answer=f"{current_pair[0]} {data['separator']} {current_pair[1]}"
-        #                      ),
-        #                      message_id=data['question_message_id'],
-        #                      reply_markup=correct_answer_keyboard(data['user_lang']))
-
 
 @router.callback_query(AnswerWasCorrectCF.filter(), StateFilter(FSMRepeatingModule.wait_next_question))
 async def process_answer_was_correct(callback: CallbackQuery,
@@ -172,11 +168,31 @@ async def next_question(data, chat_id, state):
         await state.set_state(FSMRepeatingModule.repeating_module)
 
     else:
-        if data['current_repetitions'] == data['repetitions']:
+        if data['current_repetitions'] == data['repetitions'] - 1:
             if data['current_block'] == len(data['learning_content']):
                 ic("end learning module")
             else:
-                ic("end repeating this block")
+                data['current_block'] += 1
+                data['current_repetitions'] = 0
+                data['current_questions'] = deque(get_current_questions(data['learning_content']
+                                                                        [f'block_{data["current_block"]}']))
+                await state.update_data(data)
+
+                await change_message(chat_id=chat_id,
+                                     text=REPEATING_MODULE_LEXICON['finish_block'][data['user_lang']],
+                                     message_id=data['question_message_id'],
+                                     reply_markup=correct_answer_keyboard(data['user_lang']))
+
+                await change_message(chat_id=chat_id,
+                                     message_id=data['header_message_id'],
+                                     reply_markup=None,
+                                     text=REPEATING_MODULE_LEXICON['repeating_module_header'][data['user_lang']]
+                                     .format(module_name=data['module_name'],
+                                             current_repetitions=data['current_repetitions'],
+                                             cur_block=data['current_block'],
+                                             repetitions=data['repetitions']))
+
+                await state.set_state(FSMRepeatingModule.wait_next_question)
         else:
             data['current_repetitions'] += 1
             data['current_questions'] = deque(get_current_questions(data['learning_content']
@@ -194,7 +210,8 @@ async def next_question(data, chat_id, state):
                                  text=REPEATING_MODULE_LEXICON['repeating_module_header'][data['user_lang']]
                                  .format(module_name=data['module_name'],
                                          current_repetitions=data['current_repetitions'],
-                                         cur_block=data['current_block']))
+                                         cur_block=data['current_block'],
+                                         repetitions=data['repetitions']))
 
             await state.set_state(FSMRepeatingModule.wait_next_question)
 
