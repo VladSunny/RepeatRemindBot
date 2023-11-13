@@ -15,7 +15,7 @@ from lexicon.lexicon import REPEATING_MODULE_LEXICON, CommandsNames
 from FSM.fsm import FSMRepeatingModule
 
 from services.service import send_and_delete_message, change_message, delete_message, send_message
-from services.repeating_module_service import get_current_questions
+from services.repeating_module_service import get_current_questions, get_all_questions
 
 from filters.CallbackDataFactory import RepeatModuleCF, ConfirmRepeatingCF, AnswerWasCorrectCF, NextQuestionCF
 
@@ -37,7 +37,8 @@ user_data_template = {
     'separator': '',
     'module_name': "",
     'user_lang': "en",
-    'repetitions': 0
+    'repetitions': 0,
+    'finish_learning_blocks': False,
 }
 
 router = Router()
@@ -170,7 +171,27 @@ async def next_question(data, chat_id, state):
     else:
         if data['current_repetitions'] == data['repetitions'] - 1:
             if data['current_block'] == len(data['learning_content']):
-                ic("end learning module")
+                if data['finish_learning_blocks']:
+                    ic("end learning module")
+
+                else:
+                    data['finish_learning_blocks'] = True
+                    data['current_questions'] = deque(get_all_questions(data['learning_content']))
+                    await state.update_data(data)
+
+                    await change_message(chat_id=chat_id,
+                                         text=REPEATING_MODULE_LEXICON['repeating_all_module'][data['user_lang']],
+                                         message_id=data['question_message_id'],
+                                         reply_markup=correct_answer_keyboard(data['user_lang']))
+
+                    await change_message(chat_id=chat_id,
+                                         message_id=data['header_message_id'],
+                                         reply_markup=None,
+                                         text=REPEATING_MODULE_LEXICON['repeating_all_module_header'][data['user_lang']]
+                                         .format(module_name=data['module_name']))
+
+                    await state.set_state(FSMRepeatingModule.wait_next_question)
+
             else:
                 data['current_block'] += 1
                 data['current_repetitions'] = 0
@@ -193,6 +214,7 @@ async def next_question(data, chat_id, state):
                                              repetitions=data['repetitions']))
 
                 await state.set_state(FSMRepeatingModule.wait_next_question)
+
         else:
             data['current_repetitions'] += 1
             data['current_questions'] = deque(get_current_questions(data['learning_content']

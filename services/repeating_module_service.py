@@ -49,3 +49,11 @@ def get_current_questions(block: dict[str, str]) -> list:
     random.shuffle(items)
 
     return items
+
+
+def get_all_questions(blocks: dict[str, dict[str, str]]) -> list:
+    all_questions = []
+    for block in blocks.values():
+        all_questions += get_current_questions(block)
+    random.shuffle(all_questions)
+    return all_questions
