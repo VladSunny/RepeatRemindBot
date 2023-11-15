@@ -177,7 +177,7 @@ async def next_question(data, chat_id, state):
                     await change_message(chat_id=chat_id,
                                          text=REPEATING_MODULE_LEXICON['finish_all_repeating'][data['user_lang']],
                                          message_id=data['question_message_id'],
-                                         reply_markup=correct_answer_keyboard(data['user_lang']))
+                                         reply_markup=None)
 
                     await state.clear()
 
