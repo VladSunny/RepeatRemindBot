@@ -88,7 +88,9 @@ async def process_start_repeating_module(callback: CallbackQuery,
                          .format(module_name=module['name'],
                                  current_repetitions=0,
                                  cur_block=1,
-                                 repetitions=user_settings['repetitions_for_block']))
+                                 repetitions=user_settings['repetitions_for_block'],
+                                 blocks=len(learning_content))
+                         )
 
     question_message = await send_message(chat_id=callback.from_user.id,
                                           text=f"{current_questions[0][0]} {module['separator']} ?")
@@ -172,7 +174,12 @@ async def next_question(data, chat_id, state):
         if data['current_repetitions'] == data['repetitions'] - 1:
             if data['current_block'] == len(data['learning_content']):
                 if data['finish_learning_blocks']:
-                    ic("end learning module")
+                    await change_message(chat_id=chat_id,
+                                         text=REPEATING_MODULE_LEXICON['finish_all_repeating'][data['user_lang']],
+                                         message_id=data['question_message_id'],
+                                         reply_markup=correct_answer_keyboard(data['user_lang']))
+
+                    await state.clear()
 
                 else:
                     data['finish_learning_blocks'] = True
@@ -211,7 +218,10 @@ async def next_question(data, chat_id, state):
                                      .format(module_name=data['module_name'],
                                              current_repetitions=data['current_repetitions'],
                                              cur_block=data['current_block'],
-                                             repetitions=data['repetitions']))
+                                             repetitions=data['repetitions'],
+                                             blocks=len(data['learning_content'])
+                                             )
+                                     )
 
                 await state.set_state(FSMRepeatingModule.wait_next_question)
 
@@ -233,7 +243,10 @@ async def next_question(data, chat_id, state):
                                  .format(module_name=data['module_name'],
                                          current_repetitions=data['current_repetitions'],
                                          cur_block=data['current_block'],
-                                         repetitions=data['repetitions']))
+                                         repetitions=data['repetitions'],
+                                         blocks=len(data['learning_content'])
+                                         )
+                                 )
 
             await state.set_state(FSMRepeatingModule.wait_next_question)
 

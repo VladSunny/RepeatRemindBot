@@ -379,18 +379,20 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
     },
     'repeating_module_header': {
         'en': "You are currently reviewing the module {module_name}.\n"
-              "Block - {cur_block}\n"
-              "Number of completed repetitions for this block - {current_repetitions}/{repetitions}"
+              "Block - {cur_block}/{blocks}\n"
+              "Completed repetitions for this block - {current_repetitions}/{repetitions}"
               f"\n\n//{CommandsNames.cancel} - to stop reviewing the module",
         'ru': "Сейчас вы повторяете модуль {module_name}.\n"
-              "Блок - {cur_block}\n"
-              "Количество законченных повторений блока - {current_repetitions}/{repetitions}"
+              "Блок - {cur_block}/{blocks}\n"
+              "Законченных повторений блока - {current_repetitions}/{repetitions}"
               f"\n\n/{CommandsNames.cancel} - чтобы остановить повторение модуля"
     },
     'cancel_repeating_module': {
         # edit it
-        'en': "Repeating was canceled.",
-        'ru': "Повторение было отменено."
+        'en': "Repeating was canceled.\n"
+              "\n/help",
+        'ru': "Повторение было отменено.\n"
+              "\n/help"
     },
     'next_question': {
         'en': "Next question ➡️",
@@ -430,6 +432,11 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
     'repeating_all_module_header': {
         'en': "You are repeating all module",
         'ru': "Сейчас вы повторяете все элементы модуля {module_name}"
+    },
+    'finish_all_repeating': {
+        'en': "You successfully finish repeating module",
+        'ru': "Вы успешно повторили весь модуль! 🎉🎉🎉🎉\n"
+              "\n/help"
     }
 }
 
