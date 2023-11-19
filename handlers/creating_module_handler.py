@@ -58,23 +58,7 @@ async def process_name_sent(message: Message, state: FSMContext):
 
     await state.update_data(name=message.text)
     await state.update_data(content={})
-    await state.set_state(FSMCreatingModule.fill_separator)
-
-    await message.answer(
-        text=CREATING_MODULE_LEXICON['fill_separator'][user['lang']],
-    )
-
-
-@router.message(StateFilter(FSMCreatingModule.fill_separator))
-async def process_separator_sent(message: Message, state: FSMContext):
-    user = get_user(message.from_user.id)
-    if (message.text is None) or (not is_valid_separator(message.text)):
-        await message.answer(
-            text=CREATING_MODULE_LEXICON['not_valid_separator'][user['lang']]
-        )
-        return
-
-    await state.update_data(separator=message.text)
+    await state.update_data(separator='=')
     await state.set_state(FSMCreatingModule.fill_content)
 
     data = await state.get_data()
@@ -89,6 +73,32 @@ async def process_separator_sent(message: Message, state: FSMContext):
     )
 
     await state.update_data(message_id=msg.message_id)
+
+
+# @router.message(StateFilter(FSMCreatingModule.fill_separator))
+# async def process_separator_sent(message: Message, state: FSMContext):
+#     user = get_user(message.from_user.id)
+#     if (message.text is None) or (not is_valid_separator(message.text)):
+#         await message.answer(
+#             text=CREATING_MODULE_LEXICON['not_valid_separator'][user['lang']]
+#         )
+#         return
+#
+#     await state.update_data(separator=message.text)
+#     await state.set_state(FSMCreatingModule.fill_content)
+#
+#     data = await state.get_data()
+#
+#     await message.answer(
+#         text=CREATING_MODULE_LEXICON['fill_content'][user['lang']]
+#     )
+#     msg = await message.answer(
+#         text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].format(module_name=data['name'],
+#                                                                              separator=data['separator']),
+#         reply_markup=create_new_module_keyboard({}, user['lang'], data['name'], data['separator'])
+#     )
+#
+#     await state.update_data(message_id=msg.message_id)
 
 
 @router.message(StateFilter(FSMCreatingModule.fill_content))
