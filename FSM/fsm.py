@@ -33,3 +33,7 @@ settings_states = [
     FSMChangeSettings.change_words_in_block,
     FSMChangeSettings.change_repetitions_for_block
 ]
+
+
+class FSMGetModuleById(StatesGroup):
+    send_module_id = State()

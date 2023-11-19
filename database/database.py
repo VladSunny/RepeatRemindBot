@@ -87,3 +87,11 @@ def update_learning(chat_id: int | str, update: dict) -> None:
 def get_learning_data(chat_id: int | str) -> dict:
     response = supabase.table("learning").select('learning_content').eq("chat_id", chat_id).execute()
     return response.data[0]
+
+
+def get_module_by_id(id: int) -> dict | None:
+    response = supabase.table("modules").select('*').eq("id", id).execute()
+    if not len(response.data):
+        return None
+    return response.data[0]
+

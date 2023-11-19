@@ -22,12 +22,16 @@ LEXICON: dict[str, dict[str, str]] = {
               "\t<b>/help</b> - Shows a list of all commands and their description\n"
               f"\t<b>/{CommandsNames.settings}</b> - Displays a list of available settings for the bot\n"
               f"\t<b>/{CommandsNames.create_new_module}</b> - Allows you to create a module for further study\n"
-              f"\t<b>/{CommandsNames.saved_modules}</b> - Saved modules",
+              f"\t<b>/{CommandsNames.saved_modules}</b> - View your saved modules\n"
+              f"\t<b>/{CommandsNames.get_module_by_id}</b> - Save a module by entering its ID"
+              f" (for example, you can use this to save a module created by a teacher for review)",
         'ru': "В данный момент доступны следующие команды:\n\n"
               "\t<b>/help</b> - Показывает список всех команд и их описание\n"
               f"\t<b>/{CommandsNames.settings}</b> - Показывает список доступных настроек для бота\n"
               f"\t<b>/{CommandsNames.create_new_module}</b> - Позволяет создать модуль для дальнейшего изучения\n"
               f"\t<b>/{CommandsNames.saved_modules}</b> - Сохраненные модули\n"
+              f"\t<b>/{CommandsNames.get_module_by_id}</b> - Вам будет предложено сохранить модуль по его ID"
+              f" (например, вы можете спросить ID модуля, который создал учитель для повторения)"
     },
     CommandsNames.settings: {
         'en': "You can adjust the following settings in the bot:\n\n"
@@ -87,7 +91,6 @@ LEXICON: dict[str, dict[str, str]] = {
     },
 }
 
-
 SETTINGS_LEXICON: dict[str, dict[str, str]] = {
     CommandsNames.change_language: {
         'en': "Please choose your language:\n🇺🇸 English\n🇷🇺 Русский",
@@ -130,7 +133,6 @@ SETTINGS_LEXICON: dict[str, dict[str, str]] = {
         'ru': "Количество повторений за блок успешно обновлено до {number} ✅"
     }
 }
-
 
 CREATING_MODULE_LEXICON = {
     'not_valid_name': {
@@ -247,7 +249,6 @@ CREATING_MODULE_LEXICON = {
     },
 }
 
-
 SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
     'list_of_saved_modules': {
         'en': "Here are your saved modules:"
@@ -306,7 +307,6 @@ SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
               f"\n/{CommandsNames.cancel} - чтобы отменить редактирование модуля"
     },
 }
-
 
 REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
     'ask_to_repeating': {
@@ -407,11 +407,38 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
     }
 }
 
+GET_MODULE_BY_ID_LEXICON: dict[str, dict[str, str]] = {
+    'get_module_by_id': {
+        'en': "Please send the ID of the module you wish to retrieve.\n"
+              "You can find the module ID next to its name in the list of saved modules."
+              f"\n\n/{CommandsNames.cancel} - to cancel sending the module ID.",
+        'ru': "Отправьте ID модуля, который вы хотите получить.\n"
+              "ID модуля можно увидеть рядом с названием в списке сохраненных модулей."
+              f"\n\n/{CommandsNames.cancel} - чтобы отменить отправку ID модуля."
+    },
+    'incorrect_type': {
+        'en': "The ID must be a positive integer!",
+        'ru': "ID должен быть натуральным числом!"
+    },
+    'cant_find_module': {
+        'en': "❌ The module with the specified ID was not found.",
+        'ru': "❌ Модуль с указанным ID не был найден."
+    },
+    'module_was_saved': {
+        'en': "✅ The module {module_name} was successfully found and saved! Your copy has the ID: {module_id}.",
+        'ru': "✅ Модуль {module_name} был успешно найден и сохранён! Его копия у вас имеет ID: {module_id}."
+    },
+    'cancel': {
+        'en': "Saving the module by its ID has been cancelled.",
+        'ru': "Сохранение модуля по его ID было отменено."
+    }
+
+}
 
 LEXICON_COMMANDS: dict[str, str] = {
     '/help': 'Description of available commands.',
     f'/{CommandsNames.settings}': 'Your settings.',
     f'/{CommandsNames.create_new_module}': 'Create a new module.',
     f'/{CommandsNames.saved_modules}': 'Your saved modules.',
-    #f'/{CommandsNames.get_module_by_id}': 'Save a module by its ID.'
+    f'/{CommandsNames.get_module_by_id}': "Save someone else's module using ID."
 }
