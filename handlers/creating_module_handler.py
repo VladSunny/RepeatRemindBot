@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import os
+
 from aiogram import F, Router, Dispatcher
 from aiogram.filters import Command, CommandStart, StateFilter
 from aiogram.types import CallbackQuery, Message, Update
@@ -14,12 +16,14 @@ from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON
 from FSM.fsm import FSMCreatingModule, creating_module_states
 
 from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs
-from services.service import send_and_delete_message, change_message, delete_message
+from services.service import send_and_delete_message, change_message, delete_message, download_file
+from services.tesseract_service import get_eng_from_photo
 
 from keyboards.new_module_kb import create_new_module_keyboard
 
 from filters.CallbackDataFactory import DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF, \
     SaveNewModuleCF
+
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
@@ -75,33 +79,7 @@ async def process_name_sent(message: Message, state: FSMContext):
     await state.update_data(message_id=msg.message_id)
 
 
-# @router.message(StateFilter(FSMCreatingModule.fill_separator))
-# async def process_separator_sent(message: Message, state: FSMContext):
-#     user = get_user(message.from_user.id)
-#     if (message.text is None) or (not is_valid_separator(message.text)):
-#         await message.answer(
-#             text=CREATING_MODULE_LEXICON['not_valid_separator'][user['lang']]
-#         )
-#         return
-#
-#     await state.update_data(separator=message.text)
-#     await state.set_state(FSMCreatingModule.fill_content)
-#
-#     data = await state.get_data()
-#
-#     await message.answer(
-#         text=CREATING_MODULE_LEXICON['fill_content'][user['lang']]
-#     )
-#     msg = await message.answer(
-#         text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].format(module_name=data['name'],
-#                                                                              separator=data['separator']),
-#         reply_markup=create_new_module_keyboard({}, user['lang'], data['name'], data['separator'])
-#     )
-#
-#     await state.update_data(message_id=msg.message_id)
-
-
-@router.message(StateFilter(FSMCreatingModule.fill_content))
+@router.message(StateFilter(FSMCreatingModule.fill_content), F.text)
 async def process_content_sent(message: Message, state: FSMContext):
     user = get_user(message.chat.id)
 
@@ -127,6 +105,17 @@ async def process_content_sent(message: Message, state: FSMContext):
                                                                  user['lang'],
                                                                  data['name'],
                                                                  data['separator']))
+
+
+@router.message(StateFilter(FSMCreatingModule.fill_content), F.photo)
+async def process_photo_sent(message: Message, state: FSMContext):
+    user = get_user(message.chat.id)
+
+    photo = message.photo[-1]
+
+    path = await download_file(photo.file_id)
+
+    text = ic(await get_eng_from_photo(path))
 
 
 @router.message(StateFilter(FSMCreatingModule.change_name))
