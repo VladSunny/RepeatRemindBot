@@ -117,6 +117,8 @@ async def process_photo_sent(message: Message, state: FSMContext):
 
     text = ic(await get_eng_from_photo(path))
 
+    await message.answer(text)
+
 
 @router.message(StateFilter(FSMCreatingModule.change_name))
 async def process_new_name_sent(message: Message, state: FSMContext):
