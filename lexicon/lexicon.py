@@ -5,7 +5,7 @@ class CommandsNames:
     saved_modules = 'saved_modules'
     cancel = 'cancel'
     change_words_in_block = 'change_words_in_block'
-    change_repetitions_for_block = 'change_repetitions_for_block',
+    change_repetitions_for_block = 'change_repetitions_for_block'
     get_module_by_id = 'get_module_by_id'
 
 
