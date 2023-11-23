@@ -36,14 +36,14 @@ LEXICON: dict[str, dict[str, str]] = {
     CommandsNames.settings: {
         'en': "You can adjust the following settings in the bot:\n\n"
               f"\t<b>/{CommandsNames.change_language}</b> - Change the language of the bot\n"
-              f"\t<b>/{CommandsNames.change_words_in_block}</b> - Change the number of words per block"
+              f"\t<b>/{CommandsNames.change_words_in_block}</b> - Change the number of values per block"
               " (currently set to {words_in_block_number})\n"
               f"\t<b>/{CommandsNames.change_repetitions_for_block}</b> - Change the number of repetitions"
               " per block (currently set to {repetitions_for_block_number})"
               "\n\n/help",
         'ru': "Вы можете настроить следующие параметры в боте:\n\n"
               f"\t<b>/{CommandsNames.change_language}</b> - Изменить язык бота\n"
-              f"\t<b>/{CommandsNames.change_words_in_block}</b> - Изменить количество слов в блоке"
+              f"\t<b>/{CommandsNames.change_words_in_block}</b> - Изменить количество значений в блоке"
               " (сейчас установлено {words_in_block_number})\n"
               f"\t<b>/{CommandsNames.change_repetitions_for_block}</b> - Изменить количество повторений"
               " в блоке (сейчас установлено {repetitions_for_block_number})"
@@ -105,9 +105,9 @@ SETTINGS_LEXICON: dict[str, dict[str, str]] = {
         'ru': "Вы успешно сменили язык на русский! 🇷🇺"
     },
     CommandsNames.change_words_in_block: {
-        'en': "Enter the number of words per block that you find convenient to repeat (e.g., 10)."
-              "\nThe number should be between 5 and 20.",
-        'ru': "Введите количество слов в блоке, которое вам удобно повторять (например, 10)."
+        'en': "Enter the number of values in a block that you find comfortable for repetition (for example, 10)."
+              "\nThe number must be between 5 and 20.",
+        'ru': "Введите количество значений в блоке, которое вам удобно повторять (например, 10)."
               "\nЧисло должно быть от 5 до 20."
     },
     CommandsNames.change_repetitions_for_block: {

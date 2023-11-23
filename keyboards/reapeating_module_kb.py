@@ -1,9 +1,9 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
-from lexicon.lexicon import LEXICON, REPEATING_MODULE_LEXICON
+from lexicon.lexicon import LEXICON, REPEATING_MODULE_LEXICON, SAVED_MODULES_LEXICON
 
 from filters.CallbackDataFactory import ConfirmRepeatingCF, MixWordsInRepeatingModuleCF, NextQuestionCF,\
-    AnswerWasCorrectCF
+    AnswerWasCorrectCF, BackToSavedModulesCF
 from icecream import ic
 
 import json
@@ -12,8 +12,11 @@ import json
 def confirm_repeating_keyboard(lang: str, module_id: int) -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
 
-
     kb_builder.row(
+        InlineKeyboardButton(
+            text=SAVED_MODULES_LEXICON['back_to_saved_modules'][lang],
+            callback_data=BackToSavedModulesCF().pack()
+        ),
         InlineKeyboardButton(
             text=REPEATING_MODULE_LEXICON['mix_words'][lang],
             callback_data=MixWordsInRepeatingModuleCF(module_id=module_id).pack()
