@@ -12,9 +12,29 @@ if os_name == "Windows":
 
 async def async_image_to_string(image_path):
     loop = asyncio.get_running_loop()
+
+    # Функция предобработки в черно-белое изображение
+    def preprocess_image(image_path):
+        with Image.open(image_path) as image:
+            # Конвертация изображения в градации серого
+            gray_image = image.convert('L')
+            # Преобразование изображения в черно-белый (бинаризация)
+            bw_image = gray_image.point(lambda x: 0 if x < 128 else 255, '1')
+            return bw_image
+
+    # Функция OCR с предобработкой
+    def run_tesseract(image_path):
+        # Получаем изображение, предварительно обработано в черно-белый формат
+        bw_image = preprocess_image(image_path)
+        # Указываем настройки для Tesseract
+        custom_config = r'--oem 1 --psm 6 -l eng'
+        # Применяем Tesseract к обработанному изображению с нашей кастомной конфигурацией
+        return pytesseract.image_to_string(bw_image, config=custom_config)
+
+    # Используем executor для выполнения функции OCR асинхронно
     return await loop.run_in_executor(
         None,
-        pytesseract.image_to_string, Image.open(image_path), 'eng'
+        run_tesseract, image_path
     )
 
 

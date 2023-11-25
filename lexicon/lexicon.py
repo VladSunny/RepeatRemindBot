@@ -214,9 +214,11 @@ CREATING_MODULE_LEXICON = {
                f"/{CommandsNames.cancel} - чтобы отменить создание модуля")
     },
     'incorrect_pair': {
-        'en': ("Incorrect format!\n\nExample:\nfruit {separator} apple\n\n/{CommandsNames.cancel} - to cancel module "
+        'en': ("Incorrect format!\n\nExample:\nfruit {separator} apple\n\n"
+               f"/{CommandsNames.cancel} - to cancel module "
                "creation"),
-        'ru': ("Неправильный формат!\n\nПример:\nфрукт {separator} яблоко\n\n/{CommandsNames.cancel} - чтобы отменить "
+        'ru': ("Неправильный формат!\n\nПример:\nфрукт {separator} яблоко\n\n"
+               f"/{CommandsNames.cancel} - чтобы отменить "
                "создание модуля")
     },
     'new_module_info': {

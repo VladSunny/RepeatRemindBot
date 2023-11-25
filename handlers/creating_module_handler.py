@@ -91,8 +91,7 @@ async def process_content_sent(message: Message, state: FSMContext):
     if get_valid_pairs(message.text, data['separator']) is None:
         await send_and_delete_message(message.chat.id,
                                       CREATING_MODULE_LEXICON['incorrect_pair'][user['lang']].format(
-                                          separator=data['separator']),
-                                      5)
+                                          separator=data['separator']), 5)
         return
 
     valid_pairs = data['content'] | valid_pairs
@@ -115,7 +114,7 @@ async def process_photo_sent(message: Message, state: FSMContext):
 
     path = await download_file(photo.file_id)
 
-    text = ic(await get_eng_from_photo(path))
+    text = await get_eng_from_photo(path)
 
     await message.answer(text)
 
