@@ -17,7 +17,7 @@ from FSM.fsm import FSMCreatingModule, creating_module_states
 
 from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs
 from services.service import send_and_delete_message, change_message, delete_message, download_file
-from services.tesseract_service import get_eng_from_photo
+from services.tesseract_service import get_eng_from_photo, clear_text
 
 from keyboards.new_module_kb import create_new_module_keyboard
 
@@ -115,8 +115,12 @@ async def process_photo_sent(message: Message, state: FSMContext):
     path = await download_file(photo.file_id)
 
     text = await get_eng_from_photo(path)
+    clean_phrases = clear_text(text)
+
+    clean_mes_text = str(clean_phrases)
 
     await message.answer(text)
+    await message.answer(clean_mes_text)
 
 
 @router.message(StateFilter(FSMCreatingModule.change_name))
