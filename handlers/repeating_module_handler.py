@@ -110,7 +110,7 @@ async def process_got_answer(message: Message, state: FSMContext):
 
     await message.delete()
 
-    if message.text is None or current_pair[1] != message.text:
+    if message.text is None or current_pair[1].lower() != message.text.lower():
         await change_message(chat_id=message.from_user.id,
                              text=REPEATING_MODULE_LEXICON['incorrect_answer'][data['user_lang']].format(
                                  correct_answer=f"{current_pair[0]} {data['separator']} {current_pair[1]}"

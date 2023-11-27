@@ -30,11 +30,13 @@ dp = Dispatcher(storage=storage)
 
 new_module_dict: dict[str, str | dict[str, str]] = {
     "name": "",
-    "separator": "",
+    "separator": "=",
     "content": {
 
     },
     "message_id": "",
+    "is_editing": False,
+    "editing_module_id": 0
 }
 
 router = Router()
@@ -60,9 +62,11 @@ async def process_name_sent(message: Message, state: FSMContext):
         )
         return
 
-    await state.update_data(name=message.text)
-    await state.update_data(content={})
-    await state.update_data(separator='=')
+    new_user_module = deepcopy(new_module_dict)
+    new_user_module['name'] = message.text
+    new_user_module['name'] = message.text
+
+    await state.update_data(new_user_module)
     await state.set_state(FSMCreatingModule.fill_content)
 
     data = await state.get_data()
@@ -263,6 +267,9 @@ async def process_save_module(callback: CallbackQuery,
     data = await state.get_data()
 
     module = save_module(chat_id=callback.from_user.id, data=data)
+
+    if data['is_editing']:
+        delete_saved_module(data['editing_module_id'])
 
     await state.clear()
 

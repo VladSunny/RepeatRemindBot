@@ -17,7 +17,7 @@ from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON, SAVED_MODULE
 from FSM.fsm import FSMCreatingModule, FSMRepeatingModule
 
 from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs
-from services.service import send_and_delete_message, change_message, delete_message
+from services.service import send_and_delete_message, change_message, delete_message, send_message
 from services.repeating_module_service import get_blocks_num, get_blocks, get_blocks_str
 
 from filters.CallbackDataFactory import OpenSavedModuleCF, DeleteSavedModuleCF, BackToSavedModulesCF, EditModuleCF, \
@@ -132,28 +132,33 @@ async def process_edit_saved_module(callback: CallbackQuery,
 
     module = get_module(module_id)
 
-    await state.update_data(name=module['name'],
-                            content=module['content'],
-                            separator=module['separator'],
-                            message_id=callback.message.message_id)
-
     await state.set_state(FSMCreatingModule.fill_content)
 
     await callback.answer(
         SAVED_MODULES_LEXICON['edit_instruction'][user['lang']], show_alert=True
     )
 
+    header_message_id = await send_message(chat_id=callback.from_user.id,
+                                           text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']]
+                                           .format(module_name=module['name'],
+                                                   separator=module['separator']
+                                                   ),
+                                           reply_markup=create_new_module_keyboard(content=module['content'],
+                                                                                   lang=user['lang'],
+                                                                                   module_name=module['name'],
+                                                                                   separator=module['separator'])
+                                           )
+
     await change_message(chat_id=callback.from_user.id,
                          message_id=callback.message.message_id,
-                         text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']]
-                         .format(module_name=module['name'],
-                                 separator=module['separator']
-                                 ),
-                         reply_markup=create_new_module_keyboard(content=module['content'],
-                                                                 lang=user['lang'],
-                                                                 module_name=module['name'],
-                                                                 separator=module['separator'])
+                         text=SAVED_MODULES_LEXICON['cancel_to_over_editing'][user['lang']]
                          )
+    await state.update_data(name=module['name'],
+                            content=module['content'],
+                            separator=module['separator'],
+                            message_id=header_message_id.message_id,
+                            is_editing=True,
+                            editing_module_id=module_id)
 
 
 # Start Repeating Module

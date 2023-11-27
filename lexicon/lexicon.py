@@ -175,7 +175,7 @@ CREATING_MODULE_LEXICON = {
                "contain from 5 to 20 characters.\n\nModule can include only the following characters:\n - Latin "
                "letters (in any case).\n - Digits.\n - Character '_'.\n\nPlease make sure that the new module name "
                f"meets these conditions before entering.\n\n/{CommandsNames.cancel} - to cancel the module creation"),
-        'ru': ("<b>!!!Изменение названия модуля!!!</b>Пожалуйста, введите новое название модуля.\nНазвание модуля "
+        'ru': ("<b>!!!Изменение названия модуля!!!</b>\n\nПожалуйста, введите новое название модуля.\nНазвание модуля "
                "должно содержать от 5 до 20 символов.\n\nМодуль может включать только следующие символы:\n - Латинские "
                "буквы (в любом регистре).\n - Цифры.\n - Символ '_'.\n\nПожалуйста, убедитесь, что новое название "
                f"модуля соответствует этим условиям перед вводом.\n\n/{CommandsNames.cancel} - чтобы отменить создание "
@@ -295,12 +295,12 @@ SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
         'ru': "Модуль {module_name} был удалён 🗑️"
     },
     'edit_instruction': {
-        'en': "Modify the module following the same rules used for its creation."
-              "\nAfter saving, you will have an updated module.\n"
-              "(the original will be preserved until you choose to delete it)",
+        'en': "Modify the module following the same rules used for its creation.",
         'ru': "Изменяйте модуль по тем же правилам, по которым вы его создавали."
-              "\nПосле сохранения у вас появится измененный модуль.\n"
-              "(старый также останется, потом вы сможете его удалить)"
+    },
+    'cancel_to_over_editing': {
+        'en': f"/{CommandsNames.cancel} - to cancel editing the module.",
+        'ru': f"/{CommandsNames.cancel} - чтобы отменить изменение модуля."
     },
     'unintended_editing_module': {
         'en': "Your message does not correspond with any expected inputs in the current state of the bot."
@@ -347,7 +347,7 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
         'en': "You are currently reviewing the module {module_name}.\n"
               "Block - {cur_block}/{blocks}\n"
               "Repetitions completed for this block - {current_repetitions}/{repetitions}"
-              f"\n\n//{CommandsNames.cancel} - to stop the review",
+              f"\n\n/{CommandsNames.cancel} - to stop the review",
         'ru': "Сейчас вы повторяете модуль {module_name}.\n"
               "Блок - {cur_block}/{blocks}\n"
               "Завершенных повторений для этого блока - {current_repetitions}/{repetitions}"
@@ -381,21 +381,27 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
     },
     'finish_repetition': {
         'en': "You've finished this repetition block! 🎉\n"
-              "Consider taking a 1-3 minute break before continuing.",
+              "Consider taking a 1-3 minute break before continuing."
+              f"\n\n/{CommandsNames.cancel} - to stop the review",
         'ru': "Вы закончили одно из повторений блока! 🎉\n"
               "Советуем вам отдохнуть 1-3 минуты перед продолжением."
+              f"\n\n/{CommandsNames.cancel} - чтобы остановить повторение модуля"
     },
     'finish_block': {
         'en': "You've finished reviewing the entire block! 🎉🎉\n"
-              "Consider taking a 1-3 minute break before starting the next block.",
+              "Consider taking a 1-3 minute break before starting the next block."
+              f"\n\n/{CommandsNames.cancel} - to stop the review",
         'ru': "Вы закончили повторять целый блок! 🎉🎉\n"
               "Советуем вам отдохнуть 1-3 минуты перед началом следующего блока!"
+              f"\n\n/{CommandsNames.cancel} - чтобы остановить повторение модуля"
     },
     'repeating_all_module': {
         'en': "You've repeated all blocks! 🎉🎉🎉\n"
-              "Consider taking a 1-3 minute break before the final review of the entire module.",
+              "Consider taking a 1-3 minute break before the final review of the entire module."
+              f"\n\n/{CommandsNames.cancel} - to stop the review",
         'ru': "Вы повторили все блоки! 🎉🎉🎉\n"
               "Советуем вам отдохнуть 1-3 минуты перед финальным повторением всего модуля."
+              f"\n\n/{CommandsNames.cancel} - чтобы остановить повторение модуля"
     },
     'repeating_all_module_header': {
         'en': "You are reviewing all elements of the module {module_name}.",
