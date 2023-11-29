@@ -3,7 +3,7 @@ from database.database import supa_get_users_chat_ids, supa_get_user
 
 
 def init_local_database():
-    conn = sqlite3.connect('users_language.db')
+    conn = sqlite3.connect('database/users_language.db')
 
     cursor = conn.cursor()
 

@@ -3,7 +3,7 @@ from icecream import ic
 
 
 def local_add_user(chat_id: int):
-    conn = sqlite3.connect('users_language.db')
+    conn = sqlite3.connect('database/users_language.db')
     cursor = conn.cursor()
 
     cursor.execute('''
@@ -15,7 +15,7 @@ def local_add_user(chat_id: int):
 
 
 def local_get_user(chat_id: int):
-    conn = sqlite3.connect('users_language.db')
+    conn = sqlite3.connect('database/users_language.db')
     cursor = conn.cursor()
 
     cursor.execute('''
@@ -32,7 +32,7 @@ def local_get_user(chat_id: int):
 
 
 def local_get_users_chat_ids():
-    conn = sqlite3.connect('users_language.db')
+    conn = sqlite3.connect('database/users_language.db')
     cursor = conn.cursor()
 
     cursor.execute('''
@@ -49,7 +49,7 @@ def local_get_users_chat_ids():
 def local_update_user(chat_id: int, update: dict):
     new_lang = update['lang']
 
-    conn = sqlite3.connect('users_language.db')
+    conn = sqlite3.connect('database/users_language.db')
     cursor = conn.cursor()
 
     cursor.execute('''UPDATE users SET lang=? WHERE chat_id=?''', (new_lang, chat_id))
