@@ -29,6 +29,17 @@ async def process_settings_command(message: Message):
     ))
 
 
+@router.message(Command(commands=CommandsNames.cancel),
+                StateFilter(FSMChangeSettings.change_words_in_block,
+                            FSMChangeSettings.change_repetitions_for_block),
+                )
+async def process_change_words_in_block_command(message: Message, state: FSMContext):
+    user = get_user(message.from_user.id)
+    await message.answer(SETTINGS_LEXICON['cancel_input'][user['lang']])
+
+    await state.clear()
+
+
 @router.message(Command(commands=CommandsNames.change_words_in_block), StateFilter(default_state))
 async def process_change_words_in_block_command(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)

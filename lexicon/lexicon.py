@@ -104,17 +104,25 @@ SETTINGS_LEXICON: dict[str, dict[str, str]] = {
         'en': "You have successfully changed the language to English! 🇺🇸",
         'ru': "Вы успешно сменили язык на русский! 🇷🇺"
     },
+    'cancel_input': {
+        'en': "Input was canceled.",
+        'ru': "Ввод был отменен."
+    },
     CommandsNames.change_words_in_block: {
         'en': "Enter the number of values in a block that you find comfortable for repetition (for example, 10)."
-              "\nThe number must be between 5 and 20.",
+              "\nThe number must be between 5 and 20."
+              f"\n\n{CommandsNames.cancel} - to cancel input.",
         'ru': "Введите количество значений в блоке, которое вам удобно повторять (например, 10)."
               "\nЧисло должно быть от 5 до 20."
+              f"\n\n/{CommandsNames.cancel} - чтобы отменить ввод."
     },
     CommandsNames.change_repetitions_for_block: {
         'en': "Enter the number of repetitions per block that you find convenient (e.g., 3)."
+              "\nThe number should be between 1 and 10."
               "\nThe number should be between 1 and 10.",
         'ru': "Введите количество повторений на блок, которое вам удобно (например, 3)."
               "\nЧисло должно быть от 1 до 10."
+              f"\n\n/{CommandsNames.cancel} - чтобы отменить ввод."
     },
     'not_valid_words_in_block': {
         'en': "The number should be between 5 and 20.",
