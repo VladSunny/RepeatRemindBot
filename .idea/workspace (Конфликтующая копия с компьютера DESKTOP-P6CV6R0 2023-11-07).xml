@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e10808a1-1498-4854-97ee-8b2ca84d4af5" name="Changes" comment="fix add_user" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2WZ6xgKOEleXIsgiekqlhAPWP1V" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Dropbox\Python\AiogramBots\RepeatRemindBot\handlers" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.bot">
+    <configuration name="bot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="RepeatRemindBot" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bot.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="database" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="RepeatRemindBot" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/database" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/database/database.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.bot" />
+        <item itemvalue="Python.database" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e10808a1-1498-4854-97ee-8b2ca84d4af5" name="Changes" comment="" />
+      <created>1696928002874</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1696928002874</updated>
+      <workItem from="1696928018733" duration="3872000" />
+      <workItem from="1696933487941" duration="3486000" />
+      <workItem from="1696946842763" duration="4584000" />
+      <workItem from="1697015926129" duration="8020000" />
+      <workItem from="1697034790869" duration="3520000" />
+      <workItem from="1697102089919" duration="1508000" />
+      <workItem from="1697137042805" duration="1948000" />
+      <workItem from="1697182945607" duration="4458000" />
+      <workItem from="1697263578273" duration="771000" />
+      <workItem from="1697276309821" duration="7079000" />
+      <workItem from="1697354947721" duration="354000" />
+      <workItem from="1697361335988" duration="1982000" />
+      <workItem from="1697376035557" duration="607000" />
+      <workItem from="1697480219954" duration="75000" />
+      <workItem from="1697640873823" duration="1562000" />
+      <workItem from="1697820382169" duration="856000" />
+      <workItem from="1697861115198" duration="2493000" />
+      <workItem from="1697900424207" duration="7384000" />
+      <workItem from="1697958804607" duration="4373000" />
+      <workItem from="1698037002091" duration="661000" />
+      <workItem from="1698072950409" duration="9242000" />
+      <workItem from="1698117950652" duration="6298000" />
+      <workItem from="1698153649344" duration="61000" />
+      <workItem from="1698177010221" duration="2970000" />
+      <workItem from="1698217700869" duration="2349000" />
+      <workItem from="1698240396440" duration="5132000" />
+      <workItem from="1698333321377" duration="2182000" />
+      <workItem from="1698344272995" duration="3534000" />
+      <workItem from="1698382253690" duration="1140000" />
+      <workItem from="1698428421921" duration="3522000" />
+      <workItem from="1698468714019" duration="690000" />
+      <workItem from="1698500276207" duration="3348000" />
+      <workItem from="1698511404672" duration="19000" />
+      <workItem from="1698588858421" duration="2755000" />
+      <workItem from="1698639126117" duration="1478000" />
+      <workItem from="1698673441987" duration="2765000" />
+      <workItem from="1698680862925" duration="20000" />
+      <workItem from="1698729162054" duration="247000" />
+      <workItem from="1698769474170" duration="2568000" />
+      <workItem from="1698808172712" duration="5088000" />
+      <workItem from="1698822545902" duration="1856000" />
+      <workItem from="1698838000741" duration="669000" />
+      <workItem from="1698855427317" duration="1862000" />
+      <workItem from="1698897680371" duration="1889000" />
+      <workItem from="1698928434691" duration="1630000" />
+      <workItem from="1698946590834" duration="4280000" />
+      <workItem from="1699019349189" duration="4858000" />
+      <workItem from="1699082152653" duration="6984000" />
+      <workItem from="1699101918103" duration="1486000" />
+      <workItem from="1699111369023" duration="756000" />
+      <workItem from="1699172878967" duration="1191000" />
+      <workItem from="1699196972660" duration="3536000" />
+    </task>
+    <task id="LOCAL-00001" summary="Initial commit">
+      <created>1696928951564</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1696928951564</updated>
+    </task>
+    <task id="LOCAL-00002" summary="First Launch">
+      <created>1696930082908</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1696930082908</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add FireBase">
+      <created>1696940456496</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1696940456497</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Auto update the structure of account">
+      <created>1696950297441</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1696950297441</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Add change_language_kb.py">
+      <created>1697018376185</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1697018376185</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Changing language bt en and ru">
+      <created>1697023270533</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1697023270533</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Refactoring with CallbackDataFactory.py">
+      <created>1697102363666</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1697102363666</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Refactoring">
+      <created>1697183764079</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1697183764079</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Create requirements.txt&#10;First deploy">
+      <created>1697263747681</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1697263747681</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Change lexicon.py&#10;Check updating on server">
+      <created>1697276487375</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1697276487375</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Switched from Firebase to Supabase">
+      <created>1697908889388</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1697908889388</updated>
+    </task>
+    <task id="LOCAL-00012" summary="New libs">
+      <created>1697908987776</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1697908987776</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Refactoring">
+      <created>1697960477713</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1697960477713</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Base of creating module">
+      <created>1698077913481</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1698077913481</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Refactoring">
+      <created>1698086745095</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1698086745095</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Add getting name of new module, separator&#10;Create base of getting content of new module">
+      <created>1698124291120</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1698124291120</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Add function to send message which will be deleted in current seconds">
+      <created>1698179609528</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1698179609528</updated>
+    </task>
+    <task id="LOCAL-00018" summary="End base of creating module">
+      <created>1698220052654</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1698220052654</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Deleting pairs from new module">
+      <created>1698334301021</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1698334301021</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Fixes">
+      <created>1698335515096</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1698335515096</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Changing separator">
+      <created>1698383331502</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1698383331502</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Saving modules">
+      <created>1698431872245</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1698431872245</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Add new column 'separator'">
+      <created>1698432270447</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1698432270447</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Lexicon refactoring">
+      <created>1698469395362</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1698469395362</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Sending list of commands">
+      <created>1698675172930</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1698675172930</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Base of saved modules">
+      <created>1698686109245</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1698686109245</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Deleting saved module">
+      <created>1698689214511</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1698689214511</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Editing module">
+      <created>1698811032252</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1698811032252</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Change module_saved message">
+      <created>1698812933962</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1698812933962</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Base of repeating">
+      <created>1698824371882</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1698824371882</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Changing words in each block, repetitions for each block">
+      <created>1698952424681</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1698952424681</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Refactoring">
+      <created>1699082365216</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1699082365216</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Shuffling words in repeating module">
+      <created>1699089226720</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1699089226720</updated>
+    </task>
+    <task id="LOCAL-00034" summary="fix add_user">
+      <created>1699206858734</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1699206858734</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Refactoring with CallbackDataFactory.py" />
+    <MESSAGE value="Create requirements.txt&#10;First deploy" />
+    <MESSAGE value="Change lexicon.py&#10;Check updating on server" />
+    <MESSAGE value="Switched from Firebase to Supabase" />
+    <MESSAGE value="New libs" />
+    <MESSAGE value="Base of creating module" />
+    <MESSAGE value="Add getting name of new module, separator&#10;Create base of getting content of new module" />
+    <MESSAGE value="Add function to send message which will be deleted in current seconds" />
+    <MESSAGE value="End base of creating module" />
+    <MESSAGE value="Deleting pairs from new module" />
+    <MESSAGE value="Fixes" />
+    <MESSAGE value="Changing separator" />
+    <MESSAGE value="Saving modules" />
+    <MESSAGE value="Add new column 'separator'" />
+    <MESSAGE value="Lexicon refactoring" />
+    <MESSAGE value="Sending list of commands" />
+    <MESSAGE value="Base of saved modules" />
+    <MESSAGE value="Deleting saved module" />
+    <MESSAGE value="Editing module" />
+    <MESSAGE value="Change module_saved message" />
+    <MESSAGE value="Base of repeating" />
+    <MESSAGE value="Changing words in each block, repetitions for each block" />
+    <MESSAGE value="Refactoring" />
+    <MESSAGE value="Shuffling words in repeating module" />
+    <MESSAGE value="fix add_user" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix add_user" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/RepeatRemindBot$database.coverage" NAME="database Coverage Results" MODIFIED="1696948312539" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/database" />
+    <SUITE FILE_PATH="coverage/RepeatRemindBot$bot.coverage" NAME="bot Coverage Results" MODIFIED="1699202795673" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>

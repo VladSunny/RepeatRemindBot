@@ -6,12 +6,16 @@ from config_data.config import Config, load_config
 from handlers import user_handlers, other_handlers, base_commands_handler, saved_modules_handler,\
     creating_module_handler, settings_handler, repeating_module_handler, get_module_by_id_handler
 from keyboards.main_menu import set_main_menu
+from database.init_sql import init_local_database
 
 # Инициализируем логгер
 logger = logging.getLogger(__name__)
 
 # Загружаем конфиг в переменную config
 config: Config = load_config()
+
+# Инициализирует локальную базу данных с языками
+init_local_database()
 
 # Инициализируем бот и диспетчер
 bot = Bot(token=config.tg_bot.token,

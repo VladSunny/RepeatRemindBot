@@ -3,6 +3,7 @@ from copy import deepcopy
 from environs import Env
 
 from supabase import create_client, Client
+from database.local_database import local_add_user, local_get_user, local_update_user, local_get_users_chat_ids
 from icecream import ic
 
 # Создаем шаблон заполнения словаря с пользователями
@@ -19,13 +20,18 @@ key: str = env("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
 
 
-def get_users_chat_ids() -> list[int]:
+async def get_users_chat_ids() -> list[int]:
+    users = await local_get_users_chat_ids()
+    return users
+
+
+def supa_get_users_chat_ids() -> list[int]:
     response = supabase.table("users_tg").select("chat_id").execute()
     users = list(map(lambda d: int(list(d.values())[0]), response.data))
     return users
 
 
-def add_user(chat_id: int | str) -> None:
+async def add_user(chat_id: int | str) -> None:
     new_user = deepcopy(user_dict_template)
     new_user["chat_id"] = chat_id
 
@@ -33,10 +39,25 @@ def add_user(chat_id: int | str) -> None:
     response = supabase.table("settings").insert({"chat_id": chat_id}).execute()
     response = supabase.table("learning").insert({"chat_id": chat_id}).execute()
 
+    await local_add_user(int(chat_id))
 
-def get_user(chat_id: int | str) -> dict:
+
+async def get_user(chat_id: int | str) -> dict:
+    local_user = await local_get_user(int(chat_id))
+
+    if local_user is not None:
+        local_user = dict(zip(('chat_id', 'lang'), local_user))
+        return local_user
+
+    return {'chat_id': chat_id, 'lang': 'en'}
+
+
+def supa_get_user(chat_id: int | str) -> dict:
     response = supabase.table("users_tg").select('*').eq("chat_id", str(chat_id)).execute()
     user = response.data[0]
+
+    local_user = local_get_user(int(chat_id))
+
     return user
 
 
@@ -52,6 +73,7 @@ def get_module(id: int) -> dict | None:
 
 def update_user(chat_id: int | str, update: dict) -> None:
     response = supabase.table("users_tg").update(update).eq("chat_id", chat_id).execute()
+    await local_update_user(chat_id, update)
 
 
 def save_module(chat_id: int | str, data: dict[str, any]) -> dict:
