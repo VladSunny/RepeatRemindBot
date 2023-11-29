@@ -20,8 +20,8 @@ key: str = env("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
 
 
-async def get_users_chat_ids() -> list[int]:
-    users = await local_get_users_chat_ids()
+def get_users_chat_ids() -> list[int]:
+    users = local_get_users_chat_ids()
     return users
 
 
@@ -31,7 +31,7 @@ def supa_get_users_chat_ids() -> list[int]:
     return users
 
 
-async def add_user(chat_id: int | str) -> None:
+def add_user(chat_id: int | str) -> None:
     new_user = deepcopy(user_dict_template)
     new_user["chat_id"] = chat_id
 
@@ -39,11 +39,11 @@ async def add_user(chat_id: int | str) -> None:
     response = supabase.table("settings").insert({"chat_id": chat_id}).execute()
     response = supabase.table("learning").insert({"chat_id": chat_id}).execute()
 
-    await local_add_user(int(chat_id))
+    local_add_user(int(chat_id))
 
 
-async def get_user(chat_id: int | str) -> dict:
-    local_user = await local_get_user(int(chat_id))
+def get_user(chat_id: int | str) -> dict:
+    local_user = local_get_user(int(chat_id))
 
     if local_user is not None:
         local_user = dict(zip(('chat_id', 'lang'), local_user))
@@ -73,7 +73,7 @@ def get_module(id: int) -> dict | None:
 
 def update_user(chat_id: int | str, update: dict) -> None:
     response = supabase.table("users_tg").update(update).eq("chat_id", chat_id).execute()
-    await local_update_user(chat_id, update)
+    local_update_user(chat_id, update)
 
 
 def save_module(chat_id: int | str, data: dict[str, any]) -> dict:

@@ -56,7 +56,7 @@ async def process_sent_module_id(message: Message,
                                       delete_after=3)
         return
 
-    module: dict = ic(get_module_by_id(int(message.text)))
+    module: dict = get_module_by_id(int(message.text))
 
     if module is None:
         await message.delete()
