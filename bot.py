@@ -7,6 +7,7 @@ from handlers import user_handlers, other_handlers, base_commands_handler, saved
     creating_module_handler, settings_handler, repeating_module_handler, get_module_by_id_handler
 from keyboards.main_menu import set_main_menu
 from database.init_sql import init_local_database
+from middleware.middleware import AntiFloodMiddleware
 
 # Инициализируем логгер
 logger = logging.getLogger(__name__)
@@ -33,6 +34,7 @@ async def main():
     # Выводим в консоль информацию о начале запуска бота
     logger.info('Starting bot')
     dp = Dispatcher()
+    dp.message.middleware(AntiFloodMiddleware())
 
     # Настраиваем главное меню бота
     await set_main_menu(bot)

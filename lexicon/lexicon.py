@@ -67,6 +67,16 @@ LEXICON: dict[str, dict[str, str]] = {
 
     },
 
+    # Other
+
+    'maximum_number_of_modules': {
+        'en': "<b>You have reached the maximum number of saved modules!</b>\n"
+              "This is due to the project still being in development and using a free subscription"
+              " to a database service.",
+        'ru': "<b>Вы достигли максимального возможного количества сохраненных модулей!</b>\n"
+              "Это связано с тем, что проект ещё пока развивается и использует бесплатную подписку"
+              " сервиса для базы данных."
+    },
     'not_updated_user': {
         'en': "Welcome back! We've upgraded our bot's structure, and your account is now up to date."
               " Everything is set, so you can use the bot like you always have. Need help? /help",

@@ -68,6 +68,12 @@ def supa_get_user(chat_id: int | str) -> dict:
     return user
 
 
+def get_modules_number(chat_id: int | str) -> int:
+    response = supabase.table("modules").select('id').eq("chat_id", str(chat_id)).execute()
+    modules_number = len(response.data)
+    return modules_number
+
+
 def get_modules(chat_id: int | str) -> dict:
     response = supabase.table("modules").select('*').eq("chat_id", str(chat_id)).execute()
     return response.data

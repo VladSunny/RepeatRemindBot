@@ -12,6 +12,8 @@ from keyboards.change_language_kb import create_change_language_keyboard
 from lexicon.lexicon import LEXICON, CommandsNames, SETTINGS_LEXICON
 from FSM.fsm import FSMCreatingModule
 
+from config_data.user_restrictions import *
+
 router = Router()
 
 router.message.filter(StateFilter(default_state))
@@ -60,8 +62,12 @@ async def process_change_language_command(message: Message):
 @router.message(Command(commands=CommandsNames.create_new_module))
 async def process_new_module_command(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
-    await message.answer(LEXICON[CommandsNames.create_new_module][user['lang']])
-    await state.set_state(FSMCreatingModule.fill_name)
+
+    if get_modules_number(message.from_user.id) >= max_modules:
+        await message.answer(LEXICON['maximum_number_of_modules'][user['lang']])
+    else:
+        await message.answer(LEXICON[CommandsNames.create_new_module][user['lang']])
+        await state.set_state(FSMCreatingModule.fill_name)
 
 # callback query
 

@@ -19,7 +19,9 @@ from services.repeating_module_service import get_current_questions, get_all_que
 
 from filters.CallbackDataFactory import RepeatModuleCF, ConfirmRepeatingCF, AnswerWasCorrectCF, NextQuestionCF
 
-from lexicon.lexicon import GET_MODULE_BY_ID_LEXICON
+from lexicon.lexicon import GET_MODULE_BY_ID_LEXICON, LEXICON
+
+from config_data.user_restrictions import *
 
 router = Router()
 
@@ -29,9 +31,11 @@ async def process_get_module_by_id_command(message: Message,
                                            state: FSMContext):
     user = get_user(message.from_user.id)
 
-    await state.set_state(FSMGetModuleById.send_module_id)
-
-    await message.answer(GET_MODULE_BY_ID_LEXICON['get_module_by_id'][user['lang']])
+    if get_modules_number(message.from_user.id) >= max_modules:
+        await message.answer(LEXICON['maximum_number_of_modules'][user['lang']])
+    else:
+        await state.set_state(FSMGetModuleById.send_module_id)
+        await message.answer(GET_MODULE_BY_ID_LEXICON['get_module_by_id'][user['lang']])
 
 
 @router.message(Command(commands=CommandsNames.cancel), StateFilter(FSMGetModuleById.send_module_id))
