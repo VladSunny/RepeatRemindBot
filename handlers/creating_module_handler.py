@@ -45,9 +45,17 @@ router = Router()
 @router.message(Command(commands=CommandsNames.cancel), StateFilter(*creating_module_states))
 async def process_cancel_command(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
-    await message.answer(
-        text=CREATING_MODULE_LEXICON['cancel_creating_module'][user['lang']]
-    )
+
+    data = await state.get_data()
+
+    if data.get('is_editing'):
+        await message.answer(
+            text=CREATING_MODULE_LEXICON['cancel_editing_module'][user['lang']]
+        )
+    else:
+        await message.answer(
+            text=CREATING_MODULE_LEXICON['cancel_creating_module'][user['lang']]
+        )
 
     await state.clear()
 
