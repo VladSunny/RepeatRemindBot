@@ -263,9 +263,11 @@ CREATING_MODULE_LEXICON = {
         'ru': "Вы вышли из режима создания модуля. Теперь вы можете выполнить другие действия.\n/help"
     },
     'unintended_creating_module': {
-        'en': ("Your message is not provided by the bot in the current state.\n/{CommandsNames.cancel} - to cancel the "
+        'en': ("Your message is not provided by the bot in the current state."
+               f"\n/{CommandsNames.cancel} - to cancel the "
                "module creation"),
-        'ru': ("Ваше сообщение не предусмотренно ботом в текущем состоянии.\n/{CommandsNames.cancel} - чтобы отменить "
+        'ru': ("Ваше сообщение не предусмотренно ботом в текущем состоянии."
+               f"\n/{CommandsNames.cancel} - чтобы отменить "
                "создание модуля")
     },
 }
