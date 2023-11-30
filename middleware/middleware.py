@@ -21,7 +21,7 @@ bot = Bot(token=config.tg_bot.token,
 
 class AntiFloodMiddleware(BaseMiddleware, ABC):
 
-    def __init__(self, limit=5, interval=10):  # Интервал в секундах
+    def __init__(self, limit=5, interval=5):  # Интервал в секундах
         self.limit = limit
         self.interval = interval
         self.cache = SimpleMemoryCache()
