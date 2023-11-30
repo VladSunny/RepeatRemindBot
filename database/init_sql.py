@@ -1,5 +1,5 @@
 import sqlite3
-from database.database import supa_get_users_chat_ids, supa_get_user
+from database.database import supa_get_user, supa_get_all_users
 
 
 def init_local_database():
@@ -21,19 +21,20 @@ def init_local_database():
     conn.commit()
 
     # add users
-    chat_ids: list[int] = supa_get_users_chat_ids()
-    for chat_id in chat_ids:
-        lang = supa_get_user(chat_id)['lang']
-        cursor.execute('''
-        INSERT OR IGNORE INTO users (chat_id, lang) VALUES (?, ?)
-        ''', (chat_id, lang))
+    users = supa_get_all_users()
+
+    rows_to_insert = [(user['chat_id'], user['lang']) for user in users]
+
+    cursor.executemany('''
+        INSERT INTO users (chat_id, lang) VALUES (?, ?)
+    ''', rows_to_insert)
     conn.commit()
 
     # Выполняем запрос на выборку данных
     cursor.execute('SELECT * FROM users')
     # Получаем все результаты
-    users = cursor.fetchall()
+    local_users = cursor.fetchall()
 
     conn.close()
 
-    print(f"{len(users)} users were added to sql")
+    print(f"{len(local_users)}/{len(users)} users were added to sql")

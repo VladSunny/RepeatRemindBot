@@ -20,6 +20,13 @@ key: str = env("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
 
 
+def supa_get_all_users() -> list[dict]:
+    response = supabase.table("users_tg").select('*').execute()
+    users = response.data
+
+    return users
+
+
 def get_users_chat_ids() -> list[int]:
     users = local_get_users_chat_ids()
     return users
