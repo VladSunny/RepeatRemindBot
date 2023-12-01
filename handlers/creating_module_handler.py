@@ -15,17 +15,18 @@ from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON
 
 from FSM.fsm import FSMCreatingModule, creating_module_states
 
-from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs
-from services.service import send_and_delete_message, change_message, delete_message, download_file
-from services.tesseract_service import get_eng_from_photo, clear_text
+from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs, elements_to_text
+from services.service import send_and_delete_message, change_message, delete_message, download_file, send_message
+from services.tesseract_service import get_eng_from_photo, clear_text, format_phrases_to_text
+from services.auto_translate_service import translate_all_phrases_into_module_pairs
 
-from keyboards.new_module_kb import create_new_module_keyboard
+from keyboards.new_module_kb import create_new_module_keyboard, create_separator_on_photo_keyboard, \
+    translate_text_from_photo
 
 from filters.CallbackDataFactory import DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF, \
-    SaveNewModuleCF
+    SaveNewModuleCF, SeparatorForPhotoCF, CancelTranslatingPhrasesCF, AutoTranslatePhrasesCF
 
 from config_data.user_restrictions import *
-
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
@@ -38,7 +39,11 @@ new_module_dict: dict[str, str | dict[str, str]] = {
     },
     "message_id": "",
     "is_editing": False,
-    "editing_module_id": 0
+    "editing_module_id": 0,
+    "cur_photo_path": "",
+    "photo_id": "",
+    "photo_message_id": 0,
+    "phrases_to_translate": []
 }
 
 router = Router()
@@ -133,13 +138,70 @@ async def process_photo_sent(message: Message, state: FSMContext):
 
     path = await download_file(photo.file_id)
 
+    await state.update_data(cur_photo_path=path)
+
+    photo_message = await message.answer(
+        text=CREATING_MODULE_LEXICON['sent_first_photo'][user['lang']],
+        reply_markup=create_separator_on_photo_keyboard(user['lang'])
+    )
+
+    await state.update_data(photo_message_id=photo_message.message_id)
+    await state.update_data(photo_id=message.message_id)
+
+
+@router.callback_query(SeparatorForPhotoCF.filter(), StateFilter(FSMCreatingModule.fill_content))
+async def process_got_text_from_photo(callback: CallbackQuery,
+                                      callback_data: SeparatorForPhotoCF,
+                                      state: FSMContext):
+    user = get_user(callback.from_user.id)
+    separator = callback_data.sep
+
+    data = await state.get_data()
+    path = data['cur_photo_path']
+
     text = await get_eng_from_photo(path)
-    clean_phrases = clear_text(text)
+    clean_phrases = clear_text(text, separator)
 
-    clean_mes_text = str(clean_phrases)
+    clean_mes_text = format_phrases_to_text(clean_phrases)
 
-    await message.answer(text)
-    await message.answer(clean_mes_text)
+    await callback.answer()
+
+    await state.update_data(phrases_to_translate=clean_phrases)
+
+    await change_message(chat_id=callback.from_user.id,
+                         message_id=data['photo_message_id'],
+                         text=CREATING_MODULE_LEXICON['got_text_from_photo'][user['lang']]
+                         .format(phrases=clean_mes_text, max_elements=max_items_in_module), can_repeat=True,
+                         reply_markup=translate_text_from_photo(user['lang']))
+
+
+@router.callback_query(CancelTranslatingPhrasesCF.filter(), StateFilter(FSMCreatingModule.fill_content))
+async def process_cancel_translating_phrases(callback: CallbackQuery,
+                                             callback_data: CancelTranslatingPhrasesCF,
+                                             state: FSMContext):
+    await callback.answer()
+
+    data = await state.get_data()
+    await delete_message(chat_id=callback.from_user.id, message_id=data['photo_id'])
+    await delete_message(chat_id=callback.from_user.id, message_id=data['photo_message_id'])
+
+
+@router.callback_query(AutoTranslatePhrasesCF.filter(), StateFilter(FSMCreatingModule.fill_content))
+async def process_auto_translate_phrases(callback: CallbackQuery,
+                                         callback_data: AutoTranslatePhrasesCF,
+                                         state: FSMContext):
+    user = get_user(callback.from_user.id)
+
+    data = await state.get_data()
+    translated_phrases = translate_all_phrases_into_module_pairs(data['phrases_to_translate'])
+    translated_phrases_text = elements_to_text(translated_phrases, separator=data['separator'])
+
+    await callback.answer()
+
+    await change_message(chat_id=callback.from_user.id,
+                         message_id=data['photo_message_id'],
+                         text=CREATING_MODULE_LEXICON['translated_text'][user['lang']]
+                         .format(content=translated_phrases_text), can_repeat=True)
 
 
 @router.message(StateFilter(FSMCreatingModule.change_name))
@@ -290,7 +352,7 @@ async def process_save_module(callback: CallbackQuery,
 
     await callback.answer(text=CREATING_MODULE_LEXICON['module_saved'][user['lang']].format(module_name=module_name,
                                                                                             module_id=module['id']),
-                                                                                            show_alert=True)
+                          show_alert=True)
 
     await delete_message(chat_id=callback.from_user.id, message_id=data['message_id'])
 

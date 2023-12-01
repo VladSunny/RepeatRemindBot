@@ -13,11 +13,22 @@ if os_name == "Windows":
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 
-def clear_text(text_from_photo: str) -> list[str]:
+def format_phrases_to_text(phrases: list[str]):
+    text = ""
+
+    for i in range(len(phrases)):
+        text += f"{i + 1}. {phrases[i]}\n"
+
+    return text
+
+
+def clear_text(text_from_photo: str, sep: str) -> list[str]:
     # Сначала разделяем текст на выражения по запятым
     text = copy.deepcopy(text_from_photo)
-    text = text.replace('\n', ' ')
-    expressions = [expr.strip() for expr in text.split(',')]
+    if sep != '\n':
+        text = text.replace('\n', ' ')
+
+    expressions = [expr.strip() for expr in text.split(sep)]
 
     # Потом очищаем каждое выражение от лишних символов, оставляя буквы, цифры, пробелы и дефисы
     clean_expressions = []
@@ -25,6 +36,8 @@ def clear_text(text_from_photo: str) -> list[str]:
         if expr:  # игнорируем пустые строки после разделения
             # Убираем все символы, которые не являются буквами, цифрами, пробелами и дефисами
             clean_expr = re.sub(r'[^\w\s-]', '', expr)
+            # Удаляем пробелы перед первым словом
+            clean_expr = clean_expr.lstrip()
             clean_expressions.append(clean_expr)
 
     return clean_expressions

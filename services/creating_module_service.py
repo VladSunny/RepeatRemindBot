@@ -30,3 +30,12 @@ def get_valid_pairs(pairs: str, separator: str) -> dict[str, str] | None:
         valid_pairs[pair[0]] = pair[1]
 
     return valid_pairs
+
+
+def elements_to_text(elements: dict[str, str], separator: str) -> str:
+    text = ""
+    items = list(elements.items())
+    for i in range(len(elements)):
+        text += f"{i + 1}. {items[i][0]} {separator} {items[i][1]}\n"
+
+    return text

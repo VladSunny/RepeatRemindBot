@@ -233,10 +233,10 @@ CREATING_MODULE_LEXICON = {
                f"/{CommandsNames.cancel} - чтобы отменить создание модуля")
     },
     'incorrect_pair': {
-        'en': ("Incorrect format!\n\nExample:\nfruit {separator} apple\n\n"
+        'en': ("❌ Incorrect format!\n\nExample:\nfruit {separator} apple\n\n"
                f"/{CommandsNames.cancel} - to cancel module "
                "creation"),
-        'ru': ("Неправильный формат!\n\nПример:\nфрукт {separator} яблоко\n\n"
+        'ru': ("❌ Неправильный формат!\n\nПример:\nфрукт {separator} яблоко\n\n"
                f"/{CommandsNames.cancel} - чтобы отменить "
                "создание модуля")
     },
@@ -256,6 +256,61 @@ CREATING_MODULE_LEXICON = {
         'en': "pair {deleted_pair} was deleted",
         'ru': "пара {deleted_pair} была удалена"
     },
+
+    # photo
+
+    'sent_first_photo': {
+        'en': "We have uploaded your photo ✅\nWhat is the delimiter for the words in the photo?",
+        'ru': "Мы загрузили ваше фото ✅\nКакой разделитель у слов на фотографии?"
+    },
+
+    'comma_button': {
+        'en': "',' - comma",
+        'ru': "',' - запятая"
+    },
+    'n_button': {
+        'en': r"'\n' - each word on a new line",
+        'ru': r"'\n' - каждое слово на новой строке"
+    },
+    'got_text_from_photo': {
+        'en': "Text has been extracted.\nFound phrases:\n\n"
+              "{phrases}\n\n"
+              "Please check the accuracy of the phrases. If something has been misread, ensure that:\n"
+              "<b>1. The text in the photo is aligned properly\n"
+              "2. There is no extraneous text in the photo\n"
+              "3. The lighting in the photo is even\n"
+              "4. You have chosen the correct delimiter</b>"
+              "\n\n<b>Note, the maximum number of elements in a module is {max_elements}!</b>",
+        'ru': "Текст был считан.\nНайденные фразы:\n\n"
+              "{phrases}\n\n"
+              "Пожалуйста проверьте корректность фраз, если что-то считалось неправильно, убедитесь что:\n"
+              "<b>1. Текст на фотке расположен ровно\n"
+              "2. На фотке нет лишнего текста\n"
+              "3. Свет на фотке равномерный\n"
+              "4. Вы выбрали правильный разделитель</b>"
+              "\n\n<b>Учтите, максимальное количество элементов в модуле - {max_elements}!</b>"
+    },
+    'translated_text': {
+        'en': "Here is the translated text:\n\n"
+              "{content}",
+        'ru': "Вот переведенный текст:\n\n"
+              "{content}"
+    },
+    'cancel_getting_text_from_photo_button': {
+        'en': "Cancel extracting phrases from this photo ❌",
+        'ru': "Отменить считывание фраз с данного фото ❌",
+    },
+    'cancel_translating_photo_button': {
+        'en': "Cancel translating phrases from this photo ❌",
+        'ru': "Отменить перевод фраз с данного фото ❌"
+    },
+    'auto_translate_photo_button': {
+        'en': "Automatic phrase translation 🌐",
+        'ru': "Автоматический перевод фраз 🌐"
+    },
+
+    # other
+
     'finish_module_button': {
         'en': "Save ✅",
         'ru': "Сохранить ✅"

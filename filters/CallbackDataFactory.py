@@ -61,3 +61,15 @@ class NextQuestionCF(CallbackData, prefix='next_question'):
 
 class AnswerWasCorrectCF(CallbackData, prefix='answer_was_correct'):
     pass
+
+
+class SeparatorForPhotoCF(CallbackData, prefix='separator_for_photo'):
+    sep: str
+
+
+class AutoTranslatePhrasesCF(CallbackData, prefix='auto_translate'):
+    pass
+
+
+class CancelTranslatingPhrasesCF(CallbackData, prefix='cancel_translating_phrases'):
+    pass
