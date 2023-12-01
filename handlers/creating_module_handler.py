@@ -24,6 +24,8 @@ from keyboards.new_module_kb import create_new_module_keyboard
 from filters.CallbackDataFactory import DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF, \
     SaveNewModuleCF
 
+from config_data.user_restrictions import *
+
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
@@ -98,6 +100,11 @@ async def process_content_sent(message: Message, state: FSMContext):
     await message.delete()
 
     data = await state.get_data()
+
+    if len(data['content']) >= max_items_in_module:
+        await send_and_delete_message(message.chat.id, CREATING_MODULE_LEXICON['max_items_in_module'][user['lang']], 7)
+        return
+
     valid_pairs: dict[str, str] = get_valid_pairs(message.text, data['separator'])
 
     if get_valid_pairs(message.text, data['separator']) is None:
