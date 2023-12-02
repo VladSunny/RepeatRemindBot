@@ -49,6 +49,23 @@ new_module_dict: dict[str, str | dict[str, str]] = {
 router = Router()
 
 
+async def send_new_module_info(chat_id, data, user, content):
+    await change_message(chat_id=chat_id,
+                         message_id=data['message_id'],
+                         reply_markup=create_new_module_keyboard(
+                             content,
+                             user['lang'],
+                             data['name'],
+                             data['separator']),
+                         text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].
+                         format(module_name=data['name'],
+                                separator=data['separator'],
+                                size=len(content),
+                                max_elements=max_items_in_module
+                                )
+                         )
+
+
 @router.message(Command(commands=CommandsNames.cancel), StateFilter(*creating_module_states))
 async def process_cancel_command(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
@@ -91,7 +108,9 @@ async def process_name_sent(message: Message, state: FSMContext):
     )
     msg = await message.answer(
         text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].format(module_name=data['name'],
-                                                                             separator=data['separator']),
+                                                                             separator=data['separator'],
+                                                                             size=len(data['content']),
+                                                                             max_elements=max_items_in_module),
         reply_markup=create_new_module_keyboard({}, user['lang'], data['name'], data['separator'])
     )
 
@@ -106,13 +125,9 @@ async def process_content_sent(message: Message, state: FSMContext):
 
     data = await state.get_data()
 
-    if len(data['content']) >= max_items_in_module:
-        await send_and_delete_message(message.chat.id, CREATING_MODULE_LEXICON['max_items_in_module'][user['lang']], 7)
-        return
-
     valid_pairs: dict[str, str] = get_valid_pairs(message.text, data['separator'])
 
-    if get_valid_pairs(message.text, data['separator']) is None:
+    if valid_pairs is None:
         await send_and_delete_message(message.chat.id,
                                       CREATING_MODULE_LEXICON['incorrect_pair'][user['lang']].format(
                                           separator=data['separator']), 5)
@@ -120,14 +135,25 @@ async def process_content_sent(message: Message, state: FSMContext):
 
     valid_pairs = data['content'] | valid_pairs
 
+    reach_local_max = False
+    first_size = len(valid_pairs)
+
+    if len(valid_pairs) > max_local_items_in_module:
+        valid_pairs = list(valid_pairs.items())[:max_local_items_in_module]
+        valid_pairs = dict(valid_pairs)
+        reach_local_max = True
+
     await state.update_data(content=valid_pairs)
 
-    await change_message(chat_id=message.chat.id,
-                         message_id=data['message_id'],
-                         reply_markup=create_new_module_keyboard(valid_pairs,
-                                                                 user['lang'],
-                                                                 data['name'],
-                                                                 data['separator']))
+    try:
+        await send_new_module_info(message.from_user.id, data, user, valid_pairs)
+    except:
+        pass
+
+    if reach_local_max:
+        await send_and_delete_message(message.chat.id,
+                                      CREATING_MODULE_LEXICON['max_local_items_in_module'][user['lang']],
+                                      delete_after=7)
 
 
 @router.message(StateFilter(FSMCreatingModule.fill_content), F.photo)
@@ -223,15 +249,7 @@ async def process_new_name_sent(message: Message, state: FSMContext):
 
     data = await state.get_data()
 
-    await change_message(chat_id=message.chat.id,
-                         message_id=data['message_id'],
-                         reply_markup=create_new_module_keyboard(data['content'],
-                                                                 user['lang'],
-                                                                 data['name'],
-                                                                 data['separator']),
-                         text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].format(module_name=data['name'],
-                                                                                              separator=data[
-                                                                                                  'separator']))
+    await send_new_module_info(message.from_user.id, data, user, data['content'])
 
     await send_and_delete_message(chat_id=message.chat.id,
                                   text=CREATING_MODULE_LEXICON['new_module_was_renamed'][user['lang']],
@@ -256,15 +274,7 @@ async def process_new_separator_sent(message: Message, state: FSMContext):
 
     data = await state.get_data()
 
-    await change_message(chat_id=message.chat.id,
-                         message_id=data['message_id'],
-                         reply_markup=create_new_module_keyboard(data['content'],
-                                                                 user['lang'],
-                                                                 data['name'],
-                                                                 data['separator']),
-                         text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].format(module_name=data['name'],
-                                                                                              separator=data[
-                                                                                                  'separator']))
+    await send_new_module_info(message.from_user.id, data, user, data['content'])
 
     await send_and_delete_message(chat_id=message.chat.id,
                                   text=CREATING_MODULE_LEXICON['seperator_was_changed'][user['lang']],
@@ -290,14 +300,7 @@ async def process_delete_pair(callback: CallbackQuery,
     await callback.answer(
         CREATING_MODULE_LEXICON['deleted_pair_from_new_model'][user['lang']].format(deleted_pair=deleted_pair))
 
-    await change_message(chat_id=callback.from_user.id,
-                         message_id=data['message_id'],
-                         reply_markup=create_new_module_keyboard(
-                             content,
-                             user['lang'],
-                             data['name'],
-                             data['separator'])
-                         )
+    await send_new_module_info(callback.from_user.id, data, user, data['content'])
 
 
 @router.callback_query(RenameNewModuleCF.filter(), StateFilter(FSMCreatingModule.fill_content))
@@ -344,6 +347,13 @@ async def process_save_module(callback: CallbackQuery,
     module_name = callback_data.module_name
 
     data = await state.get_data()
+
+    if len(data['content']) > max_items_in_module:
+        await callback.answer(text=CREATING_MODULE_LEXICON['cant_save_module_qz_max_elements'][user['lang']].
+                              format(max_elements=max_items_in_module),
+                              show_alert=True)
+
+        return
 
     module = save_module(chat_id=callback.from_user.id, data=data)
 

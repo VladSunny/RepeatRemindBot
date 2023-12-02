@@ -7,6 +7,7 @@ from aiogram.fsm.state import default_state, State, StatesGroup
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.storage.memory import MemoryStorage
 
+from config_data.user_restrictions import *
 from database.database import *
 from keyboards.saved_modules_kb import list_of_saved_modules_keyboard, module_info_keyboard
 from keyboards.new_module_kb import create_new_module_keyboard
@@ -141,7 +142,9 @@ async def process_edit_saved_module(callback: CallbackQuery,
     header_message_id = await send_message(chat_id=callback.from_user.id,
                                            text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']]
                                            .format(module_name=module['name'],
-                                                   separator=module['separator']
+                                                   separator=module['separator'],
+                                                   size=len(module['content']),
+                                                   max_elements=max_items_in_module
                                                    ),
                                            reply_markup=create_new_module_keyboard(content=module['content'],
                                                                                    lang=user['lang'],

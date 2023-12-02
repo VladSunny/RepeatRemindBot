@@ -241,20 +241,46 @@ CREATING_MODULE_LEXICON = {
                "создание модуля")
     },
     'new_module_info': {
-        'en': ("Module name - '{module_name}', separator - '{separator}'\n"
+        'en': ("Module name - '{module_name}'."
+               "\nSeparator - '{separator}'\n"
+               "Number of items - {size}\n"
+               "<b>The number of items must not exceed {max_elements}!</b>"
                "-----------------------------------------------------------------------------------------------------"),
-        'ru': ("Название модуля - '{module_name}', разделитель - '{separator}'\n"
+        'ru': ("Название модуля - '{module_name}'."
+               "\nРазделитель - '{separator}'\n"
+               "Количество элементов - {size}\n"
+               "<b>Количество элементов должно быть не больше {max_elements}!</b>"
                "-----------------------------------------------------------------------------------------------------")
     },
     'max_items_in_module': {
-        'en': "",
-        'ru': "<b>Достигнуто максимально возможное количество элементов в модуле!</b>"
+        'en': "<b>The maximum number of elements in the module has been reached - {max_elements};"
+              " you will not be able to save this module!</b>"
+              "\nThis is due to the fact that the project is still in development and is using a free subscription"
+              " to the database service.",
+        'ru': "<b>Превышено максимально возможное количество элементов в модуле - {max_elements},"
+              " вы не сможете сохранить данный модуль!</b>"
               "\nЭто связано с тем, что проект ещё пока развивается и использует бесплатную подписку"
               " сервиса для базы данных."
+    },
+    'max_local_items_in_module': {
+        'en': "<b>The maximum number of elements for module creation has been exceeded!"
+              " This is because the project is still in development. This limitation"
+              " was made to prevent server lag</b>",
+        'ru': "<b>Превышено максимально возможное количество элементов при создании модуля!"
+              " Это связано с тем, что проект ещё в стадии развития. Это ограничение"
+              " было сделано чтобы сервер не тормозил</b>"
     },
     'deleted_pair_from_new_model': {
         'en': "pair {deleted_pair} was deleted",
         'ru': "пара {deleted_pair} была удалена"
+    },
+    'cant_save_module_qz_max_elements': {
+        'en': "Sorry, your module cannot be saved because it contains more than {max_elements} items."
+              "\nThis is due to the project still being in development and using a free subscription service"
+              " for the database.",
+        'ru': "Извините, ваш модуль нельзя сохранить, т.к. в нём больше {max_elements} элементов."
+              "\nЭто связано с тем, что проект ещё на стадии развития и использует бесплатную подписку сервиса"
+              " для базы данных."
     },
 
     # photo
@@ -330,6 +356,10 @@ CREATING_MODULE_LEXICON = {
     'cancel_creating_module': {
         'en': "You have exited the module creation mode. Now you can perform other actions.\n/help",
         'ru': "Вы вышли из режима создания модуля. Теперь вы можете выполнить другие действия.\n/help"
+    },
+    'cancel_editing_module': {
+        'en': "You have exited the module editing mode. Now you can perform other actions.\n/help",
+        'ru': "Вы вышли из режима редактирования модуля. Теперь вы можете выполнить другие действия.\n/help"
     },
     'unintended_creating_module': {
         'en': ("Your message is not provided by the bot in the current state."
