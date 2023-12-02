@@ -4,7 +4,7 @@ from lexicon.lexicon import LEXICON, CREATING_MODULE_LEXICON
 
 from filters.CallbackDataFactory import \
     DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF, SaveNewModuleCF, SeparatorForPhotoCF, \
-    AutoTranslatePhrasesCF, CancelTranslatingPhrasesCF
+    AutoTranslatePhrasesCF, CancelTranslatingPhrasesCF, AddPhrasesFromPhotoCF
 
 
 def create_new_module_keyboard(content: dict[str, str], lang: str, module_name: str, separator: str) \
@@ -60,7 +60,7 @@ def create_separator_on_photo_keyboard(lang: str) -> InlineKeyboardMarkup:
     return kb_builder.as_markup()
 
 
-def translate_text_from_photo(lang: str) -> InlineKeyboardMarkup:
+def translate_text_from_photo_keyboard(lang: str) -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
 
     kb_builder.row(
@@ -71,6 +71,24 @@ def translate_text_from_photo(lang: str) -> InlineKeyboardMarkup:
         InlineKeyboardButton(
             text=CREATING_MODULE_LEXICON['auto_translate_photo_button'][lang],
             callback_data=AutoTranslatePhrasesCF().pack()
+        ),
+        width=1
+    )
+
+    return kb_builder.as_markup()
+
+
+def add_translated_phrases_keyboard(lang: str) -> InlineKeyboardMarkup:
+    kb_builder = InlineKeyboardBuilder()
+
+    kb_builder.row(
+        InlineKeyboardButton(
+            text=CREATING_MODULE_LEXICON['cancel_adding_phrases_from_photo_button'][lang],
+            callback_data=CancelTranslatingPhrasesCF().pack()
+        ),
+        InlineKeyboardButton(
+            text=CREATING_MODULE_LEXICON['add_phrases_from_photo_button'][lang],
+            callback_data=AddPhrasesFromPhotoCF().pack()
         ),
         width=1
     )

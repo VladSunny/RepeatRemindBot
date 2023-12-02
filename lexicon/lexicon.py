@@ -304,9 +304,17 @@ CREATING_MODULE_LEXICON = {
         'en': "Cancel translating phrases from this photo ❌",
         'ru': "Отменить перевод фраз с данного фото ❌"
     },
+    'cancel_adding_phrases_from_photo_button': {
+        'en': "Cancel adding phrases from this photo ❌",
+        'ru': "Отменить добавление фраз с данного фото ❌"
+    },
     'auto_translate_photo_button': {
         'en': "Automatic phrase translation 🌐",
         'ru': "Автоматический перевод фраз 🌐"
+    },
+    'add_phrases_from_photo_button': {
+        'en': "Add phrases and their translations ✅",
+        'ru': "Добавить фразы и их переводы ✅"
     },
 
     # other

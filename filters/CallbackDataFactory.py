@@ -73,3 +73,7 @@ class AutoTranslatePhrasesCF(CallbackData, prefix='auto_translate'):
 
 class CancelTranslatingPhrasesCF(CallbackData, prefix='cancel_translating_phrases'):
     pass
+
+
+class AddPhrasesFromPhotoCF(CallbackData, prefix='add_translating_phrases'):
+    pass
