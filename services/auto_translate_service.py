@@ -11,7 +11,7 @@ def translate_all_phrases_into_module_pairs(phrases: list[str]) -> dict[str, str
     items = {}
 
     for i in phrases:
-        items[i] = translate_phrase(i)
+        items[i] = translate_phrase(i).strip().lower()
 
     return items
 

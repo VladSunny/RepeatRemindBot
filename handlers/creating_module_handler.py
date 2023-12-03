@@ -24,7 +24,7 @@ from keyboards.new_module_kb import create_new_module_keyboard, create_separator
     translate_text_from_photo_keyboard, add_translated_phrases_keyboard
 
 from filters.CallbackDataFactory import DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF, \
-    SaveNewModuleCF, SeparatorForPhotoCF, CancelTranslatingPhrasesCF, AutoTranslatePhrasesCF
+    SaveNewModuleCF, SeparatorForPhotoCF, CancelTranslatingPhrasesCF, AutoTranslatePhrasesCF, AddPhrasesFromPhotoCF
 
 from config_data.user_restrictions import *
 
@@ -80,16 +80,20 @@ async def process_cancel_command(message: Message, state: FSMContext):
 
     data = await state.get_data()
 
-    if data.get('is_editing'):
-        await message.answer(
-            text=CREATING_MODULE_LEXICON['cancel_editing_module'][user['lang']]
-        )
-    else:
-        await message.answer(
-            text=CREATING_MODULE_LEXICON['cancel_creating_module'][user['lang']]
-        )
+    try:
+        if data['cur_photo_path']:
+            os.remove(data['cur_photo_path'])
+    finally:
+        if data.get('is_editing'):
+            await message.answer(
+                text=CREATING_MODULE_LEXICON['cancel_editing_module'][user['lang']]
+            )
+        else:
+            await message.answer(
+                text=CREATING_MODULE_LEXICON['cancel_creating_module'][user['lang']]
+            )
 
-    await state.clear()
+        await state.clear()
 
 
 @router.message(StateFilter(FSMCreatingModule.fill_name))
@@ -179,6 +183,12 @@ async def process_photo_sent(message: Message, state: FSMContext):
 
     photo = message.photo[-1]
 
+    data = await state.get_data()
+
+    if data['cur_photo_path']:
+        await message.delete()
+        return
+
     path = await download_file(photo.file_id)
 
     await state.update_data(cur_photo_path=path)
@@ -225,8 +235,13 @@ async def process_cancel_translating_phrases(callback: CallbackQuery,
     await callback.answer()
 
     data = await state.get_data()
-    await delete_message(chat_id=callback.from_user.id, message_id=data['photo_id'])
-    await delete_message(chat_id=callback.from_user.id, message_id=data['photo_message_id'])
+
+    try:
+        os.remove(data['cur_photo_path'])
+    finally:
+        await state.update_data(cur_photo_path="")
+        await delete_message(chat_id=callback.from_user.id, message_id=data['photo_id'])
+        await delete_message(chat_id=callback.from_user.id, message_id=data['photo_message_id'])
 
 
 @router.callback_query(AutoTranslatePhrasesCF.filter(), StateFilter(FSMCreatingModule.fill_content))
@@ -240,6 +255,7 @@ async def process_auto_translate_phrases(callback: CallbackQuery,
     translated_phrases_text = elements_to_text(translated_phrases, separator=data['separator'])
 
     await callback.answer()
+    await state.update_data(phrases_to_translate=translated_phrases)
 
     await change_message(chat_id=callback.from_user.id,
                          message_id=data['photo_message_id'],
@@ -247,6 +263,44 @@ async def process_auto_translate_phrases(callback: CallbackQuery,
                          .format(content=translated_phrases_text),
                          reply_markup=add_translated_phrases_keyboard(user['lang']),
                          can_repeat=True)
+
+
+@router.callback_query(AddPhrasesFromPhotoCF.filter(), StateFilter(FSMCreatingModule.fill_content))
+async def process_add_translated_phrases(callback: CallbackQuery,
+                                         callback_data: AddPhrasesFromPhotoCF,
+                                         state: FSMContext):
+    user = get_user(callback.from_user.id)
+
+    data = await state.get_data()
+
+    valid_pairs = data['content'] | data['phrases_to_translate']
+
+    reach_local_max = False
+
+    if len(valid_pairs) > max_local_items_in_module:
+        valid_pairs = list(valid_pairs.items())[:max_local_items_in_module]
+        valid_pairs = dict(valid_pairs)
+        reach_local_max = True
+
+    await state.update_data(content=valid_pairs)
+
+    await send_new_module_info(callback.from_user.id, data, user, valid_pairs)
+
+    await callback.answer()
+
+    await delete_message(callback.from_user.id, data['photo_id'])
+    await delete_message(callback.from_user.id, data['photo_message_id'])
+    await state.update_data(cur_photo_path="")
+
+    if reach_local_max:
+        await send_and_delete_message(callback.from_user.id,
+                                      CREATING_MODULE_LEXICON['max_local_items_in_module'][user['lang']],
+                                      delete_after=7)
+    elif len(valid_pairs) > max_items_in_module:
+        await send_and_delete_message(callback.from_user.id,
+                                      CREATING_MODULE_LEXICON['max_items_in_module'][user['lang']].
+                                      format(max_elements=max_items_in_module),
+                                      delete_after=7)
 
 
 @router.message(StateFilter(FSMCreatingModule.change_name))

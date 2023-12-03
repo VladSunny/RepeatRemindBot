@@ -36,8 +36,7 @@ def clear_text(text_from_photo: str, sep: str) -> list[str]:
         if expr:  # игнорируем пустые строки после разделения
             # Убираем все символы, которые не являются буквами, цифрами, пробелами и дефисами
             clean_expr = re.sub(r'[^\w\s-]', '', expr)
-            # Удаляем пробелы перед первым словом
-            clean_expr = clean_expr.lstrip()
+            clean_expr = clean_expr.strip().lower()
             clean_expressions.append(clean_expr)
 
     return clean_expressions
