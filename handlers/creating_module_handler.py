@@ -68,7 +68,7 @@ async def send_new_module_info(chat_id, data, user, content):
                          bt_text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].
                          format(module_name=data['name'],
                                 separator=data['separator'],
-                                size=len(content) - 1,
+                                size='...',
                                 max_elements=max_items_in_module
                                 )
                          )
