@@ -136,12 +136,12 @@ async def process_content_sent(message: Message, state: FSMContext):
     valid_pairs = data['content'] | valid_pairs
 
     reach_local_max = False
-    first_size = len(valid_pairs)
 
     if len(valid_pairs) > max_local_items_in_module:
         valid_pairs = list(valid_pairs.items())[:max_local_items_in_module]
         valid_pairs = dict(valid_pairs)
         reach_local_max = True
+        ic(reach_local_max)
 
     await state.update_data(content=valid_pairs)
 
@@ -153,6 +153,11 @@ async def process_content_sent(message: Message, state: FSMContext):
     if reach_local_max:
         await send_and_delete_message(message.chat.id,
                                       CREATING_MODULE_LEXICON['max_local_items_in_module'][user['lang']],
+                                      delete_after=7)
+    elif len(valid_pairs) > max_items_in_module:
+        await send_and_delete_message(message.chat.id,
+                                      CREATING_MODULE_LEXICON['max_items_in_module'][user['lang']].
+                                      format(max_elements=max_items_in_module),
                                       delete_after=7)
 
 
