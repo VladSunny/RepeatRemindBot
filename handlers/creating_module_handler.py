@@ -37,6 +37,7 @@ new_module_dict: dict[str, str | dict[str, str]] = {
     "content": {
 
     },
+    "instruction_message_id": 0,
     "message_id": "",
     "is_editing": False,
     "editing_module_id": 0,
@@ -101,18 +102,26 @@ async def process_name_sent(message: Message, state: FSMContext):
         )
         return
 
+    await message.delete()
+
+    data = await state.get_data()
+
     new_user_module = deepcopy(new_module_dict)
     new_user_module['name'] = message.text
     new_user_module['name'] = message.text
+    new_user_module['instruction_message_id'] = data['instruction_message_id']
 
     await state.update_data(new_user_module)
     await state.set_state(FSMCreatingModule.fill_content)
 
     data = await state.get_data()
 
-    await message.answer(
+    await change_message(
+        chat_id=message.from_user.id,
+        message_id=data['instruction_message_id'],
         text=CREATING_MODULE_LEXICON['fill_content'][user['lang']]
     )
+
     msg = await message.answer(
         text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].format(module_name=data['name'],
                                                                              separator=data['separator'],
@@ -367,12 +376,14 @@ async def process_save_module(callback: CallbackQuery,
 
     if data['is_editing']:
         delete_saved_module(data['editing_module_id'])
+    else:
+        await delete_message(chat_id=callback.from_user.id, message_id=data['instruction_message_id'])
 
     await state.clear()
 
-    await callback.answer(text=CREATING_MODULE_LEXICON['module_saved'][user['lang']].format(module_name=module_name,
-                                                                                            module_id=module['id']),
-                          show_alert=True)
+    await send_message(chat_id=callback.from_user.id,
+                       text=CREATING_MODULE_LEXICON['module_saved'][user['lang']].format(module_name=module_name,
+                                                                                         module_id=module['id']))
 
     await delete_message(chat_id=callback.from_user.id, message_id=data['message_id'])
 
