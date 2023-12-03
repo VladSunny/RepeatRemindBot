@@ -62,6 +62,13 @@ async def send_new_module_info(chat_id, data, user, content):
                                 separator=data['separator'],
                                 size=len(content),
                                 max_elements=max_items_in_module
+                                ),
+                         can_repeat=True,
+                         bt_text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].
+                         format(module_name=data['name'],
+                                separator=data['separator'],
+                                size=len(content) - 1,
+                                max_elements=max_items_in_module
                                 )
                          )
 
@@ -141,14 +148,10 @@ async def process_content_sent(message: Message, state: FSMContext):
         valid_pairs = list(valid_pairs.items())[:max_local_items_in_module]
         valid_pairs = dict(valid_pairs)
         reach_local_max = True
-        ic(reach_local_max)
 
     await state.update_data(content=valid_pairs)
 
-    try:
-        await send_new_module_info(message.from_user.id, data, user, valid_pairs)
-    except:
-        pass
+    await send_new_module_info(message.from_user.id, data, user, valid_pairs)
 
     if reach_local_max:
         await send_and_delete_message(message.chat.id,

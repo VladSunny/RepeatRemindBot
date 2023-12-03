@@ -3,4 +3,4 @@ def a(n: int):
         print(f"{i + 1} = {i + 1}")
 
 
-a(40)
+a(41)

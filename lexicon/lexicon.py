@@ -244,12 +244,12 @@ CREATING_MODULE_LEXICON = {
         'en': ("Module name - '{module_name}'."
                "\nSeparator - '{separator}'\n"
                "Number of items - {size}\n"
-               "<b>The number of items must not exceed {max_elements}!</b>"
+               "<b>The number of items must not exceed {max_elements}!</b>\n"
                "-----------------------------------------------------------------------------------------------------"),
         'ru': ("Название модуля - '{module_name}'."
                "\nРазделитель - '{separator}'\n"
                "Количество элементов - {size}\n"
-               "<b>Количество элементов должно быть не больше {max_elements}!</b>"
+               "<b>Количество элементов должно быть не больше {max_elements}!</b>\n"
                "-----------------------------------------------------------------------------------------------------")
     },
     'max_items_in_module': {
