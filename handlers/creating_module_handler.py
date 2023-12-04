@@ -224,7 +224,7 @@ async def process_got_text_from_photo(callback: CallbackQuery,
     await change_message(chat_id=callback.from_user.id,
                          message_id=data['photo_message_id'],
                          text=CREATING_MODULE_LEXICON['got_text_from_photo'][user['lang']]
-                         .format(phrases=clean_mes_text, max_elements=max_items_in_module), can_repeat=True,
+                         .format(phrases=clean_mes_text, max_elements=max_items_in_module),
                          reply_markup=translate_text_from_photo_keyboard(user['lang']))
 
 
@@ -261,8 +261,7 @@ async def process_auto_translate_phrases(callback: CallbackQuery,
                          message_id=data['photo_message_id'],
                          text=CREATING_MODULE_LEXICON['translated_text'][user['lang']]
                          .format(content=translated_phrases_text),
-                         reply_markup=add_translated_phrases_keyboard(user['lang']),
-                         can_repeat=True)
+                         reply_markup=add_translated_phrases_keyboard(user['lang']))
 
 
 @router.callback_query(AddPhrasesFromPhotoCF.filter(), StateFilter(FSMCreatingModule.fill_content))
