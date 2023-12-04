@@ -12,9 +12,9 @@ class CommandsNames:
 LEXICON: dict[str, dict[str, str]] = {
     # Base Commands
     '/start': {
-        'en': "Hello! I'm RepeatRemindBot, your assistant for learning and reminders. How can I assist you today?"
+        'en': "Hello! I'm RepeatRemindBot, your assistant for learning and repetition. How can I assist you today?"
               "\nType /help for guidance.",
-        'ru': "Привет! Я RepeatRemindBot, ваш помощник в изучении и напоминании. Чем могу помочь сегодня?"
+        'ru': "Привет! Я RepeatRemindBot, ваш помощник в изучении и запоминании. Чем могу помочь сегодня?"
               "\nНапишите /help, чтобы узнать больше."
 
     },
@@ -49,21 +49,21 @@ LEXICON: dict[str, dict[str, str]] = {
               f"\t<b>/{CommandsNames.change_language}</b> - Сменить язык бота\n"
               f"\t<b>/{CommandsNames.change_words_in_block}</b> - Количество элементов в блоке"
               " (текущее: {words_in_block_number})\n"
-              f"\t<b>/{CommandsNames.change_repetitions_for_block}</b> - Количество повторений для блока"
+              f"\t<b>/{CommandsNames.change_repetitions_for_block}</b> - Количество повторений блока"
               " (текущее: {repetitions_for_block_number})\n"
               "\n/help - список команд."
 
     },
     CommandsNames.create_new_module: {
-        'en': "Enter a module name (5-20 characters):\n"
+        'en': "Enter a module name (1-20 characters):\n"
               "- Use Latin letters, numbers, spaces.\n"
               "- Avoid special characters.\n"
-              f"/{CommandsNames.cancel} to cancel creation.",
+              f"\n/{CommandsNames.cancel} to cancel creation.",
 
-        'ru': "Введите название модуля (5-20 символов):\n"
+        'ru': "Введите название модуля (1-20 символов):\n"
               "- Используйте латинские буквы, цифры, пробелы.\n"
               "- Избегайте специальных символов.\n"
-              f"/{CommandsNames.cancel} для отмены создания."
+              f"\n/{CommandsNames.cancel} для отмены создания."
 
     },
 
@@ -74,7 +74,7 @@ LEXICON: dict[str, dict[str, str]] = {
               "This is due to the project still being in development and using a free subscription"
               " to a database service.",
         'ru': "<b>Вы достигли максимального возможного количества сохраненных модулей!</b>\n"
-              "Это связано с тем, что проект ещё пока развивается и использует бесплатную подписку"
+              "Это связано с тем, что проект развивается и использует бесплатную подписку"
               " сервиса для базы данных."
     },
     'not_updated_user': {
@@ -100,16 +100,16 @@ LEXICON: dict[str, dict[str, str]] = {
 
 SETTINGS_LEXICON: dict[str, dict[str, str]] = {
     CommandsNames.change_language: {
-        'en': "Please choose your language:\n🇺🇸 English\n🇷🇺 Русский",
-        'ru': "Пожалуйста, выберите язык:\n🇺🇸 English\n🇷🇺 Русский"
+        'en': "Сhoose your language:\n🇺🇸 English\n🇷🇺 Русский",
+        'ru': "Выберите язык:\n🇺🇸 English\n🇷🇺 Русский"
     },
     'language': {
         'en': "🇺🇸",
         'ru': "🇷🇺",
     },
     'changed_language': {
-        'en': "You have successfully changed the language to English! 🇺🇸",
-        'ru': "Вы успешно сменили язык на русский! 🇷🇺"
+        'en': "You have changed the language to English 🇺🇸",
+        'ru': "Вы сменили язык на русский 🇷🇺"
     },
     'cancel_input': {
         'en': "Input was canceled.",
@@ -125,11 +125,9 @@ SETTINGS_LEXICON: dict[str, dict[str, str]] = {
 
     },
     CommandsNames.change_repetitions_for_block: {
-        'en': "Set your desired number of repetitions for each block"
-              "\n(e.g., 3). Please choose a number from 1 to 10."
+        'en': "Set your desired number from 1 to 10 of repetitions for each block"
               f"\n/{CommandsNames.cancel} - for cancel input.",
-        'ru': "Задайте желаемое количество повторений для блока"
-              "\n(например, 3). Выберите число от 1 до 10."
+        'ru': "Задайте желаемое количество повторений для блока от 1 до 10."
               f"\n/{CommandsNames.cancel} - для отмены ввода."
     },
     'not_valid_words_in_block': {
@@ -141,23 +139,23 @@ SETTINGS_LEXICON: dict[str, dict[str, str]] = {
         'ru': "Число должно быть от 1 до 10."
     },
     'sent_new_words_in_block': {
-        'en': "The number of items per block has been successfully updated to {number} ✅",
-        'ru': "Количество элементов в блоке успешно обновлено до {number} ✅"
+        'en': "The number of items per block has been updated to {number} ✅",
+        'ru': "Количество элементов в блоке обновлено до {number} ✅"
     },
     'sent_new_repetitions_for_block': {
-        'en': "The number of repetitions per block has been successfully updated to {number} ✅",
-        'ru': "Количество повторений за блок успешно обновлено до {number} ✅"
+        'en': "The number of repetitions per block has been updated to {number} ✅",
+        'ru': "Количество повторений блока обновлено до {number} ✅"
     }
 }
 
 CREATING_MODULE_LEXICON = {
     'not_valid_name': {
-        'en': "The module name is limited to 5-20 characters and may include:"
+        'en': "The module name is limited to 1-20 characters and may include:"
               "\n- Latin letters (any case)"
               "\n- Digits"
               "\n- Spaces"
               "\nEnsure it meets these criteria.",
-        'ru': "Название модуля должно быть от 5 до 20 символов и может включать:"
+        'ru': "Название модуля должно быть от 1 до 20 символов и может включать:"
               "\n- Латинские буквы (любой регистр)"
               "\n- Цифры"
               "\n- Пробелы"
@@ -169,20 +167,15 @@ CREATING_MODULE_LEXICON = {
         'ru': "Переименовать Модуль ✏️"
     },
     'fill_separator': {
-        'en': ("Great! Now, please enter one character that will be a convenient separator for you. This character will"
-               " be used to separate words in your module by adding spaces in the text.\n\n Please enter one character "
-               "(for example, '/', '|', ',', etc.), which you want to use as a separator.\n\n Most often used for "
-               f"example - = :\n\n/{CommandsNames.cancel} - to cancel the module creation"),
-        'ru': ("Отлично! Теперь, пожалуйста, введите один символ, который будет удобным для вас разделителем. Этот "
-               "символ будет использоваться для разделения слов в вашем модуле, добавляя пробелы в тексте.\n\n"
-               "Пожалуйста, введите один символ (например, '/', '|', ',', и т. д.), который вы хотите использовать "
-               "в качестве разделителя.\n\nЧаще всего используются например - = :\n\n"
-               f"/{CommandsNames.cancel} - чтобы отменить создание модуля"),
+        'en': "enter character- to separate words (for example, '/', '|')."
+              "\n\n/{CommandsNames.cancel} - to cancel the module creation",
+        'ru': "Введите символ-разделитель слов (например, '/', '|', ',').\n\n"
+              f"/{CommandsNames.cancel} - чтобы отменить создание модуля",
     },
     'not_valid_separator': {
-        'en': "Please enter a single character to use as a separator.\n"
+        'en': "enter a character to use as a separator.\n"
               f"\n/{CommandsNames.cancel} - to cancel module creation",
-        'ru': "Пожалуйста, введите один символ, который будет использоваться в качестве разделителя.\n"
+        'ru': "введите символ-разделитель.\n"
               f"\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
     },
     'edit_module_separator_button': {
@@ -190,14 +183,14 @@ CREATING_MODULE_LEXICON = {
         'ru': "Изменить разделитель✏️"
     },
     'rename_new_module': {
-        'en': "<b>Change of Module Name</b>\n\nPlease enter a new name for the module. It should be 5-20 characters "
+        'en': "<b>Change of Module Name</b>\n\nEnter a new name for the module. It should be 5-20 characters "
               "long and can include:"
               "\n- Latin letters (any case)"
               "\n- Digits"
               "\n- Spaces"
               "\n\nCheck that the name meets these conditions before entering."
               f"\n\n/{CommandsNames.cancel} - to cancel module creation",
-        'ru': "<b>Изменение названия модуля</b>\n\nПожалуйста, введите новое название модуля. Оно должно быть от 5 до "
+        'ru': "<b>Изменение названия модуля</b>\n\nВведите новое название модуля. Оно должно быть от 5 до "
               "20 символов и может содержать:"
               "\n- Латинские буквы (любой регистр)"
               "\n- Цифры"
@@ -206,11 +199,10 @@ CREATING_MODULE_LEXICON = {
               f"\n\n/{CommandsNames.cancel} - чтобы отменить создание модуля"
     },
     'edit_separator': {
-        'en': "<b>Change of Separator</b>\n\nPlease enter a new separator character. It will be used to separate items "
-              "in your module text. Choose a single character (e.g., '/', '|', ',').\n\n"
+        'en': "<b>Change of Separator</b>\n\nEnter a new separator character"
+              "(e.g., '/', '|', ',').\n\n"
               f"/{CommandsNames.cancel} - to cancel module creation",
-        'ru': "<b>Изменение разделителя</b>\n\nПожалуйста, введите новый символ-разделитель. Он будет использован для "
-              "разделения пунктов в тексте модуля. Выберите один символ (например, '/', '|', ',').\n\n"
+        'ru': "<b>Изменение разделителя</b>\n\nВведите новый символ-разделитель(например, '/', '|', ',').\n\n"
               f"/{CommandsNames.cancel} - чтобы отменить создание модуля"
     },
     'new_module_was_renamed': {
@@ -222,14 +214,19 @@ CREATING_MODULE_LEXICON = {
         'ru': "Разделитель успешно изменён!"
     },
     'fill_content': {
-        'en': ("Now enter pairs of values separated by your chosen delimiter:\nkey {separator} value \n\nYour pairs "
-               "will be added to the message keyboard below this.\n\nYou can also send multiple pairs of values at once"
-               ", each on the next line:\nkey1 {separator} value\nkey2 {separator} value\n\n"
-               f"/{CommandsNames.cancel} - to cancel module creation"),
-        'ru': ("Теперь вводите пары значений, разделенных выбранным вам разделителем:\nключ {разделитель} значение "
-               "\n\nВаши пары будут добавляться в клавиатуру сообщения под этим.\n\nТакже вы можете сразу отправить "
-               "несколько пар значений, каждая из которых на следующей строке:\nключ1 {разделитель} значение\nключ2 "
-               "{разделитель} значение\n\n"
+        'en': ("Now enter pairs of values separated by your delimiter:"
+               "\nkey {separator} value"
+               "\n\nYour pairs will be added under the message."
+               "\nYou can also send multiple pairs at once, each on the next line:"
+               "\nkey1 {separator} value"
+               "\nkey2 {separator} value"
+               f"\n\n/{CommandsNames.cancel} - to cancel module creation"),
+        'ru': ("Теперь вводите пары значений, разделенных выбранным разделителем:"
+               "\nключ {разделитель} значение "
+               "\n\nВаши пары будут добавляться под сообщением."
+               "\nТакже вы можете сразу отправить несколько пар, каждая из которых на отдельной строке:"
+               "\nключ1 {разделитель} значение"
+               "\nключ2 {разделитель} значение\n\n"
                f"/{CommandsNames.cancel} - чтобы отменить создание модуля")
     },
     'incorrect_pair': {
@@ -259,7 +256,7 @@ CREATING_MODULE_LEXICON = {
               " to the database service.",
         'ru': "<b>Превышено максимально возможное количество элементов в модуле - {max_elements},"
               " вы не сможете сохранить данный модуль!</b>"
-              "\nЭто связано с тем, что проект ещё пока развивается и использует бесплатную подписку"
+              "\nЭто связано с тем, что проект развивается и использует бесплатную подписку"
               " сервиса для базы данных."
     },
     'max_local_items_in_module': {
@@ -267,7 +264,7 @@ CREATING_MODULE_LEXICON = {
               " This is because the project is still in development. This limitation"
               " was made to prevent server lag</b>",
         'ru': "<b>Превышено максимально возможное количество элементов при создании модуля!"
-              " Это связано с тем, что проект ещё в стадии развития. Это ограничение"
+              " Это связано с тем, что проект в стадии развития. Это ограничение"
               " было сделано чтобы сервер не тормозил</b>"
     },
     'deleted_pair_from_new_model': {
@@ -350,8 +347,8 @@ CREATING_MODULE_LEXICON = {
         'ru': "Сохранить ✅"
     },
     'module_saved': {
-        'en': "You successfully saved module {module_name}! It has ID: {module_id}",
-        'ru': "Вы успешно сохранили модуль {module_name}! Его ID: {module_id}"
+        'en': "You saved module {module_name}. It has ID: {module_id}",
+        'ru': "Вы сохранили модуль {module_name}. Его ID: {module_id}"
     },
     'cancel_creating_module': {
         'en': "You have exited the module creation mode. Now you can perform other actions.\n/help",
@@ -365,7 +362,7 @@ CREATING_MODULE_LEXICON = {
         'en': ("Your message is not provided by the bot in the current state."
                f"\n/{CommandsNames.cancel} - to cancel the "
                "module creation"),
-        'ru': ("Ваше сообщение не предусмотренно ботом в текущем состоянии."
+        'ru': ("Ваше сообщение не предусмотрено ботом в текущем состоянии."
                f"\n/{CommandsNames.cancel} - чтобы отменить "
                "создание модуля")
     },
@@ -373,9 +370,9 @@ CREATING_MODULE_LEXICON = {
 
 SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
     'list_of_saved_modules': {
-        'en': "Here are your saved modules:"
+        'en': "Your saved modules:"
               "\n\n/help",
-        'ru': "Вот ваши сохраненные модули:"
+        'ru': "Ваши сохраненные модули:"
               "\n\n/help"
     },
     'module_info': {
@@ -391,8 +388,8 @@ SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
               "\nЭлементы:\n{elements}"
     },
     'module_not_found': {
-        'en': "It seems that this module does not exist.",
-        'ru': "Кажется, этого модуля не существует."
+        'en': "Such module does not exist.",
+        'ru': "Такого модуля не существует."
     },
     'repeat_module': {
         'en': "Repeat module 🤓",
@@ -512,7 +509,7 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
               "Consider taking a 1-3 minute break before continuing."
               f"\n\n/{CommandsNames.cancel} - to stop the review",
         'ru': "Вы закончили одно из повторений блока! 🎉\n"
-              "Советуем вам отдохнуть 1-3 минуты перед продолжением."
+              "Советуем отдохнуть 1-3 минуты перед продолжением."
               f"\n\n/{CommandsNames.cancel} - чтобы остановить повторение модуля"
     },
     'finish_block': {
@@ -520,7 +517,7 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
               "Consider taking a 1-3 minute break before starting the next block."
               f"\n\n/{CommandsNames.cancel} - to stop the review",
         'ru': "Вы закончили повторять целый блок! 🎉🎉\n"
-              "Советуем вам отдохнуть 1-3 минуты перед началом следующего блока!"
+              "Советуем отдохнуть 1-3 минуты перед началом следующего блока!"
               f"\n\n/{CommandsNames.cancel} - чтобы остановить повторение модуля"
     },
     'repeating_all_module': {
@@ -528,7 +525,7 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
               "Consider taking a 1-3 minute break before the final review of the entire module."
               f"\n\n/{CommandsNames.cancel} - to stop the review",
         'ru': "Вы повторили все блоки! 🎉🎉🎉\n"
-              "Советуем вам отдохнуть 1-3 минуты перед финальным повторением всего модуля."
+              "Советуем отдохнуть 1-3 минуты перед финальным повторением всего модуля."
               f"\n\n/{CommandsNames.cancel} - чтобы остановить повторение модуля"
     },
     'repeating_all_module_header': {
@@ -545,10 +542,10 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
 
 GET_MODULE_BY_ID_LEXICON: dict[str, dict[str, str]] = {
     'get_module_by_id': {
-        'en': "Please send the ID of the module you wish to retrieve.\n"
+        'en': "EnterID of the module you wish to retrieve.\n"
               "You can find the module ID next to its name in the list of saved modules."
               f"\n\n/{CommandsNames.cancel} - to cancel sending the module ID.",
-        'ru': "Отправьте ID модуля, который вы хотите получить.\n"
+        'ru': "Введите ID модуля, который вы хотите получить.\n"
               "ID модуля можно увидеть рядом с названием в списке сохраненных модулей."
               f"\n\n/{CommandsNames.cancel} - чтобы отменить отправку ID модуля."
     },
