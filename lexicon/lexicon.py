@@ -116,23 +116,21 @@ SETTINGS_LEXICON: dict[str, dict[str, str]] = {
         'ru': "Ввод был отменен."
     },
     CommandsNames.change_words_in_block: {
-        'en': "Choose how many items per block you prefer for repetition"
-              "\n(e.g., 10). Pick a number from 5 to 20."
+        'en': "Choose the block size to split the module (from 5 to 15 elements)."
               f"\n/{CommandsNames.cancel} - for cancel input.",
-        'ru': "Выберите, сколько элементов в блоке вы хотите для повторения"
-              "\n(например, 10). Выберите число от 5 до 20."
+        'ru': "Выберите размер блока для разделения модуля (от 5 до 15 элементов)."
               f"\n/{CommandsNames.cancel} - для отмены ввода."
 
     },
     CommandsNames.change_repetitions_for_block: {
         'en': "Set your desired number from 1 to 10 of repetitions for each block"
               f"\n/{CommandsNames.cancel} - for cancel input.",
-        'ru': "Задайте желаемое количество повторений для блока от 1 до 10."
+        'ru': "Задайте желаемое количество повторений блока от 1 до 10."
               f"\n/{CommandsNames.cancel} - для отмены ввода."
     },
     'not_valid_words_in_block': {
-        'en': "The number should be between 5 and 20.",
-        'ru': "Число должно быть от 5 до 20."
+        'en': "The number should be between 5 and 15.",
+        'ru': "Число должно быть от 5 до 15."
     },
     'not_valid_repetitions_for_block': {
         'en': "The number should be between 1 and 10.",
@@ -469,7 +467,7 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
               f"\n\n/{CommandsNames.cancel} - to stop the review",
         'ru': "Сейчас вы повторяете модуль {module_name}.\n"
               "Блок - {cur_block}/{blocks}\n"
-              "Завершенных повторений для этого блока - {current_repetitions}/{repetitions}"
+              "Завершенных повторений этого блока - {current_repetitions}/{repetitions}"
               f"\n\n/{CommandsNames.cancel} - чтобы остановить повторение модуля"
     },
     'cancel_repeating_module': {
