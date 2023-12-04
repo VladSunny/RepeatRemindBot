@@ -40,9 +40,9 @@ LEXICON: dict[str, dict[str, str]] = {
         'en': "Configure bot settings:\n"
               f"\t<b>/{CommandsNames.change_language}</b> - Change bot language\n"
               f"\t<b>/{CommandsNames.change_words_in_block}</b> - Set number of items per block"
-              " (current: {words_in_block_number})\n"
+              " ({words_in_block_number})\n"
               f"\t<b>/{CommandsNames.change_repetitions_for_block}</b> - Set repetitions per block"
-              " (current: {repetitions_for_block_number})\n"
+              " ({repetitions_for_block_number})\n"
               "\n/help for more commands.",
 
         'ru': "Настройки бота:\n"

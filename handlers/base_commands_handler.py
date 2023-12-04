@@ -27,13 +27,15 @@ router.message.filter(StateFilter(default_state))
 
 @router.message(lambda message: message.from_user.id not in get_users_chat_ids())
 async def unregistered_user(message: Message):
-    await message.answer(LEXICON['/start']['en'])
     add_user(message.from_user.id)
+    user = get_user(message.from_user.id)
+    await message.answer(LEXICON['/start'][user['lang']])
 
 
 @router.message(CommandStart())
 async def process_start_command(message: Message):
-    await message.answer(LEXICON['/start']['en'])
+    user = get_user(message.from_user.id)
+    await message.answer(LEXICON['/start'][user['lang']])
     if message.from_user.id not in get_users_chat_ids():
         add_user(message.from_user.id)
 

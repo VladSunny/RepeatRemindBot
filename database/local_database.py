@@ -2,13 +2,13 @@ import sqlite3
 from icecream import ic
 
 
-def local_add_user(chat_id: int):
+def local_add_user(chat_id: int, lang: str):
     conn = sqlite3.connect('database/users_language.db')
     cursor = conn.cursor()
 
     cursor.execute('''
-            INSERT OR IGNORE INTO users (chat_id) VALUES (?)
-            ''', (chat_id,))
+            INSERT OR IGNORE INTO users (chat_id, lang) VALUES (?, ?)
+            ''', (chat_id, lang))
 
     conn.commit()
     conn.close()

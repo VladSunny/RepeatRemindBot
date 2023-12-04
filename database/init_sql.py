@@ -1,5 +1,6 @@
 import sqlite3
 from database.database import supa_get_user, supa_get_all_users
+from config_data.database_config_data import default_lang
 
 
 def init_local_database():
@@ -11,9 +12,9 @@ def init_local_database():
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
         chat_id INTEGER PRIMARY KEY,
-        lang TEXT DEFAULT 'en'
+        lang TEXT DEFAULT (?)
     )
-    ''')
+    ''', (default_lang,))
     conn.commit()
 
     # clear table

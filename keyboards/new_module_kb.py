@@ -11,12 +11,14 @@ def create_new_module_keyboard(content: dict[str, str], lang: str, module_name: 
         -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
 
+    items = list(content.items())
+
     kb_builder.row(*[
         InlineKeyboardButton(
-            text=f"{pair[0]} {separator} {pair[1]}",
-            callback_data=DelPairFromNewModuleCF(key=pair[0]).pack()
+            text=f"{i + 1}. {items[i][0]} {separator} {items[i][1]}",
+            callback_data=DelPairFromNewModuleCF(key=items[i][0]).pack()
         )
-        for pair in content.items()
+        for i in range(len(items))
     ],
                    # Кнопка для изменения названия модуля
                    InlineKeyboardButton(

@@ -5,10 +5,12 @@ from environs import Env
 from supabase import create_client, Client
 from database.local_database import local_add_user, local_get_user, local_update_user, local_get_users_chat_ids
 from icecream import ic
+from config_data.database_config_data import default_lang
 
 # Создаем шаблон заполнения словаря с пользователями
 user_dict_template = {
-    'lang': 'en'
+    'chat_id': "",
+    'lang': default_lang
 }
 
 env = Env()
@@ -46,7 +48,7 @@ def add_user(chat_id: int | str) -> None:
     response = supabase.table("settings").insert({"chat_id": chat_id}).execute()
     response = supabase.table("learning").insert({"chat_id": chat_id}).execute()
 
-    local_add_user(int(chat_id))
+    local_add_user(int(chat_id), default_lang)
 
 
 def get_user(chat_id: int | str) -> dict:
