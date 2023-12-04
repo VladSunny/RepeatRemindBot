@@ -161,7 +161,8 @@ async def process_edit_saved_module(callback: CallbackQuery,
                             separator=module['separator'],
                             message_id=header_message_id.message_id,
                             is_editing=True,
-                            editing_module_id=module_id)
+                            editing_module_id=module_id,
+                            cur_photo_path="")
 
 
 # Start Repeating Module
