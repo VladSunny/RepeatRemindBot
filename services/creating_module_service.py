@@ -1,11 +1,12 @@
 from __future__ import annotations
 import re
 from icecream import ic
+from config_data.user_restrictions import max_name_length, max_element_length
 
 
 def is_valid_name(name: str) -> bool:
     pattern = r'^[a-zA-Z0-9 ]+$'
-    return bool(re.match(pattern, name))
+    return bool(re.match(pattern, name)) and len(name) < max_name_length
 
 
 def is_valid_separator(separator: str) -> bool:
@@ -23,7 +24,7 @@ def get_valid_pairs(pairs: str, separator: str) -> dict[str, str] | None:
 
     for pair in pairs:
         pair = pair.split(f' {separator} ')
-        if len(pair) != 2:
+        if len(pair) != 2 or len(pair[0]) + len(pair[1]) > max_element_length:
             return None
         valid_pairs[pair[0]] = pair[1]
 

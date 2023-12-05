@@ -1,3 +1,6 @@
+from config_data.user_restrictions import *
+
+
 class CommandsNames:
     settings = 'settings'
     change_language = 'change_language'
@@ -55,12 +58,12 @@ LEXICON: dict[str, dict[str, str]] = {
 
     },
     CommandsNames.create_new_module: {
-        'en': "Enter a module name (1-20 characters):\n"
+        'en': f"Enter a module name (1-{max_name_length} characters):\n"
               "- Use Latin letters, numbers, spaces.\n"
               "- Avoid special characters.\n"
               f"\n/{CommandsNames.cancel} to cancel creation.",
 
-        'ru': "Введите название модуля (1-20 символов):\n"
+        'ru': f"Введите название модуля (1-{max_name_length} символов):\n"
               "- Используйте латинские буквы, цифры, пробелы.\n"
               "- Избегайте специальных символов.\n"
               f"\n/{CommandsNames.cancel} для отмены создания."
@@ -166,7 +169,7 @@ CREATING_MODULE_LEXICON = {
     },
     'fill_separator': {
         'en': "enter character- to separate words (for example, '/', '|')."
-              "\n\n/{CommandsNames.cancel} - to cancel the module creation",
+              f"\n\n/{CommandsNames.cancel} - to cancel the module creation",
         'ru': "Введите символ-разделитель слов (например, '/', '|', ',').\n\n"
               f"/{CommandsNames.cancel} - чтобы отменить создание модуля",
     },
@@ -181,15 +184,16 @@ CREATING_MODULE_LEXICON = {
         'ru': "Изменить разделитель✏️"
     },
     'rename_new_module': {
-        'en': "<b>Change of Module Name</b>\n\nEnter a new name for the module. It should be 5-20 characters "
+        'en': "<b>Change of Module Name</b>"
+              f"\n\nEnter a new name for the module. It should be 1-{max_name_length} characters "
               "long and can include:"
               "\n- Latin letters (any case)"
               "\n- Digits"
               "\n- Spaces"
               "\n\nCheck that the name meets these conditions before entering."
               f"\n\n/{CommandsNames.cancel} - to cancel module creation",
-        'ru': "<b>Изменение названия модуля</b>\n\nВведите новое название модуля. Оно должно быть от 5 до "
-              "20 символов и может содержать:"
+        'ru': "<b>Изменение названия модуля</b>\n\nВведите новое название модуля. Оно должно быть от 1 до "
+              f"{max_name_length} символов и может содержать:"
               "\n- Латинские буквы (любой регистр)"
               "\n- Цифры"
               "\n- Пробелы'\n\n"
@@ -228,10 +232,14 @@ CREATING_MODULE_LEXICON = {
                f"/{CommandsNames.cancel} - чтобы отменить создание модуля")
     },
     'incorrect_pair': {
-        'en': ("❌ Incorrect format!\n\nExample:\nfruit {separator} apple\n\n"
+        'en': ("❌ <b>Incorrect format / reached maximum size of element!</b>"
+               "\n\nExample:\nfruit {separator} apple\n\n"
+               f"<b>Maximum size of element (sum of key size and value size) - {max_element_length}</b>"
                f"/{CommandsNames.cancel} - to cancel module "
                "creation"),
-        'ru': ("❌ Неправильный формат!\n\nПример:\nфрукт {separator} яблоко\n\n"
+        'ru': ("❌ <b>Неправильный формат / слишком большой размер элемента!</b>"
+               "\n\nПример:\nфрукт {separator} яблоко\n\n"
+               f"<b>Максимальный размер элемента (сумма размеров ключа и значения) - {max_element_length}</b>\n\n"
                f"/{CommandsNames.cancel} - чтобы отменить "
                "создание модуля")
     },
@@ -239,20 +247,20 @@ CREATING_MODULE_LEXICON = {
         'en': ("Module name - '{module_name}'."
                "\nSeparator - '{separator}'\n"
                "Number of items - {size}\n"
-               "<b>The number of items must not exceed {max_elements}!</b>\n"
+               f"<b>The number of items must not exceed {max_items_in_module}!</b>\n"
                "-----------------------------------------------------------------------------------------------------"),
         'ru': ("Название модуля - '{module_name}'."
                "\nРазделитель - '{separator}'\n"
                "Количество элементов - {size}\n"
-               "<b>Количество элементов должно быть не больше {max_elements}!</b>\n"
+               f"<b>Количество элементов должно быть не больше {max_items_in_module}!</b>\n"
                "-----------------------------------------------------------------------------------------------------")
     },
     'max_items_in_module': {
-        'en': "<b>The maximum number of elements in the module has been reached - {max_elements};"
+        'en': f"<b>The maximum number of elements in the module has been reached - {max_items_in_module};"
               " you will not be able to save this module!</b>"
               "\nThis is due to the fact that the project is still in development and is using a free subscription"
               " to the database service.",
-        'ru': "<b>Превышено максимально возможное количество элементов в модуле - {max_elements},"
+        'ru': f"<b>Превышено максимально возможное количество элементов в модуле - {max_items_in_module},"
               " вы не сможете сохранить данный модуль!</b>"
               "\nЭто связано с тем, что проект развивается и использует бесплатную подписку"
               " сервиса для базы данных."
@@ -270,10 +278,10 @@ CREATING_MODULE_LEXICON = {
         'ru': "пара {deleted_pair} была удалена"
     },
     'cant_save_module_qz_max_elements': {
-        'en': "Sorry, your module cannot be saved because it contains more than {max_elements} items."
+        'en': f"Sorry, your module cannot be saved because it contains more than {max_items_in_module} items."
               "\nThis is due to the project still being in development and using a free subscription service"
               " for the database.",
-        'ru': "Извините, ваш модуль нельзя сохранить, т.к. в нём больше {max_elements} элементов."
+        'ru': f"Извините, ваш модуль нельзя сохранить, т.к. в нём больше {max_items_in_module} элементов."
               "\nЭто связано с тем, что проект ещё на стадии развития и использует бесплатную подписку сервиса"
               " для базы данных."
     },
@@ -301,7 +309,7 @@ CREATING_MODULE_LEXICON = {
               "2. There is no extraneous text in the photo\n"
               "3. The lighting in the photo is even\n"
               "4. You have chosen the correct delimiter</b>"
-              "\n\n<b>Note, the maximum number of elements in a module is {max_elements}!</b>",
+              f"\n\n<b>Note, the maximum number of elements in a module is {max_items_in_module}!</b>",
         'ru': "Текст был считан.\nНайденные фразы:\n\n"
               "{phrases}\n\n"
               "Пожалуйста проверьте корректность фраз, если что-то считалось неправильно, убедитесь что:\n"
@@ -309,7 +317,7 @@ CREATING_MODULE_LEXICON = {
               "2. На фото нет лишнего текста\n"
               "3. Свет на фото равномерный\n"
               "4. Вы выбрали правильный разделитель</b>"
-              "\n\n<b>Учтите, максимальное количество элементов в модуле - {max_elements}!</b>"
+              f"\n\n<b>Учтите, максимальное количество элементов в модуле - {max_items_in_module}!</b>"
     },
     'translated_text': {
         'en': "Here is the translated text:\n\n"

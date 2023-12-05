@@ -61,15 +61,13 @@ async def send_new_module_info(chat_id, data, user, content):
                          text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].
                          format(module_name=data['name'],
                                 separator=data['separator'],
-                                size=len(content),
-                                max_elements=max_items_in_module
+                                size=len(content)
                                 ),
                          can_repeat=True,
                          bt_text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].
                          format(module_name=data['name'],
                                 separator=data['separator'],
-                                size='...',
-                                max_elements=max_items_in_module
+                                size='...'
                                 )
                          )
 
@@ -129,8 +127,7 @@ async def process_name_sent(message: Message, state: FSMContext):
     msg = await message.answer(
         text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].format(module_name=data['name'],
                                                                              separator=data['separator'],
-                                                                             size=len(data['content']),
-                                                                             max_elements=max_items_in_module),
+                                                                             size=len(data['content'])),
         reply_markup=create_new_module_keyboard({}, user['lang'], data['name'], data['separator'])
     )
 
@@ -172,8 +169,7 @@ async def process_content_sent(message: Message, state: FSMContext):
                                       delete_after=7)
     elif len(valid_pairs) > max_items_in_module:
         await send_and_delete_message(message.chat.id,
-                                      CREATING_MODULE_LEXICON['max_items_in_module'][user['lang']].
-                                      format(max_elements=max_items_in_module),
+                                      CREATING_MODULE_LEXICON['max_items_in_module'][user['lang']],
                                       delete_after=7)
 
 
@@ -224,7 +220,7 @@ async def process_got_text_from_photo(callback: CallbackQuery,
     await change_message(chat_id=callback.from_user.id,
                          message_id=data['photo_message_id'],
                          text=CREATING_MODULE_LEXICON['got_text_from_photo'][user['lang']]
-                         .format(phrases=clean_mes_text, max_elements=max_items_in_module),
+                         .format(phrases=clean_mes_text),
                          reply_markup=translate_text_from_photo_keyboard(user['lang']))
 
 
@@ -297,8 +293,7 @@ async def process_add_translated_phrases(callback: CallbackQuery,
                                       delete_after=7)
     elif len(valid_pairs) > max_items_in_module:
         await send_and_delete_message(callback.from_user.id,
-                                      CREATING_MODULE_LEXICON['max_items_in_module'][user['lang']].
-                                      format(max_elements=max_items_in_module),
+                                      CREATING_MODULE_LEXICON['max_items_in_module'][user['lang']],
                                       delete_after=7)
 
 
@@ -419,8 +414,7 @@ async def process_save_module(callback: CallbackQuery,
     data = await state.get_data()
 
     if len(data['content']) > max_items_in_module:
-        await callback.answer(text=CREATING_MODULE_LEXICON['cant_save_module_qz_max_elements'][user['lang']].
-                              format(max_elements=max_items_in_module),
+        await callback.answer(text=CREATING_MODULE_LEXICON['cant_save_module_qz_max_elements'][user['lang']],
                               show_alert=True)
 
         return
