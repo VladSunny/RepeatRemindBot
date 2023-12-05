@@ -38,6 +38,33 @@ router = Router()
 router.message.filter(StateFilter(default_state))
 
 
+async def ask_to_repeating(chat_id, module_id, state, message_id):
+    user = get_user(chat_id)
+    user_settings = get_settings(chat_id)
+    module = get_module(module_id)
+
+    learning_content = get_blocks(module['content'], user_settings['words_in_block'])
+    # update_learning(callback.from_user.id, {"learning_content": learning_content})
+    await state.update_data(learning_content=learning_content)
+
+    await change_message(chat_id=chat_id,
+                         message_id=message_id,
+                         text=REPEATING_MODULE_LEXICON['ask_to_repeating'][user['lang']]
+                         .format(module_name=module['name'],
+                                 blocks_num=str(
+                                     get_blocks_num(len(module['content']), user_settings['words_in_block'])),
+                                 words_in_block_num=user_settings['words_in_block'],
+                                 repetitions_num=user_settings['repetitions_for_block'],
+                                 words_num=len(module['content']),
+                                 content=get_blocks_str(module['content'],
+                                                        user_settings['words_in_block'],
+                                                        module['separator'],
+                                                        learning_content)
+                                 ),
+                         reply_markup=confirm_repeating_keyboard(user['lang'], module_id)
+                         )
+
+
 @router.message(Command(commands=CommandsNames.saved_modules))
 async def process_saved_modules_command(message: Message):
     user = get_user(message.from_user.id)
@@ -170,33 +197,10 @@ async def process_edit_saved_module(callback: CallbackQuery,
 async def process_ask_to_repeat_saved_module(callback: CallbackQuery,
                                              callback_data: RepeatModuleCF,
                                              state: FSMContext):
-    user = get_user(callback.from_user.id)
-    user_settings = get_settings(callback.from_user.id)
-
     module_id = callback_data.module_id
-    module = get_module(module_id)
 
-    learning_content = get_blocks(module['content'], user_settings['words_in_block'])
-    update_learning(callback.from_user.id, {"learning_content": learning_content})
-
+    await ask_to_repeating(callback.from_user.id, module_id, state, callback.message.message_id)
     await callback.answer()
-
-    await change_message(chat_id=callback.from_user.id,
-                         message_id=callback.message.message_id,
-                         text=REPEATING_MODULE_LEXICON['ask_to_repeating'][user['lang']]
-                         .format(module_name=module['name'],
-                                 blocks_num=str(
-                                     get_blocks_num(len(module['content']), user_settings['words_in_block'])),
-                                 words_in_block_num=user_settings['words_in_block'],
-                                 repetitions_num=user_settings['repetitions_for_block'],
-                                 words_num=len(module['content']),
-                                 content=get_blocks_str(module['content'],
-                                                        user_settings['words_in_block'],
-                                                        module['separator'],
-                                                        learning_content)
-                                 ),
-                         reply_markup=confirm_repeating_keyboard(user['lang'], module_id)
-                         )
 
 
 @router.callback_query(MixWordsInRepeatingModuleCF.filter())
@@ -204,29 +208,7 @@ async def process_mix_words_in_repeating_module(callback: CallbackQuery,
                                                 callback_data: MixWordsInRepeatingModuleCF,
                                                 state: FSMContext):
     user = get_user(callback.from_user.id)
-    user_settings = get_settings(callback.from_user.id)
-
     module_id = callback_data.module_id
-    module = get_module(module_id)
 
-    learning_content = get_blocks(module['content'], user_settings['words_in_block'])
-    update_learning(callback.from_user.id, {"learning_content": learning_content})
-
-    await change_message(chat_id=callback.from_user.id,
-                         message_id=callback.message.message_id,
-                         text=REPEATING_MODULE_LEXICON['ask_to_repeating'][user['lang']]
-                         .format(module_name=module['name'],
-                                 blocks_num=str(
-                                     get_blocks_num(len(module['content']), user_settings['words_in_block'])),
-                                 words_in_block_num=user_settings['words_in_block'],
-                                 repetitions_num=user_settings['repetitions_for_block'],
-                                 words_num=len(module['content']),
-                                 content=get_blocks_str(module['content'],
-                                                        user_settings['words_in_block'],
-                                                        module['separator'],
-                                                        learning_content)
-                                 ),
-                         reply_markup=confirm_repeating_keyboard(user['lang'], module_id)
-                         )
-
+    await ask_to_repeating(callback.from_user.id, module_id, state, callback.message.message_id)
     await callback.answer(REPEATING_MODULE_LEXICON['words_were_mixed'][user['lang']])

@@ -65,10 +65,13 @@ async def process_start_repeating_module(callback: CallbackQuery,
                                          callback_data: ConfirmRepeatingCF,
                                          state: FSMContext):
     user = get_user(callback.from_user.id)
+
+    data = await state.get_data()
+
     user_settings = get_settings(callback.from_user.id)
     module_id = callback_data.module_id
     module = get_module(module_id)
-    learning_content = get_learning_data(callback.from_user.id)['learning_content']
+    learning_content = ic(data['learning_content'])
     current_questions = deque(get_current_questions(learning_content[f'block_{1}']))
 
     new_user_data = deepcopy(user_data_template)

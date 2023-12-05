@@ -46,7 +46,6 @@ def add_user(chat_id: int | str) -> None:
 
     response = supabase.table("users_tg").insert(new_user).execute()
     response = supabase.table("settings").insert({"chat_id": chat_id}).execute()
-    response = supabase.table("learning").insert({"chat_id": chat_id}).execute()
 
     local_add_user(int(chat_id), default_lang)
 
