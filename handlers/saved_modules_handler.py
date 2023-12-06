@@ -44,7 +44,6 @@ async def ask_to_repeating(chat_id, module_id, state, message_id):
     module = get_module(module_id)
 
     learning_content = get_blocks(module['content'], user_settings['words_in_block'])
-    # update_learning(callback.from_user.id, {"learning_content": learning_content})
     await state.update_data(learning_content=learning_content)
 
     await change_message(chat_id=chat_id,

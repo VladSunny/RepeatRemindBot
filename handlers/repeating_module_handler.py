@@ -71,7 +71,7 @@ async def process_start_repeating_module(callback: CallbackQuery,
     user_settings = get_settings(callback.from_user.id)
     module_id = callback_data.module_id
     module = get_module(module_id)
-    learning_content = ic(data['learning_content'])
+    learning_content = data['learning_content']
     current_questions = deque(get_current_questions(learning_content[f'block_{1}']))
 
     new_user_data = deepcopy(user_data_template)
@@ -113,7 +113,9 @@ async def process_got_answer(message: Message, state: FSMContext):
 
     await message.delete()
 
-    if message.text is None or current_pair[1].lower() != message.text.lower():
+    current_pair
+
+    if message.text is None or current_pair[1].lower().strip() != message.text.lower().strip():
         await change_message(chat_id=message.from_user.id,
                              text=REPEATING_MODULE_LEXICON['incorrect_answer'][data['user_lang']].format(
                                  correct_answer=f"{current_pair[0]} {data['separator']} {current_pair[1]}"

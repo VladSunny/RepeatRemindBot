@@ -26,7 +26,7 @@ def get_valid_pairs(pairs: str, separator: str) -> dict[str, str] | None:
         pair = pair.split(f' {separator} ')
         if len(pair) != 2 or len(pair[0]) + len(pair[1]) > max_element_length:
             return None
-        valid_pairs[pair[0]] = pair[1]
+        valid_pairs[pair[0].strip()] = pair[1].strip()
 
     return valid_pairs
 
