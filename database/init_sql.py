@@ -12,9 +12,9 @@ def init_local_database():
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
         chat_id INTEGER PRIMARY KEY,
-        lang TEXT DEFAULT (?)
+        lang TEXT
     )
-    ''', (default_lang,))
+    ''')
     conn.commit()
 
     # clear table
