@@ -1,3 +1,4 @@
 .env
 serviceAccountKey.json
 /database/users_language.db
+.idea
