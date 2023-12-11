@@ -24,25 +24,18 @@ from services.repeating_module_service import get_blocks_num, get_blocks, get_bl
 from filters.CallbackDataFactory import OpenSavedModuleCF, DeleteSavedModuleCF, BackToSavedModulesCF, EditModuleCF, \
     RepeatModuleCF, MixWordsInRepeatingModuleCF
 
-new_module_dict: dict[str, str | dict[str, str]] = {
-    "name": "",
-    "separator": "",
-    "content": {
-
-    },
-    "message_id": "",
-}
-
 router = Router()
 
 router.message.filter(StateFilter(default_state))
 
 
+# Отправляет запрос на подтверждение повторения
 async def ask_to_repeating(chat_id, module_id, state, message_id):
     user = get_user(chat_id)
     user_settings = get_settings(chat_id)
     module = get_module(module_id)
 
+    # Разбиение контента модуля на блоки
     learning_content = get_blocks(module['content'], user_settings['words_in_block'])
     await state.update_data(learning_content=learning_content)
 
@@ -64,6 +57,7 @@ async def ask_to_repeating(chat_id, module_id, state, message_id):
                          )
 
 
+# Вывод сохраненных модулей
 @router.message(Command(commands=CommandsNames.saved_modules))
 async def process_saved_modules_command(message: Message):
     user = get_user(message.from_user.id)
@@ -74,6 +68,7 @@ async def process_saved_modules_command(message: Message):
     await message.answer(SAVED_MODULES_LEXICON['list_of_saved_modules'][user['lang']], reply_markup=reply_markup)
 
 
+# Вывод информации о модуле
 @router.callback_query(OpenSavedModuleCF.filter())
 async def process_module_info(callback: CallbackQuery,
                               callback_data: OpenSavedModuleCF):
@@ -87,6 +82,7 @@ async def process_module_info(callback: CallbackQuery,
 
     elements: str = ""
 
+    # Создание текста с элементами
     cnt: int = 0
     for i in module['content'].items():
         cnt += 1
@@ -108,6 +104,7 @@ async def process_module_info(callback: CallbackQuery,
     await callback.answer()
 
 
+# Вернуться к списку сохраненных модулей
 @router.callback_query(BackToSavedModulesCF.filter())
 async def process_back_to_saved_modules(callback: CallbackQuery):
     user = get_user(callback.from_user.id)
@@ -124,6 +121,7 @@ async def process_back_to_saved_modules(callback: CallbackQuery):
     await callback.answer()
 
 
+# Удаление сохраненного модуля
 @router.callback_query(DeleteSavedModuleCF.filter())
 async def process_delete_saved_module(callback: CallbackQuery,
                                       callback_data: DeleteSavedModuleCF):
@@ -149,6 +147,7 @@ async def process_delete_saved_module(callback: CallbackQuery,
     )
 
 
+# Изменение сохраненного модуля
 @router.callback_query(EditModuleCF.filter())
 async def process_edit_saved_module(callback: CallbackQuery,
                                     callback_data: EditModuleCF,
@@ -191,7 +190,7 @@ async def process_edit_saved_module(callback: CallbackQuery,
                             cur_photo_path="")
 
 
-# Start Repeating Module
+# Запрос на подтверждение повторения выбранного модуля
 @router.callback_query(RepeatModuleCF.filter())
 async def process_ask_to_repeat_saved_module(callback: CallbackQuery,
                                              callback_data: RepeatModuleCF,
@@ -202,6 +201,7 @@ async def process_ask_to_repeat_saved_module(callback: CallbackQuery,
     await callback.answer()
 
 
+# Перемешать слова между блоками
 @router.callback_query(MixWordsInRepeatingModuleCF.filter())
 async def process_mix_words_in_repeating_module(callback: CallbackQuery,
                                                 callback_data: MixWordsInRepeatingModuleCF,
