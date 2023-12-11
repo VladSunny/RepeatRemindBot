@@ -18,6 +18,7 @@ from services.service import send_and_delete_message
 router = Router()
 
 
+# Отправка доступных команд для изменения параметров
 @router.message(Command(commands=CommandsNames.settings), StateFilter(default_state))
 async def process_settings_command(message: Message):
     user = get_user(message.from_user.id)
@@ -29,17 +30,19 @@ async def process_settings_command(message: Message):
     ))
 
 
+# Отмена ввода
 @router.message(Command(commands=CommandsNames.cancel),
                 StateFilter(FSMChangeSettings.change_words_in_block,
                             FSMChangeSettings.change_repetitions_for_block),
                 )
-async def process_change_words_in_block_command(message: Message, state: FSMContext):
+async def process_cancel_input_command(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
     await message.answer(SETTINGS_LEXICON['cancel_input'][user['lang']])
 
     await state.clear()
 
 
+# Изменить количество слов в блоке
 @router.message(Command(commands=CommandsNames.change_words_in_block), StateFilter(default_state))
 async def process_change_words_in_block_command(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
@@ -48,6 +51,7 @@ async def process_change_words_in_block_command(message: Message, state: FSMCont
     await state.set_state(FSMChangeSettings.change_words_in_block)
 
 
+# Изменить количество повторений блока
 @router.message(Command(commands=CommandsNames.change_repetitions_for_block), StateFilter(default_state))
 async def process_change_repetitions_for_block_command(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
@@ -56,6 +60,7 @@ async def process_change_repetitions_for_block_command(message: Message, state: 
     await state.set_state(FSMChangeSettings.change_repetitions_for_block)
 
 
+# Отправленно новое количество слов в блоке
 @router.message(StateFilter(FSMChangeSettings.change_words_in_block))
 async def process_sent_new_words_in_block_command(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
@@ -78,6 +83,7 @@ async def process_sent_new_words_in_block_command(message: Message, state: FSMCo
     await state.clear()
 
 
+# Отправленно новое количество повторений блока
 @router.message(StateFilter(FSMChangeSettings.change_repetitions_for_block))
 async def process_sent_new_repetitions_for_block_command(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
