@@ -9,6 +9,9 @@ from icecream import ic
 import re
 
 os_name = platform.system()
+
+print(os_name)
+
 if os_name == "Windows":
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
