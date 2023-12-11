@@ -9,8 +9,7 @@ from icecream import ic
 router = Router()
 
 
-# Этот хэндлер будет реагировать на любые сообщения пользователя,
-# не предусмотренные логикой работы бота
+# Этот хэндлер будет реагировать на любые сообщения пользователя, не предусмотренные логикой работы бота
 @router.message()
 async def process_default_response(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
