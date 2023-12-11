@@ -19,6 +19,7 @@ bot = Bot(token=config.tg_bot.token,
           parse_mode='HTML')
 
 
+# Класс для обработки апдейтов и предотвращения спама
 class AntiFloodMiddleware(BaseMiddleware, ABC):
 
     def __init__(self, limit=5, interval=5):  # Интервал в секундах

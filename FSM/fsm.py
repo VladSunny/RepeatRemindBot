@@ -2,6 +2,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
 
+# Состояния при создании модуля
 class FSMCreatingModule(StatesGroup):
     fill_name = State()
     fill_separator = State()
@@ -19,11 +20,13 @@ creating_module_states = [
 ]
 
 
+# Состояния при повторении модуля
 class FSMRepeatingModule(StatesGroup):
     repeating_module = State()
     wait_next_question = State()
 
 
+# Состояния при изменении настроек
 class FSMChangeSettings(StatesGroup):
     change_words_in_block = State()
     change_repetitions_for_block = State()
@@ -35,5 +38,6 @@ settings_states = [
 ]
 
 
+# Состояние при получении модуля по id
 class FSMGetModuleById(StatesGroup):
     send_module_id = State()

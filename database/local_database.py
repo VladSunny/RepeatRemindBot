@@ -2,6 +2,7 @@ import sqlite3
 from icecream import ic
 
 
+# Добавление нового человека в локальную БД
 def local_add_user(chat_id: int, lang: str):
     conn = sqlite3.connect('database/users_language.db')
     cursor = conn.cursor()
@@ -14,6 +15,7 @@ def local_add_user(chat_id: int, lang: str):
     conn.close()
 
 
+# Получение информации о пользователе из локальной БД
 def local_get_user(chat_id: int):
     conn = sqlite3.connect('database/users_language.db')
     cursor = conn.cursor()
@@ -31,6 +33,7 @@ def local_get_user(chat_id: int):
     return user
 
 
+# Получение списка id всех пользователей из локальной БД
 def local_get_users_chat_ids():
     conn = sqlite3.connect('database/users_language.db')
     cursor = conn.cursor()
@@ -46,6 +49,7 @@ def local_get_users_chat_ids():
     return users
 
 
+# Обновление языка пользователя
 def local_update_user(chat_id: int, update: dict):
     new_lang = update['lang']
 

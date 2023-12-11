@@ -31,6 +31,7 @@ from config_data.user_restrictions import *
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
 
+# Шаблон словаря нового модуля
 new_module_dict: dict[str, str | dict[str, str]] = {
     "name": "",
     "separator": "=",
@@ -50,6 +51,7 @@ new_module_dict: dict[str, str | dict[str, str]] = {
 router = Router()
 
 
+# Отправка сообщения с информацией о новом модуле
 async def send_new_module_info(chat_id, data, user, content):
     await change_message(chat_id=chat_id,
                          message_id=data['message_id'],
@@ -72,12 +74,14 @@ async def send_new_module_info(chat_id, data, user, content):
                          )
 
 
+# Отмена создания модуля
 @router.message(Command(commands=CommandsNames.cancel), StateFilter(*creating_module_states))
 async def process_cancel_command(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
 
     data = await state.get_data()
 
+    # Удаление отправленного фото, если такое имеется
     try:
         if data['cur_photo_path']:
             os.remove(data['cur_photo_path'])
@@ -94,6 +98,7 @@ async def process_cancel_command(message: Message, state: FSMContext):
         await state.clear()
 
 
+# Отправлено имя
 @router.message(StateFilter(FSMCreatingModule.fill_name))
 async def process_name_sent(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
@@ -134,6 +139,7 @@ async def process_name_sent(message: Message, state: FSMContext):
     await state.update_data(message_id=msg.message_id)
 
 
+# Отправлен контент для нового модуля
 @router.message(StateFilter(FSMCreatingModule.fill_content), F.text)
 async def process_content_sent(message: Message, state: FSMContext):
     user = get_user(message.chat.id)
@@ -173,6 +179,7 @@ async def process_content_sent(message: Message, state: FSMContext):
                                       delete_after=7)
 
 
+# Отправлено фото
 @router.message(StateFilter(FSMCreatingModule.fill_content), F.photo)
 async def process_photo_sent(message: Message, state: FSMContext):
     user = get_user(message.chat.id)
@@ -181,12 +188,15 @@ async def process_photo_sent(message: Message, state: FSMContext):
 
     data = await state.get_data()
 
+    # Если уже есть отправленное фото, то выходим с функции
     if data['cur_photo_path']:
         await message.delete()
         return
 
+    # Скачиваем фото
     path = await download_file(photo.file_id)
 
+    # Сохраняем путь к нему
     await state.update_data(cur_photo_path=path)
 
     photo_message = await message.answer(
@@ -198,6 +208,7 @@ async def process_photo_sent(message: Message, state: FSMContext):
     await state.update_data(photo_id=message.message_id)
 
 
+# Получить текст с фото
 @router.callback_query(SeparatorForPhotoCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_got_text_from_photo(callback: CallbackQuery,
                                       callback_data: SeparatorForPhotoCF,
@@ -208,14 +219,14 @@ async def process_got_text_from_photo(callback: CallbackQuery,
     data = await state.get_data()
     path = data['cur_photo_path']
 
-    text = await get_eng_from_photo(path)
-    clean_phrases = clear_text(text, separator)
+    text = await get_eng_from_photo(path)  # получение текста
+    clean_phrases = clear_text(text, separator)  # очистка полученного текста
 
-    clean_mes_text = format_phrases_to_text(clean_phrases)
+    clean_mes_text = format_phrases_to_text(clean_phrases)  # создание из полученных фраз текста для сообщения
 
     await callback.answer()
 
-    await state.update_data(phrases_to_translate=clean_phrases)
+    await state.update_data(phrases_to_translate=clean_phrases)  # сохраняем полученные фразы
 
     await change_message(chat_id=callback.from_user.id,
                          message_id=data['photo_message_id'],
@@ -224,6 +235,7 @@ async def process_got_text_from_photo(callback: CallbackQuery,
                          reply_markup=translate_text_from_photo_keyboard(user['lang']))
 
 
+# Отмена действий с фото
 @router.callback_query(CancelTranslatingPhrasesCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_cancel_translating_phrases(callback: CallbackQuery,
                                              callback_data: CancelTranslatingPhrasesCF,
@@ -232,6 +244,7 @@ async def process_cancel_translating_phrases(callback: CallbackQuery,
 
     data = await state.get_data()
 
+    # Удаляем фото если оно есть
     try:
         os.remove(data['cur_photo_path'])
     finally:
@@ -240,6 +253,7 @@ async def process_cancel_translating_phrases(callback: CallbackQuery,
         await delete_message(chat_id=callback.from_user.id, message_id=data['photo_message_id'])
 
 
+# Автоматический перевод полученных фраз с фото
 @router.callback_query(AutoTranslatePhrasesCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_auto_translate_phrases(callback: CallbackQuery,
                                          callback_data: AutoTranslatePhrasesCF,
@@ -247,7 +261,7 @@ async def process_auto_translate_phrases(callback: CallbackQuery,
     user = get_user(callback.from_user.id)
 
     data = await state.get_data()
-    translated_phrases = translate_all_phrases_into_module_pairs(data['phrases_to_translate'])
+    translated_phrases = translate_all_phrases_into_module_pairs(data['phrases_to_translate'])  # перевод
     translated_phrases_text = elements_to_text(translated_phrases, separator=data['separator'])
 
     await callback.answer()
@@ -260,6 +274,7 @@ async def process_auto_translate_phrases(callback: CallbackQuery,
                          reply_markup=add_translated_phrases_keyboard(user['lang']))
 
 
+# Добавление переведенных фраз
 @router.callback_query(AddPhrasesFromPhotoCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_add_translated_phrases(callback: CallbackQuery,
                                          callback_data: AddPhrasesFromPhotoCF,
@@ -297,6 +312,7 @@ async def process_add_translated_phrases(callback: CallbackQuery,
                                       delete_after=7)
 
 
+# Отправлено новое имя
 @router.message(StateFilter(FSMCreatingModule.change_name))
 async def process_new_name_sent(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
@@ -322,6 +338,7 @@ async def process_new_name_sent(message: Message, state: FSMContext):
                                   )
 
 
+# Отправлен новый разделитель
 @router.message(StateFilter(FSMCreatingModule.change_separator))
 async def process_new_separator_sent(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
@@ -347,6 +364,7 @@ async def process_new_separator_sent(message: Message, state: FSMContext):
                                   )
 
 
+# Удаление пары из модуля
 @router.callback_query(DelPairFromNewModuleCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_delete_pair(callback: CallbackQuery,
                               callback_data: DelPairFromNewModuleCF,
@@ -368,6 +386,7 @@ async def process_delete_pair(callback: CallbackQuery,
     await send_new_module_info(callback.from_user.id, data, user, data['content'])
 
 
+# Переименование модуля
 @router.callback_query(RenameNewModuleCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_change_name(callback: CallbackQuery,
                               callback_data: RenameNewModuleCF,
@@ -386,6 +405,7 @@ async def process_change_name(callback: CallbackQuery,
     await state.set_state(FSMCreatingModule.change_name)
 
 
+# Изменение разделителя у модуля
 @router.callback_query(EditNewModuleSeparatorCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_change_separator(callback: CallbackQuery,
                                    callback_data: EditNewModuleSeparatorCF,
@@ -404,6 +424,7 @@ async def process_change_separator(callback: CallbackQuery,
     await state.set_state(FSMCreatingModule.change_separator)
 
 
+# Сохранение модуля
 @router.callback_query(SaveNewModuleCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_save_module(callback: CallbackQuery,
                               callback_data: SaveNewModuleCF,
@@ -435,6 +456,7 @@ async def process_save_module(callback: CallbackQuery,
     await delete_message(chat_id=callback.from_user.id, message_id=data['message_id'])
 
 
+# Непредусмотренная команда
 @router.message(StateFilter(*creating_module_states))
 async def process_unintended_command(message: Message):
     user = get_user(message.from_user.id)

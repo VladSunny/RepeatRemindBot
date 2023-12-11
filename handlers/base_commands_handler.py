@@ -20,11 +20,7 @@ router = Router()
 router.message.filter(StateFilter(default_state))
 
 
-# message
-
-# base commands
-
-
+# Функция добавляющая нового пользователя
 @router.message(lambda message: message.from_user.id not in get_users_chat_ids())
 async def unregistered_user(message: Message):
     add_user(message.from_user.id)
@@ -32,6 +28,8 @@ async def unregistered_user(message: Message):
     await message.answer(LEXICON['/start'][user['lang']])
 
 
+# /start
+# Добавляет нового пользователя
 @router.message(CommandStart())
 async def process_start_command(message: Message):
     user = get_user(message.from_user.id)
@@ -40,12 +38,14 @@ async def process_start_command(message: Message):
         add_user(message.from_user.id)
 
 
+# /help
 @router.message(Command(commands='help'))
 async def process_help_command(message: Message):
     user = get_user(message.from_user.id)
     await message.answer(LEXICON['/help'][user['lang']])
 
 
+# /cancel когда нечего отменять
 @router.message(Command(commands=CommandsNames.cancel))
 async def process_cancel_command(message: Message):
     user = get_user(message.from_user.id)
@@ -54,9 +54,7 @@ async def process_cancel_command(message: Message):
     )
 
 
-# interactive commands
-
-
+# /change_language для смены языка
 @router.message(Command(commands=CommandsNames.change_language))
 async def process_change_language_command(message: Message):
     user = get_user(message.from_user.id)
@@ -64,6 +62,7 @@ async def process_change_language_command(message: Message):
                          reply_markup=create_change_language_keyboard())
 
 
+# /new_module для создания нового модуля
 @router.message(Command(commands=CommandsNames.create_new_module))
 async def process_new_module_command(message: Message, state: FSMContext):
     user = get_user(message.from_user.id)
@@ -77,9 +76,7 @@ async def process_new_module_command(message: Message, state: FSMContext):
         await state.set_state(FSMCreatingModule.fill_name)
 
 
-# callback query
-
-
+# Смена языка
 @router.callback_query(LanguageSelectionCF.filter())
 async def process_change_language_press(callback: CallbackQuery,
                                         callback_data: LanguageSelectionCF):
