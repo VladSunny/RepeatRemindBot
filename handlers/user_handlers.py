@@ -10,4 +10,4 @@ from lexicon.lexicon import LEXICON
 
 router = Router()
 
-
+# Здесь будет обработка сообщений админов
