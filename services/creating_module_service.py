@@ -20,18 +20,21 @@ def is_valid_separator(separator: str) -> bool:
 
 
 # Получить пары ключ-значение из отправленного сообщения
-def get_valid_pairs(pairs: str, separator: str) -> dict[str, str] | None:
+def get_valid_pairs(pairs: str, separator: str) -> tuple[dict[str, str], bool]:
     pairs: list[str] = pairs.split('\n')
 
     valid_pairs: dict[str, str] = {}
 
+    has_mistake: bool = False
+
     for pair in pairs:
         pair = pair.split(f' {separator} ')
         if len(pair) != 2 or len(pair[0]) + len(pair[1]) > max_element_length:
+            has_mistake =  True
             continue
         valid_pairs[pair[0].strip()] = pair[1].strip()
 
-    return valid_pairs
+    return valid_pairs, has_mistake
 
 
 # Перевести словарь с парами в текст

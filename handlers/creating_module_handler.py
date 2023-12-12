@@ -148,13 +148,7 @@ async def process_content_sent(message: Message, state: FSMContext):
 
     data = await state.get_data()
 
-    valid_pairs: dict[str, str] = get_valid_pairs(message.text, data['separator'])
-
-    if valid_pairs is None:
-        await send_and_delete_message(message.chat.id,
-                                      CREATING_MODULE_LEXICON['incorrect_pair'][user['lang']].format(
-                                          separator=data['separator']), 5)
-        return
+    valid_pairs, has_mistake = get_valid_pairs(message.text, data['separator'])
 
     valid_pairs = data['content'] | valid_pairs
 
@@ -168,6 +162,11 @@ async def process_content_sent(message: Message, state: FSMContext):
     await state.update_data(content=valid_pairs)
 
     await send_new_module_info(message.from_user.id, data, user, valid_pairs)
+
+    if has_mistake:
+        await send_and_delete_message(message.chat.id,
+                                      CREATING_MODULE_LEXICON['incorrect_pair'][user['lang']].format(
+                                          separator=data['separator']), 5)
 
     if reach_local_max:
         await send_and_delete_message(message.chat.id,
