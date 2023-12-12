@@ -7,6 +7,7 @@ from filters.CallbackDataFactory import \
     AutoTranslatePhrasesCF, CancelTranslatingPhrasesCF, AddPhrasesFromPhotoCF
 
 
+# Кнопки при создании нового модуля
 def create_new_module_keyboard(content: dict[str, str], lang: str, module_name: str, separator: str) \
         -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
@@ -40,6 +41,7 @@ def create_new_module_keyboard(content: dict[str, str], lang: str, module_name: 
     return kb_builder.as_markup()
 
 
+# Кнопки для выбора разделителя на фото
 def create_separator_on_photo_keyboard(lang: str) -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
 
@@ -62,6 +64,7 @@ def create_separator_on_photo_keyboard(lang: str) -> InlineKeyboardMarkup:
     return kb_builder.as_markup()
 
 
+# Кнопки для автоматического перевода текста с фото
 def translate_text_from_photo_keyboard(lang: str) -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
 
@@ -80,6 +83,7 @@ def translate_text_from_photo_keyboard(lang: str) -> InlineKeyboardMarkup:
     return kb_builder.as_markup()
 
 
+# Кнопки для добавление переведенных фраз
 def add_translated_phrases_keyboard(lang: str) -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
 

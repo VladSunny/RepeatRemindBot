@@ -9,6 +9,7 @@ from filters.CallbackDataFactory import OpenSavedModuleCF,\
     RepeatModuleCF
 
 
+# Список сохраненных модулей в виде кнопок
 def list_of_saved_modules_keyboard(modules: list[tuple[str, int]]) -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
 
@@ -25,6 +26,7 @@ def list_of_saved_modules_keyboard(modules: list[tuple[str, int]]) -> InlineKeyb
     return kb_builder.as_markup()
 
 
+# Кнопки для выбранного сохраненного модуля
 def module_info_keyboard(lang: str, module_id: int, module_name: str) -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
 

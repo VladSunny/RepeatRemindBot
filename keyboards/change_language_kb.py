@@ -5,6 +5,7 @@ from lexicon.lexicon import SETTINGS_LEXICON
 from filters.CallbackDataFactory import LanguageSelectionCF
 
 
+# Кнопки для смены языка
 def create_change_language_keyboard() -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
 

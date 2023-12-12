@@ -9,6 +9,7 @@ from icecream import ic
 import json
 
 
+# Кнопки для подтверждения повторения выбранного модуля
 def confirm_repeating_keyboard(lang: str, module_id: int) -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
 
@@ -31,6 +32,7 @@ def confirm_repeating_keyboard(lang: str, module_id: int) -> InlineKeyboardMarku
     return kb_builder.as_markup()
 
 
+# Кнопки при неправильном ответе
 def incorrect_answer_keyboard(lang: str):
     kb_builder = InlineKeyboardBuilder()
 
@@ -49,6 +51,7 @@ def incorrect_answer_keyboard(lang: str):
     return kb_builder.as_markup()
 
 
+# Кнопки при правильном ответе
 def correct_answer_keyboard(lang: str):
     kb_builder = InlineKeyboardBuilder()
 
