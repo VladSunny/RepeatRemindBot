@@ -4,10 +4,12 @@ from icecream import ic
 from copy import deepcopy
 
 
+# Получить количество блоков в повторяемом модуле
 def get_blocks_num(module_len: int, words_in_block: int) -> int:
     return math.ceil(module_len / words_in_block)
 
 
+# Разделить элементы модуля на блоки
 def get_blocks(content: dict[str, str], words_in_block: int) -> dict[str, dict[str, str]]:
     items = list(content.items())
     random.shuffle(items)
@@ -23,6 +25,7 @@ def get_blocks(content: dict[str, str], words_in_block: int) -> dict[str, dict[s
     return blocks
 
 
+# Сделать из словаря блоков строку
 def get_blocks_str(content: dict[str, str],
                    words_in_block: int,
                    separator: str,
@@ -40,6 +43,7 @@ def get_blocks_str(content: dict[str, str],
     return text
 
 
+# Получить вопросы текущего блока
 def get_current_questions(block: dict[str, str]) -> list:
     items1 = list(block.items())
     items2 = [(item[1], item[0]) for item in block.items()]
@@ -51,6 +55,7 @@ def get_current_questions(block: dict[str, str]) -> list:
     return items
 
 
+# Получить вопросы всех блоков (всего модуля)
 def get_all_questions(blocks: dict[str, dict[str, str]]) -> list:
     all_questions = []
     for block in blocks.values():

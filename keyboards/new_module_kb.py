@@ -83,7 +83,7 @@ def translate_text_from_photo_keyboard(lang: str) -> InlineKeyboardMarkup:
     return kb_builder.as_markup()
 
 
-# Кнопки для добавление переведенных фраз
+# Кнопки для добавления переведенных фраз
 def add_translated_phrases_keyboard(lang: str) -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
 

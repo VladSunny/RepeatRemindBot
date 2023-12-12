@@ -16,6 +16,7 @@ if os_name == "Windows":
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 
+# Перевести полученные фразы в текст
 def format_phrases_to_text(phrases: list[str]):
     text = ""
 
@@ -25,6 +26,7 @@ def format_phrases_to_text(phrases: list[str]):
     return text
 
 
+# Очистить считанный текст и достать фразы
 def clear_text(text_from_photo: str, sep: str) -> list[str]:
     # Сначала разделяем текст на выражения по запятым
     text = copy.deepcopy(text_from_photo)
@@ -45,6 +47,7 @@ def clear_text(text_from_photo: str, sep: str) -> list[str]:
     return clean_expressions
 
 
+# Считать текст с изображения
 async def async_image_to_string(image_path):
     loop = asyncio.get_running_loop()
 
@@ -76,6 +79,7 @@ async def async_image_to_string(image_path):
     )
 
 
+# Получить текст с изображения и удалить его из памяти
 async def get_eng_from_photo(path: str, delete_photo: bool = True) -> str:
     try:
         text = await async_image_to_string(path)

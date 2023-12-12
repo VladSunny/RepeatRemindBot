@@ -21,16 +21,19 @@ bot = Bot(token=config.tg_bot.token,
           parse_mode='HTML')
 
 
+# Отправить сообщение
 async def send_message(chat_id: int, text: str, reply_markup: InlineKeyboardMarkup | ReplyKeyboardMarkup | None = None)\
         -> Message:
     message = await bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup)
     return message
 
 
+# Удалить сообщение
 async def delete_message(chat_id: int, message_id: int):
     await bot.delete_message(chat_id=chat_id, message_id=message_id)
 
 
+# Отправить сообщение на время
 async def send_and_delete_message(chat_id: int, text: str, delete_after: int):
     # Отправляем сообщение
     message = await bot.send_message(chat_id, text)
@@ -42,6 +45,7 @@ async def send_and_delete_message(chat_id: int, text: str, delete_after: int):
     await bot.delete_message(chat_id, message.message_id)
 
 
+# Изменить сообщение
 async def change_message(chat_id: int, message_id: int,
                          reply_markup: InlineKeyboardMarkup | None | int = None,
                          text: str | None = None,
@@ -55,6 +59,7 @@ async def change_message(chat_id: int, message_id: int,
         await bot.edit_message_reply_markup(chat_id=chat_id, message_id=message_id, reply_markup=reply_markup)
 
 
+# Скачать файл
 async def download_file(file_id) -> str:
     # Получаем объект файла
     file = await bot.get_file(file_id)

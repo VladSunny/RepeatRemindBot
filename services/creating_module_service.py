@@ -4,11 +4,13 @@ from icecream import ic
 from config_data.user_restrictions import max_name_length, max_element_length
 
 
+# Проверка имени
 def is_valid_name(name: str) -> bool:
     pattern = r'^[a-zA-Z0-9 ]+$'
     return bool(re.match(pattern, name)) and len(name) < max_name_length
 
 
+# Проверка разделителя
 def is_valid_separator(separator: str) -> bool:
     if len(separator) > 1:
         return False
@@ -17,6 +19,7 @@ def is_valid_separator(separator: str) -> bool:
     return bool(re.match(pattern, separator))
 
 
+# Получить пары ключ-значение из отправленного сообщения
 def get_valid_pairs(pairs: str, separator: str) -> dict[str, str] | None:
     pairs: list[str] = pairs.split('\n')
 
@@ -25,12 +28,13 @@ def get_valid_pairs(pairs: str, separator: str) -> dict[str, str] | None:
     for pair in pairs:
         pair = pair.split(f' {separator} ')
         if len(pair) != 2 or len(pair[0]) + len(pair[1]) > max_element_length:
-            return None
+            continue
         valid_pairs[pair[0].strip()] = pair[1].strip()
 
     return valid_pairs
 
 
+# Перевести словарь с парами в текст
 def elements_to_text(elements: dict[str, str], separator: str) -> str:
     text = ""
     items = list(elements.items())
