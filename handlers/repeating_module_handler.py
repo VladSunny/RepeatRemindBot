@@ -112,7 +112,9 @@ async def process_start_repeating_module(callback: CallbackQuery,
 
 # функция для следующего вопроса
 async def next_question(data, chat_id, state):
+    # Проверка есть ли ещё вопросы
     if len(data['current_questions']) > 0:
+        # Следующий вопрос
         question = data['current_questions'][0]
 
         await change_message(chat_id=chat_id,
@@ -123,18 +125,28 @@ async def next_question(data, chat_id, state):
 
         await state.set_state(FSMRepeatingModule.repeating_module)
 
+    # Вопросы закончились
     else:
+
+        # Проверка нужно ли ещё раз повторить блок
         if data['current_repetitions'] == data['repetitions'] - 1:
+
+            # Проверка повторены ли все блоки
             if data['current_block'] == len(data['learning_content']):
+
+                # Провекра сделано ли финальное повторение (вопросы из всех блоков)
                 if data['finish_learning_blocks']:
                     await change_message(chat_id=chat_id,
                                          text=REPEATING_MODULE_LEXICON['finish_all_repeating'][data['user_lang']],
                                          message_id=data['question_message_id'],
                                          reply_markup=None)
 
+                    # Окончание повторения
                     await state.clear()
 
                 else:
+                    # Получение вопросов для финального повторения
+
                     data['finish_learning_blocks'] = True
                     data['current_questions'] = deque(get_all_questions(data['learning_content']))
                     await state.update_data(data)
@@ -153,6 +165,8 @@ async def next_question(data, chat_id, state):
                     await state.set_state(FSMRepeatingModule.wait_next_question)
 
             else:
+                # Получение вопросов следующего блока
+
                 data['current_block'] += 1
                 data['current_repetitions'] = 0
                 data['current_questions'] = deque(get_current_questions(data['learning_content']
@@ -179,6 +193,8 @@ async def next_question(data, chat_id, state):
                 await state.set_state(FSMRepeatingModule.wait_next_question)
 
         else:
+            # Следующее повторение блока
+
             data['current_repetitions'] += 1
             data['current_questions'] = deque(get_current_questions(data['learning_content']
                                                                     [f'block_{data["current_block"]}']))
