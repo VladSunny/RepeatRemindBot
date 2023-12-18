@@ -10,6 +10,7 @@ class CommandsNames:
     change_words_in_block = 'change_words_in_block'
     change_repetitions_for_block = 'change_repetitions_for_block'
     get_module_by_id = 'get_module_by_id'
+    donate = 'support'
 
 
 LEXICON: dict[str, dict[str, str]] = {
@@ -28,7 +29,8 @@ LEXICON: dict[str, dict[str, str]] = {
               f"\t<b>/{CommandsNames.create_new_module}</b> - Create a module for study\n"
               f"\t<b>/{CommandsNames.saved_modules}</b> - Show your saved modules\n"
               f"\t<b>/{CommandsNames.get_module_by_id}</b> - Retrieve a module using its ID"
-              f" (e.g., for student-teacher shared modules)",
+              f" (e.g., for student-teacher shared modules)\n"
+              f"\t<b>/{CommandsNames.donate}</b> - Support the project",
 
         'ru': "Вы можете использовать эти команды:\n"
               "\t<b>/help</b> - Список команд и их описание\n"
@@ -36,7 +38,8 @@ LEXICON: dict[str, dict[str, str]] = {
               f"\t<b>/{CommandsNames.create_new_module}</b> - Создание модуля для изучения\n"
               f"\t<b>/{CommandsNames.saved_modules}</b> - Просмотр сохраненных модулей\n"
               f"\t<b>/{CommandsNames.get_module_by_id}</b> - Получение модуля по ID"
-              f" (например, для общего использования с учителем)"
+              f" (например, для общего использования с учителем)\n"
+              f"\t<b>/{CommandsNames.donate}</b> - Поддержать проект"
 
     },
     CommandsNames.settings: {
@@ -70,6 +73,13 @@ LEXICON: dict[str, dict[str, str]] = {
 
     },
 
+    # Donate
+
+    '/donate': {
+        'en': "https://donate.stream/repeatreminddonate",
+        'ru': "https://donate.stream/repeatreminddonate"
+    },
+
     # Other
 
     'maximum_number_of_modules': {
@@ -99,6 +109,27 @@ LEXICON: dict[str, dict[str, str]] = {
         'ru': "Сейчас отменять нечего. Вы уже в стандартном режиме."
               " Обращайтесь, если у вас есть вопросы или нужна помощь! /help"
     },
+}
+
+DONATE_LEXICON: dict[str, dict[str, str]] = {
+    'title': {
+        'en': "Bot Support",
+        'ru': "Поддержка бота"
+    },
+    'description': {
+        'en': "If you liked the project,"
+              " the author would be very pleased to receive your support for further development!\n",
+        'ru': "Если проект вам понравился,"
+              " автору было бы очень приятно получить от вас поддержку для дальнейшего развития!\n"
+    },
+    'donate_label': {
+        'en': "For coffee for the developer ☕",
+        'ru': "На кофе для разработчика ☕"
+    },
+    'thanks_for_support': {
+        'en': "Thank you so much for your support! RepeatRemindBot remembered your kindness)",
+        'ru': "Большое спасибо за поддержку! RepeatRemindBot запомнил вашу доброту)"
+    }
 }
 
 SETTINGS_LEXICON: dict[str, dict[str, str]] = {
@@ -579,5 +610,6 @@ LEXICON_COMMANDS: dict[str, str] = {
     f'/{CommandsNames.settings}': 'Your settings.',
     f'/{CommandsNames.create_new_module}': 'Create a new module.',
     f'/{CommandsNames.saved_modules}': 'Your saved modules.',
-    f'/{CommandsNames.get_module_by_id}': "Save someone else's module using ID."
+    f'/{CommandsNames.get_module_by_id}': "Save someone else's module using ID.",
+    f'/{CommandsNames.donate}': "Support the project"
 }
