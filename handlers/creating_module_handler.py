@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import os
 
-from aiogram import F, Router, Dispatcher
+from aiogram import F, Router, Dispatcher, Bot
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.storage.memory import MemoryStorage
@@ -18,7 +18,7 @@ from keyboards.new_module_kb import create_new_module_keyboard, create_separator
 from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON
 from services.auto_translate_service import translate_all_phrases_into_module_pairs
 from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs, elements_to_text
-from services.service import send_and_delete_message, change_message, delete_message, download_file, send_message
+from services.service import send_and_delete_message, download_file
 from services.tesseract_service import get_eng_from_photo, clear_text, format_phrases_to_text
 
 storage = MemoryStorage()
@@ -45,26 +45,30 @@ router = Router()
 
 
 # Отправка сообщения с информацией о новом модуле
-async def send_new_module_info(chat_id, data, user, content):
-    await change_message(chat_id=chat_id,
-                         message_id=data['message_id'],
-                         reply_markup=create_new_module_keyboard(
-                             content,
-                             user['lang'],
-                             data['name'],
-                             data['separator']),
-                         text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].
-                         format(module_name=data['name'],
-                                separator=data['separator'],
-                                size=len(content)
+async def send_new_module_info(chat_id, data, user, content, bot: Bot):
+    new_keyboard = create_new_module_keyboard(
+        content,
+        user['lang'],
+        data['name'],
+        data['separator'])
+
+    await bot.edit_message_text(chat_id=chat_id,
+                                message_id=data['message_id'],
+                                text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].format(
+                                    module_name=data['name'],
+                                    separator=data['separator'],
+                                    size='...'
                                 ),
-                         can_repeat=True,
-                         bt_text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].
-                         format(module_name=data['name'],
-                                separator=data['separator'],
-                                size='...'
+                                reply_markup=new_keyboard)
+    await bot.edit_message_text(chat_id=chat_id,
+                                message_id=data['message_id'],
+                                reply_markup=new_keyboard,
+                                text=CREATING_MODULE_LEXICON['new_module_info'][user['lang']].
+                                format(module_name=data['name'],
+                                       separator=data['separator'],
+                                       size=len(content)
+                                       )
                                 )
-                         )
 
 
 # Отмена создания модуля
@@ -76,7 +80,7 @@ async def process_cancel_command(message: Message, state: FSMContext):
 
     # Удаление отправленного фото, если такое имеется
     try:
-        if data['cur_photo_path']:
+        if data.get('cur_photo_path'):
             os.remove(data['cur_photo_path'])
     finally:
         if data.get('is_editing'):
@@ -93,7 +97,7 @@ async def process_cancel_command(message: Message, state: FSMContext):
 
 # Отправлено имя
 @router.message(StateFilter(FSMCreatingModule.fill_name))
-async def process_name_sent(message: Message, state: FSMContext):
+async def process_name_sent(message: Message, state: FSMContext, bot: Bot):
     user = get_user(message.from_user.id)
 
     if (message.text is None) or (not is_valid_name(message.text)):
@@ -116,7 +120,7 @@ async def process_name_sent(message: Message, state: FSMContext):
 
     data = await state.get_data()
 
-    await change_message(
+    await bot.edit_message_text(
         chat_id=message.from_user.id,
         message_id=data['instruction_message_id'],
         text=CREATING_MODULE_LEXICON['fill_content'][user['lang']]
@@ -134,7 +138,7 @@ async def process_name_sent(message: Message, state: FSMContext):
 
 # Отправлен контент для нового модуля
 @router.message(StateFilter(FSMCreatingModule.fill_content), F.text)
-async def process_content_sent(message: Message, state: FSMContext):
+async def process_content_sent(message: Message, state: FSMContext, bot: Bot):
     user = get_user(message.chat.id)
 
     await message.delete()
@@ -154,7 +158,7 @@ async def process_content_sent(message: Message, state: FSMContext):
 
     await state.update_data(content=valid_pairs)
 
-    await send_new_module_info(message.from_user.id, data, user, valid_pairs)
+    await send_new_module_info(message.from_user.id, data, user, valid_pairs, bot)
 
     if has_mistake:
         await send_and_delete_message(message.chat.id,
@@ -204,7 +208,8 @@ async def process_photo_sent(message: Message, state: FSMContext):
 @router.callback_query(SeparatorForPhotoCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_got_text_from_photo(callback: CallbackQuery,
                                       callback_data: SeparatorForPhotoCF,
-                                      state: FSMContext):
+                                      state: FSMContext,
+                                      bot: Bot):
     user = get_user(callback.from_user.id)
     separator = callback_data.sep
 
@@ -220,18 +225,19 @@ async def process_got_text_from_photo(callback: CallbackQuery,
 
     await state.update_data(phrases_to_translate=clean_phrases)  # сохраняем полученные фразы
 
-    await change_message(chat_id=callback.from_user.id,
-                         message_id=data['photo_message_id'],
-                         text=CREATING_MODULE_LEXICON['got_text_from_photo'][user['lang']]
-                         .format(phrases=clean_mes_text),
-                         reply_markup=translate_text_from_photo_keyboard(user['lang']))
+    await bot.edit_message_text(chat_id=callback.from_user.id,
+                                message_id=data['photo_message_id'],
+                                text=CREATING_MODULE_LEXICON['got_text_from_photo'][user['lang']]
+                                .format(phrases=clean_mes_text),
+                                reply_markup=translate_text_from_photo_keyboard(user['lang']))
 
 
 # Отмена действий с фото
 @router.callback_query(CancelTranslatingPhrasesCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_cancel_translating_phrases(callback: CallbackQuery,
                                              callback_data: CancelTranslatingPhrasesCF,
-                                             state: FSMContext):
+                                             state: FSMContext,
+                                             bot: Bot):
     await callback.answer()
 
     data = await state.get_data()
@@ -241,15 +247,16 @@ async def process_cancel_translating_phrases(callback: CallbackQuery,
         os.remove(data['cur_photo_path'])
     finally:
         await state.update_data(cur_photo_path="")
-        await delete_message(chat_id=callback.from_user.id, message_id=data['photo_id'])
-        await delete_message(chat_id=callback.from_user.id, message_id=data['photo_message_id'])
+        await bot.delete_message(chat_id=callback.from_user.id, message_id=data['photo_id'])
+        await bot.delete_message(chat_id=callback.from_user.id, message_id=data['photo_message_id'])
 
 
 # Автоматический перевод полученных фраз с фото
 @router.callback_query(AutoTranslatePhrasesCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_auto_translate_phrases(callback: CallbackQuery,
                                          callback_data: AutoTranslatePhrasesCF,
-                                         state: FSMContext):
+                                         state: FSMContext,
+                                         bot: Bot):
     user = get_user(callback.from_user.id)
 
     data = await state.get_data()
@@ -259,18 +266,19 @@ async def process_auto_translate_phrases(callback: CallbackQuery,
     await callback.answer()
     await state.update_data(phrases_to_translate=translated_phrases)
 
-    await change_message(chat_id=callback.from_user.id,
-                         message_id=data['photo_message_id'],
-                         text=CREATING_MODULE_LEXICON['translated_text'][user['lang']]
-                         .format(content=translated_phrases_text),
-                         reply_markup=add_translated_phrases_keyboard(user['lang']))
+    await bot.edit_message_text(chat_id=callback.from_user.id,
+                                message_id=data['photo_message_id'],
+                                text=CREATING_MODULE_LEXICON['translated_text'][user['lang']]
+                                .format(content=translated_phrases_text),
+                                reply_markup=add_translated_phrases_keyboard(user['lang']))
 
 
 # Добавление переведенных фраз
 @router.callback_query(AddPhrasesFromPhotoCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_add_translated_phrases(callback: CallbackQuery,
                                          callback_data: AddPhrasesFromPhotoCF,
-                                         state: FSMContext):
+                                         state: FSMContext,
+                                         bot: Bot):
     user = get_user(callback.from_user.id)
 
     data = await state.get_data()
@@ -286,12 +294,12 @@ async def process_add_translated_phrases(callback: CallbackQuery,
 
     await state.update_data(content=valid_pairs)
 
-    await send_new_module_info(callback.from_user.id, data, user, valid_pairs)
+    await send_new_module_info(callback.from_user.id, data, user, valid_pairs, bot)
 
     await callback.answer()
 
-    await delete_message(callback.from_user.id, data['photo_id'])
-    await delete_message(callback.from_user.id, data['photo_message_id'])
+    await bot.delete_message(callback.from_user.id, data['photo_id'])
+    await bot.delete_message(callback.from_user.id, data['photo_message_id'])
     await state.update_data(cur_photo_path="")
 
     if reach_local_max:
@@ -306,7 +314,7 @@ async def process_add_translated_phrases(callback: CallbackQuery,
 
 # Отправлено новое имя
 @router.message(StateFilter(FSMCreatingModule.change_name))
-async def process_new_name_sent(message: Message, state: FSMContext):
+async def process_new_name_sent(message: Message, state: FSMContext, bot: Bot):
     user = get_user(message.from_user.id)
 
     await message.delete()
@@ -322,7 +330,7 @@ async def process_new_name_sent(message: Message, state: FSMContext):
 
     data = await state.get_data()
 
-    await send_new_module_info(message.from_user.id, data, user, data['content'])
+    await send_new_module_info(message.from_user.id, data, user, data['content'], bot)
 
     await send_and_delete_message(chat_id=message.chat.id,
                                   text=CREATING_MODULE_LEXICON['new_module_was_renamed'][user['lang']],
@@ -332,7 +340,7 @@ async def process_new_name_sent(message: Message, state: FSMContext):
 
 # Отправлен новый разделитель
 @router.message(StateFilter(FSMCreatingModule.change_separator))
-async def process_new_separator_sent(message: Message, state: FSMContext):
+async def process_new_separator_sent(message: Message, state: FSMContext, bot: Bot):
     user = get_user(message.from_user.id)
 
     await message.delete()
@@ -348,7 +356,7 @@ async def process_new_separator_sent(message: Message, state: FSMContext):
 
     data = await state.get_data()
 
-    await send_new_module_info(message.from_user.id, data, user, data['content'])
+    await send_new_module_info(message.from_user.id, data, user, data['content'], bot)
 
     await send_and_delete_message(chat_id=message.chat.id,
                                   text=CREATING_MODULE_LEXICON['seperator_was_changed'][user['lang']],
@@ -360,7 +368,8 @@ async def process_new_separator_sent(message: Message, state: FSMContext):
 @router.callback_query(DelPairFromNewModuleCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_delete_pair(callback: CallbackQuery,
                               callback_data: DelPairFromNewModuleCF,
-                              state: FSMContext):
+                              state: FSMContext,
+                              bot: Bot):
     user = get_user(callback.from_user.id)
     key: str = callback_data.key
 
@@ -375,24 +384,25 @@ async def process_delete_pair(callback: CallbackQuery,
     await callback.answer(
         CREATING_MODULE_LEXICON['deleted_pair_from_new_model'][user['lang']].format(deleted_pair=deleted_pair))
 
-    await send_new_module_info(callback.from_user.id, data, user, data['content'])
+    await send_new_module_info(callback.from_user.id, data, user, data['content'], bot)
 
 
 # Переименование модуля
 @router.callback_query(RenameNewModuleCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_change_name(callback: CallbackQuery,
                               callback_data: RenameNewModuleCF,
-                              state: FSMContext):
+                              state: FSMContext,
+                              bot: Bot):
     user = get_user(callback.from_user.id)
     module_name = callback_data.module_name
 
     data = await state.get_data()
 
-    await change_message(chat_id=callback.from_user.id,
-                         message_id=data['message_id'],
-                         reply_markup=None,
-                         text=CREATING_MODULE_LEXICON['rename_new_module'][user['lang']]
-                         )
+    await bot.edit_message_text(chat_id=callback.from_user.id,
+                                message_id=data['message_id'],
+                                reply_markup=None,
+                                text=CREATING_MODULE_LEXICON['rename_new_module'][user['lang']]
+                                )
 
     await state.set_state(FSMCreatingModule.change_name)
 
@@ -401,17 +411,18 @@ async def process_change_name(callback: CallbackQuery,
 @router.callback_query(EditNewModuleSeparatorCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_change_separator(callback: CallbackQuery,
                                    callback_data: EditNewModuleSeparatorCF,
-                                   state: FSMContext):
+                                   state: FSMContext,
+                                   bot: Bot):
     user = get_user(callback.from_user.id)
     module_name = callback_data.module_name
 
     data = await state.get_data()
 
-    await change_message(chat_id=callback.from_user.id,
-                         message_id=data['message_id'],
-                         reply_markup=None,
-                         text=CREATING_MODULE_LEXICON['edit_separator'][user['lang']]
-                         )
+    await bot.edit_message_text(chat_id=callback.from_user.id,
+                                message_id=data['message_id'],
+                                reply_markup=None,
+                                text=CREATING_MODULE_LEXICON['edit_separator'][user['lang']]
+                                )
 
     await state.set_state(FSMCreatingModule.change_separator)
 
@@ -420,7 +431,8 @@ async def process_change_separator(callback: CallbackQuery,
 @router.callback_query(SaveNewModuleCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_save_module(callback: CallbackQuery,
                               callback_data: SaveNewModuleCF,
-                              state: FSMContext):
+                              state: FSMContext,
+                              bot: Bot):
     user = get_user(callback.from_user.id)
     module_name = callback_data.module_name
 
@@ -437,15 +449,15 @@ async def process_save_module(callback: CallbackQuery,
     if data['is_editing']:
         delete_saved_module(data['editing_module_id'])
     else:
-        await delete_message(chat_id=callback.from_user.id, message_id=data['instruction_message_id'])
+        await bot.delete_message(chat_id=callback.from_user.id, message_id=data['instruction_message_id'])
 
     await state.clear()
 
-    await send_message(chat_id=callback.from_user.id,
-                       text=CREATING_MODULE_LEXICON['module_saved'][user['lang']].format(module_name=module_name,
-                                                                                         module_id=module['id']))
+    await bot.send_message(chat_id=callback.from_user.id,
+                           text=CREATING_MODULE_LEXICON['module_saved'][user['lang']].format(module_name=module_name,
+                                                                                             module_id=module['id']))
 
-    await delete_message(chat_id=callback.from_user.id, message_id=data['message_id'])
+    await bot.delete_message(chat_id=callback.from_user.id, message_id=data['message_id'])
 
 
 # Непредусмотренная команда

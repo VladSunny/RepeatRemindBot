@@ -1,4 +1,4 @@
-from aiogram import Router
+from aiogram import Router, Bot
 from aiogram.filters import Command, CommandStart, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
@@ -10,7 +10,6 @@ from database.database import *
 from filters.CallbackDataFactory import LanguageSelectionCF
 from keyboards.change_language_kb import create_change_language_keyboard
 from lexicon.lexicon import LEXICON, CommandsNames, SETTINGS_LEXICON
-from services.service import send_message
 
 router = Router()
 
@@ -61,14 +60,14 @@ async def process_change_language_command(message: Message):
 
 # /new_module для создания нового модуля
 @router.message(Command(commands=CommandsNames.create_new_module))
-async def process_new_module_command(message: Message, state: FSMContext):
+async def process_new_module_command(message: Message, state: FSMContext, bot: Bot):
     user = get_user(message.from_user.id)
 
     if get_modules_number(message.from_user.id) >= max_modules:
         await message.answer(LEXICON['maximum_number_of_modules'][user['lang']])
     else:
-        instruction_message = await send_message(chat_id=message.from_user.id,
-                                                 text=LEXICON[CommandsNames.create_new_module][user['lang']])
+        instruction_message = await bot.send_message(chat_id=message.from_user.id,
+                                                     text=LEXICON[CommandsNames.create_new_module][user['lang']])
         await state.update_data(instruction_message_id=instruction_message.message_id)
         await state.set_state(FSMCreatingModule.fill_name)
 
