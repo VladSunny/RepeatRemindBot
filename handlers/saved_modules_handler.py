@@ -1,28 +1,22 @@
 from __future__ import annotations
 
-from aiogram import F, Router, Dispatcher
-from aiogram.filters import Command, CommandStart, StateFilter
-from aiogram.types import CallbackQuery, Message, Update
-from aiogram.fsm.state import default_state, State, StatesGroup
+from aiogram import Router
+from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.state import default_state
+from aiogram.types import CallbackQuery, Message
 
+from FSM.fsm import FSMCreatingModule
 from config_data.user_restrictions import *
 from database.database import *
-from keyboards.saved_modules_kb import list_of_saved_modules_keyboard, module_info_keyboard
-from keyboards.new_module_kb import create_new_module_keyboard
-from keyboards.reapeating_module_kb import confirm_repeating_keyboard
-
-from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON, SAVED_MODULES_LEXICON, REPEATING_MODULE_LEXICON
-
-from FSM.fsm import FSMCreatingModule, FSMRepeatingModule
-
-from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs
-from services.service import send_and_delete_message, change_message, delete_message, send_message
-from services.repeating_module_service import get_blocks_num, get_blocks, get_blocks_str
-
 from filters.CallbackDataFactory import OpenSavedModuleCF, DeleteSavedModuleCF, BackToSavedModulesCF, EditModuleCF, \
     RepeatModuleCF, MixWordsInRepeatingModuleCF
+from keyboards.new_module_kb import create_new_module_keyboard
+from keyboards.reapeating_module_kb import confirm_repeating_keyboard
+from keyboards.saved_modules_kb import list_of_saved_modules_keyboard, module_info_keyboard
+from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON, SAVED_MODULES_LEXICON, REPEATING_MODULE_LEXICON
+from services.repeating_module_service import get_blocks_num, get_blocks, get_blocks_str
+from services.service import change_message, send_message
 
 router = Router()
 

@@ -1,27 +1,21 @@
 from __future__ import annotations
 
-from aiogram import F, Router, Dispatcher
-from aiogram.filters import Command, CommandStart, StateFilter
-from aiogram.types import CallbackQuery, Message, Update, ReplyKeyboardRemove
-from aiogram.fsm.state import default_state, State, StatesGroup
+from collections import deque
+
+from aiogram import Router, Dispatcher
+from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import default_state
 from aiogram.fsm.storage.memory import MemoryStorage
-
-from database.database import *
-from keyboards.reapeating_module_kb import correct_answer_keyboard, incorrect_answer_keyboard
-
-from lexicon.lexicon import REPEATING_MODULE_LEXICON, CommandsNames
+from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 
 from FSM.fsm import FSMRepeatingModule
-
-from services.service import send_and_delete_message, change_message, delete_message, send_message
+from database.database import *
+from filters.CallbackDataFactory import ConfirmRepeatingCF, AnswerWasCorrectCF, NextQuestionCF
+from keyboards.reapeating_module_kb import correct_answer_keyboard, incorrect_answer_keyboard
+from lexicon.lexicon import REPEATING_MODULE_LEXICON, CommandsNames
 from services.repeating_module_service import get_current_questions, get_all_questions
-
-from filters.CallbackDataFactory import RepeatModuleCF, ConfirmRepeatingCF, AnswerWasCorrectCF, NextQuestionCF
-
-import json
-import random
-from collections import deque
+from services.service import send_and_delete_message, change_message, delete_message, send_message
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)

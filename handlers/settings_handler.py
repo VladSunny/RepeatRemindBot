@@ -1,19 +1,14 @@
-from aiogram import F, Router
-from aiogram.filters import Command, CommandStart, StateFilter
-from aiogram.types import CallbackQuery, Message
-from aiogram.fsm.state import default_state
+from aiogram import Router
+from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import default_state
+from aiogram.types import Message
 
-from database.database import *
-from filters.CallbackDataFactory import LanguageSelectionCF
-
-from keyboards.change_language_kb import create_change_language_keyboard
-
-from lexicon.lexicon import LEXICON, CommandsNames, SETTINGS_LEXICON
 from FSM.fsm import FSMChangeSettings
-
-from services.settings_service import is_valid_words_in_block, is_valid_repetitions_for_block
+from database.database import *
+from lexicon.lexicon import LEXICON, CommandsNames, SETTINGS_LEXICON
 from services.service import send_and_delete_message
+from services.settings_service import is_valid_words_in_block, is_valid_repetitions_for_block
 
 router = Router()
 

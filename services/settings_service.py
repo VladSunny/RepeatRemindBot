@@ -1,6 +1,3 @@
-from icecream import ic
-
-
 # Проверка введенного количества элементов для блока
 def is_valid_words_in_block(n: str) -> bool:
     if not n.isdigit():

@@ -1,9 +1,9 @@
 from aiogram import Bot
-from environs import Env
 from aiogram.types import Message, LabeledPrice
+from environs import Env
 
-from lexicon.lexicon import DONATE_LEXICON
 from config_data.donates_config import *
+from lexicon.lexicon import DONATE_LEXICON
 
 env = Env()
 env.read_env(None)

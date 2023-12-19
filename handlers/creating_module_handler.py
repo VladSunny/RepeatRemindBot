@@ -3,30 +3,23 @@ from __future__ import annotations
 import os
 
 from aiogram import F, Router, Dispatcher
-from aiogram.filters import Command, CommandStart, StateFilter
-from aiogram.types import CallbackQuery, Message, Update
-from aiogram.fsm.state import default_state, State, StatesGroup
+from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.storage.memory import MemoryStorage
-
-from database.database import *
-
-from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON
+from aiogram.types import CallbackQuery, Message
 
 from FSM.fsm import FSMCreatingModule, creating_module_states
-
+from config_data.user_restrictions import *
+from database.database import *
+from filters.CallbackDataFactory import DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF, \
+    SaveNewModuleCF, SeparatorForPhotoCF, CancelTranslatingPhrasesCF, AutoTranslatePhrasesCF, AddPhrasesFromPhotoCF
+from keyboards.new_module_kb import create_new_module_keyboard, create_separator_on_photo_keyboard, \
+    translate_text_from_photo_keyboard, add_translated_phrases_keyboard
+from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON
+from services.auto_translate_service import translate_all_phrases_into_module_pairs
 from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs, elements_to_text
 from services.service import send_and_delete_message, change_message, delete_message, download_file, send_message
 from services.tesseract_service import get_eng_from_photo, clear_text, format_phrases_to_text
-from services.auto_translate_service import translate_all_phrases_into_module_pairs
-
-from keyboards.new_module_kb import create_new_module_keyboard, create_separator_on_photo_keyboard, \
-    translate_text_from_photo_keyboard, add_translated_phrases_keyboard
-
-from filters.CallbackDataFactory import DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF, \
-    SaveNewModuleCF, SeparatorForPhotoCF, CancelTranslatingPhrasesCF, AutoTranslatePhrasesCF, AddPhrasesFromPhotoCF
-
-from config_data.user_restrictions import *
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)

@@ -1,6 +1,6 @@
 import sqlite3
-from database.database import supa_get_user, supa_get_all_users
-from config_data.database_config_data import default_lang
+
+from database.database import supa_get_all_users
 
 
 # Функция инициализирования локальной БД

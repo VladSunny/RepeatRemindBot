@@ -1,5 +1,4 @@
 import translators as ts
-from icecream import ic
 
 
 #  Перевод фраз

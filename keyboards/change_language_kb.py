@@ -1,8 +1,8 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from lexicon.lexicon import SETTINGS_LEXICON
 
 from filters.CallbackDataFactory import LanguageSelectionCF
+from lexicon.lexicon import SETTINGS_LEXICON
 
 
 # Кнопки для смены языка

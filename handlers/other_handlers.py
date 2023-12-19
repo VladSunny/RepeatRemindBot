@@ -1,10 +1,10 @@
 from aiogram import Router
-from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
+from aiogram.types import Message
+
+from database.database import get_user
 from lexicon import lexicon
 from services.service import send_and_delete_message
-from database.database import get_user
-from icecream import ic
 
 router = Router()
 

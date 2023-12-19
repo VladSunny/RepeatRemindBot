@@ -1,5 +1,4 @@
 import sqlite3
-from icecream import ic
 
 
 # Добавление нового человека в локальную БД

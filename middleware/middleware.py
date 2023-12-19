@@ -1,13 +1,11 @@
+import time
 from abc import ABC
 from typing import Callable, Dict, Any, Awaitable
 
-from aiogram import types, Dispatcher, Bot
-from aiogram.types import Message, CallbackQuery
-from aiogram import BaseMiddleware
 from aiocache import SimpleMemoryCache
-import time
-
-from icecream import ic
+from aiogram import BaseMiddleware
+from aiogram import Bot
+from aiogram.types import Message
 
 # Загружаем конфиг в переменную config
 from config_data.config import Config, load_config

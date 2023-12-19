@@ -1,6 +1,7 @@
 from __future__ import annotations
+
 import re
-from icecream import ic
+
 from config_data.user_restrictions import max_name_length, max_element_length
 
 

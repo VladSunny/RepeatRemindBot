@@ -3,8 +3,8 @@ from aiogram.filters import Command
 from aiogram.types import Message, PreCheckoutQuery
 
 from database.database import *
-from services.donates_service import send_donate_link
 from lexicon.lexicon import CommandsNames, DONATE_LEXICON
+from services.donates_service import send_donate_link
 
 router = Router()
 

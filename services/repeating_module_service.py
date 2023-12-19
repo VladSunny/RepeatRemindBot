@@ -1,7 +1,5 @@
 import math
 import random
-from icecream import ic
-from copy import deepcopy
 
 
 # Получить количество блоков в повторяемом модуле

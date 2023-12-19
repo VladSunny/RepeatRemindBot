@@ -1,12 +1,11 @@
+import asyncio
 import copy
+import os
+import platform
+import re
 
 import pytesseract
 from PIL import Image
-import platform
-import os
-import asyncio
-from icecream import ic
-import re
 
 os_name = platform.system()
 

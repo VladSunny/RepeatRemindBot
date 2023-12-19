@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-import os
-from aiogram import Bot
-from icecream import ic
 import asyncio
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, Message
+import os
+
+from aiogram import Bot
+from aiogram.types import InlineKeyboardMarkup, ReplyKeyboardMarkup, Message
 
 # Загружаем конфиг в переменную config
 from config_data.config import Config, load_config

@@ -2,11 +2,12 @@ import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
+
 from config_data.config import Config, load_config
-from handlers import user_handlers, other_handlers, base_commands_handler, saved_modules_handler,\
+from database.init_sql import init_local_database
+from handlers import user_handlers, other_handlers, base_commands_handler, saved_modules_handler, \
     creating_module_handler, settings_handler, repeating_module_handler, get_module_by_id_handler, pay
 from keyboards.main_menu import set_main_menu
-from database.init_sql import init_local_database
 from middleware.middleware import AntiFloodMiddleware
 
 # Инициализируем логгер

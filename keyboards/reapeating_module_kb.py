@@ -1,12 +1,9 @@
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
-from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
-from lexicon.lexicon import LEXICON, REPEATING_MODULE_LEXICON, SAVED_MODULES_LEXICON
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from filters.CallbackDataFactory import ConfirmRepeatingCF, MixWordsInRepeatingModuleCF, NextQuestionCF,\
+from filters.CallbackDataFactory import ConfirmRepeatingCF, MixWordsInRepeatingModuleCF, NextQuestionCF, \
     AnswerWasCorrectCF, BackToSavedModulesCF
-from icecream import ic
-
-import json
+from lexicon.lexicon import REPEATING_MODULE_LEXICON, SAVED_MODULES_LEXICON
 
 
 # Кнопки для подтверждения повторения выбранного модуля

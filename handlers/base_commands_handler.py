@@ -1,18 +1,15 @@
-from aiogram import F, Router
+from aiogram import Router
 from aiogram.filters import Command, CommandStart, StateFilter
-from aiogram.types import CallbackQuery, Message
-from aiogram.fsm.state import default_state
 from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import default_state
+from aiogram.types import CallbackQuery, Message
 
+from FSM.fsm import FSMCreatingModule
+from config_data.user_restrictions import *
 from database.database import *
 from filters.CallbackDataFactory import LanguageSelectionCF
-
 from keyboards.change_language_kb import create_change_language_keyboard
-
 from lexicon.lexicon import LEXICON, CommandsNames, SETTINGS_LEXICON
-from FSM.fsm import FSMCreatingModule
-
-from config_data.user_restrictions import *
 from services.service import send_message
 
 router = Router()

@@ -1,12 +1,12 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from lexicon.lexicon import LEXICON, SAVED_MODULES_LEXICON
 
-from filters.CallbackDataFactory import OpenSavedModuleCF,\
-    DeleteSavedModuleCF,\
-    BackToSavedModulesCF,\
-    EditModuleCF,\
+from filters.CallbackDataFactory import OpenSavedModuleCF, \
+    DeleteSavedModuleCF, \
+    BackToSavedModulesCF, \
+    EditModuleCF, \
     RepeatModuleCF
+from lexicon.lexicon import SAVED_MODULES_LEXICON
 
 
 # Список сохраненных модулей в виде кнопок

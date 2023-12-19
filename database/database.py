@@ -1,11 +1,12 @@
 from __future__ import annotations
-from copy import deepcopy
-from environs import Env
 
+from copy import deepcopy
+
+from environs import Env
 from supabase import create_client, Client
-from database.local_database import local_add_user, local_get_user, local_update_user, local_get_users_chat_ids
-from icecream import ic
+
 from config_data.database_config_data import default_lang
+from database.local_database import local_add_user, local_get_user, local_update_user, local_get_users_chat_ids
 
 # Создаем шаблон заполнения словаря с пользователями
 user_dict_template = {
