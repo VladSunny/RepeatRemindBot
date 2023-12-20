@@ -17,7 +17,6 @@ channel_id = env("CHANNEL_ID")
 
 @router.channel_post()
 async def channel_post_process(post: Message, bot: Bot):
-    print(post)
     forward_post = await bot.forward_message(chat_id=owner_id, from_chat_id=channel_id, message_id=post.message_id)
 
     await bot.send_message(chat_id=owner_id,
