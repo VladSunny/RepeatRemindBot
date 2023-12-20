@@ -86,3 +86,7 @@ class CancelTranslatingPhrasesCF(CallbackData, prefix='cancel_translating_phrase
 
 class AddPhrasesFromPhotoCF(CallbackData, prefix='add_translating_phrases'):
     pass
+
+
+class SendPostFromChannelCF(CallbackData, prefix='send_post'):
+    post_id: int

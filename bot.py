@@ -5,8 +5,9 @@ from aiogram import Bot, Dispatcher
 
 from config_data.config import Config, load_config
 from database.init_sql import init_local_database
-from handlers import user_handlers, other_handlers, base_commands_handler, saved_modules_handler, \
-    creating_module_handler, settings_handler, repeating_module_handler, get_module_by_id_handler, pay
+from handlers import (user_handlers, other_handlers, base_commands_handler, saved_modules_handler,
+                      creating_module_handler, settings_handler, repeating_module_handler, get_module_by_id_handler,
+                      support_handler, channel_posts_handler)
 from keyboards.main_menu import set_main_menu
 from middleware.middleware import AntiFloodMiddleware
 
@@ -47,7 +48,8 @@ async def main():
     dp.include_router(repeating_module_handler.router)
     dp.include_router(creating_module_handler.router)
     dp.include_router(get_module_by_id_handler.router)
-    dp.include_router(pay.router)
+    dp.include_router(support_handler.router)
+    dp.include_router(channel_posts_handler.router)
     dp.include_router(user_handlers.router)
     dp.include_router(other_handlers.router)
 
