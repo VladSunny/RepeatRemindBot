@@ -31,7 +31,7 @@ async def send_donate_link(bot: Bot, message: Message, lang: str):
             )
         ],
         max_tip_amount=None,
-        #max_tip_amount=max_donate_amount,
+        # max_tip_amount=max_donate_amount,
         # suggested_tip_amounts=suggested_donates_amounts,
         start_parameter='RepeatRemindBot',
         provider_data=str_receipt,
