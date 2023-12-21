@@ -109,6 +109,15 @@ LEXICON: dict[str, dict[str, str]] = {
         'ru': "Сейчас отменять нечего. Вы уже в стандартном режиме."
               " Обращайтесь, если у вас есть вопросы или нужна помощь! /help"
     },
+
+    # Forwarded posts
+
+    'forwarded_post': {
+        'en': "<b>An update has been released in the bot!</b>\n\n"
+              "To change the setting of update notifications, write /settings",
+        'ru': "<b>В боте вышло обновление!</b>\n\n"
+              "Чтобы изменить настройку уведомлений об обновлениях, напишите /settings"
+    }
 }
 
 DONATE_LEXICON: dict[str, dict[str, str]] = {

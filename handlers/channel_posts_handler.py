@@ -4,7 +4,8 @@ from aiogram.types import Message, CallbackQuery
 from keyboards import channel_posts_kb
 from filters.CallbackDataFactory import SendPostFromChannelCF
 from environs import Env
-from database.database import get_all_settings
+from database.database import get_all_settings, get_user
+from lexicon.lexicon import LEXICON
 
 router = Router()
 
@@ -40,6 +41,13 @@ async def send_post_to_users_process(callback: CallbackQuery,
 
     for user in users_settings:
         if user['get_updates']:
+            user_lang = get_user(user['chat_id'])['lang']
+
+            await bot.send_message(
+                chat_id=user['chat_id'],
+                text=LEXICON['forwarded_post'][user_lang],
+                disable_notification=False
+            )
             await bot.forward_message(
                 chat_id=user['chat_id'],
                 from_chat_id=channel_id,
