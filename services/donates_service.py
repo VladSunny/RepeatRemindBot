@@ -30,5 +30,7 @@ async def send_donate_link(bot: Bot, message: Message, lang: str):
         start_parameter='RepeatRemindBot',
         provider_data=None,
         request_timeout=15,
-        allow_sending_without_reply=True
+        allow_sending_without_reply=True,
+        need_email=True,
+        send_email_to_provider=True
     )
