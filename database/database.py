@@ -7,6 +7,7 @@ from supabase import create_client, Client
 
 from config_data.database_config_data import default_lang
 from database.local_database import local_add_user, local_get_user, local_update_user, local_get_users_chat_ids
+from icecream import ic
 
 # Создаем шаблон заполнения словаря с пользователями
 user_dict_template = {
@@ -132,3 +133,9 @@ def update_settings(chat_id: int | str, update: dict) -> None:
 def get_settings(chat_id: int | str) -> dict:
     response = supabase.table("settings").select('*').eq("chat_id", chat_id).execute()
     return response.data[0]
+
+
+def get_all_settings() -> list[dict]:
+    response = supabase.table("settings").select('*').execute()
+    return response.data
+
