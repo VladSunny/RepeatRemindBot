@@ -177,6 +177,10 @@ SETTINGS_LEXICON: dict[str, dict[str, str]] = {
     'sent_new_repetitions_for_block': {
         'en': "The number of repetitions per block has been updated to {number} ✅",
         'ru': "Количество повторений блока обновлено до {number} ✅"
+    },
+    'get_updates': {
+        'en': "Receive notifications about updates: ",
+        'ru': "Получать уведомления об обновлениях: "
     }
 }
 

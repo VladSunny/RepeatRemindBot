@@ -90,3 +90,7 @@ class AddPhrasesFromPhotoCF(CallbackData, prefix='add_translating_phrases'):
 
 class SendPostFromChannelCF(CallbackData, prefix='send_post'):
     post_id: int
+
+
+class ChangeGetUpdatesCF(CallbackData, prefix='change_get_updates'):
+    get_updates: bool

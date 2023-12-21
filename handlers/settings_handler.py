@@ -1,14 +1,16 @@
-from aiogram import Router
+from aiogram import Router, Bot
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 
 from FSM.fsm import FSMChangeSettings
 from database.database import *
 from lexicon.lexicon import LEXICON, CommandsNames, SETTINGS_LEXICON
 from services.service import send_and_delete_message
 from services.settings_service import is_valid_words_in_block, is_valid_repetitions_for_block
+from keyboards.settings_kb import create_settings_keyboard
+from filters.CallbackDataFactory import ChangeGetUpdatesCF
 
 router = Router()
 
@@ -19,10 +21,26 @@ async def process_settings_command(message: Message):
     user = get_user(message.from_user.id)
     user_settings = get_settings(message.from_user.id)
 
-    await message.answer(LEXICON[CommandsNames.settings][user['lang']].format(
+    await message.answer(text=LEXICON[CommandsNames.settings][user['lang']].format(
         words_in_block_number=user_settings['words_in_block'],
         repetitions_for_block_number=user_settings['repetitions_for_block']
-    ))
+    ),
+        reply_markup=create_settings_keyboard(get_updates=user_settings['get_updates'], lang=user['lang'])
+    )
+
+
+@router.callback_query(ChangeGetUpdatesCF.filter())
+async def process_change_get_updates(callback: CallbackQuery,
+                                     callback_data: ChangeGetUpdatesCF):
+    user = get_user(callback.from_user.id)
+
+    update_settings(chat_id=callback.from_user.id, update={'get_updates': not callback_data.get_updates})
+
+    await callback.message.edit_reply_markup(
+        reply_markup=create_settings_keyboard(get_updates=not callback_data.get_updates, lang=user['lang'])
+    )
+
+    await callback.answer()
 
 
 # Отмена ввода
