@@ -132,8 +132,8 @@ DONATE_LEXICON: dict[str, dict[str, str]] = {
               " автору было бы очень приятно получить от вас поддержку для дальнейшего развития!\n"
     },
     'donate_label': {
-        'en': "For coffee for the developer ☕",
-        'ru': "На кофе для разработчика ☕"
+        'en': "Bot Support ☕",
+        'ru': "Поддержка бота ☕"
     },
     'thanks_for_support': {
         'en': "Thank you so much for your support! RepeatRemindBot remembered your kindness)",

@@ -1,0 +1,14 @@
+{
+  "receipt": {
+    "items": [
+      {
+        "description": "Поддержка бота",
+        "quantity": "1.00",
+        "amount": {
+          "value": "100.00",
+          "currency": "RUB"
+        },
+        "vat_code": 1
+    }]
+  }
+}
