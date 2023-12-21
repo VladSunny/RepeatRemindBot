@@ -15,6 +15,7 @@ provider_token = env('PROVIDER_TOKEN')
 with open("config_data/receipt.json", "r") as my_file:
     str_receipt = my_file.read()
 
+
 async def send_donate_link(bot: Bot, message: Message, lang: str):
     await bot.send_invoice(
         chat_id=message.from_user.id,
