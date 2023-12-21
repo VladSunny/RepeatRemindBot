@@ -3,7 +3,7 @@
     "items": [
       {
         "description": "Donation",
-        "quantity": "1.00",
+        "quantity": 1,
         "amount": {
           "value": "100.00",
           "currency": "RUB"
