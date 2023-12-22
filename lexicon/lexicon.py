@@ -11,7 +11,7 @@ class CommandsNames:
     change_words_in_block = 'change_words_in_block'
     change_repetitions_for_block = 'change_repetitions_for_block'
     get_module_by_id = 'get_module_by_id'
-    donate = 'support'
+    donate = 'donate'
 
 
 LEXICON: dict[str, dict[str, str]] = {
