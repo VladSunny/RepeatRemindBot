@@ -1,4 +1,5 @@
 from config_data.user_restrictions import *
+from config_data.donates_config import *
 
 
 class CommandsNames:
@@ -138,7 +139,11 @@ DONATE_LEXICON: dict[str, dict[str, str]] = {
     'thanks_for_support': {
         'en': "Thank you so much for your support! RepeatRemindBot remembered your kindness)",
         'ru': "Большое спасибо за поддержку! RepeatRemindBot запомнил вашу доброту)"
-    }
+    },
+    'choose_value': {
+        'en': "",
+        'ru': "Сколько вы хотите пожертвовать боту?"
+    },
 }
 
 SETTINGS_LEXICON: dict[str, dict[str, str]] = {

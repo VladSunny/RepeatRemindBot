@@ -2,7 +2,7 @@
   "receipt": {
     "items": [
       {
-        "description": "Donation",
+        "description": "Донат",
         "quantity": 1,
         "amount": {
           "value": "100.00",

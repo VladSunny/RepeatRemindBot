@@ -94,3 +94,7 @@ class SendPostFromChannelCF(CallbackData, prefix='send_post'):
 
 class ChangeGetUpdatesCF(CallbackData, prefix='change_get_updates'):
     get_updates: bool
+
+
+class DonateCF(CallbackData, prefix='donate'):
+    value: int
