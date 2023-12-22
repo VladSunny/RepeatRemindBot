@@ -141,7 +141,7 @@ DONATE_LEXICON: dict[str, dict[str, str]] = {
         'ru': "Большое спасибо за поддержку! RepeatRemindBot запомнил вашу доброту)"
     },
     'choose_value': {
-        'en': "",
+        'en': "How much do you want to donate to the bot?",
         'ru': "Сколько вы хотите пожертвовать боту?"
     },
 }
