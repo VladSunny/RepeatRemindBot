@@ -10,7 +10,7 @@ from lexicon.lexicon import LEXICON, CommandsNames, SETTINGS_LEXICON
 from services.service import send_and_delete_message
 from services.settings_service import is_valid_words_in_block, is_valid_repetitions_for_block
 from keyboards.settings_kb import create_settings_keyboard
-from filters.CallbackDataFactory import ChangeGetUpdatesCF
+from filters.CallbackDataFactory import ChangeGetUpdatesCF, ChangeShowInTableCF
 
 router = Router()
 
@@ -25,7 +25,9 @@ async def process_settings_command(message: Message):
         words_in_block_number=user_settings['words_in_block'],
         repetitions_for_block_number=user_settings['repetitions_for_block']
     ),
-        reply_markup=create_settings_keyboard(get_updates=user_settings['get_updates'], lang=user['lang'])
+        reply_markup=create_settings_keyboard(get_updates=user_settings['get_updates'],
+                                              show_in_donate_table=user_settings['show_in_donate_table'],
+                                              lang=user['lang'])
     )
 
 
@@ -33,11 +35,33 @@ async def process_settings_command(message: Message):
 async def process_change_get_updates(callback: CallbackQuery,
                                      callback_data: ChangeGetUpdatesCF):
     user = get_user(callback.from_user.id)
+    user_settings = get_settings(callback.from_user.id)
 
-    update_settings(chat_id=callback.from_user.id, update={'get_updates': not callback_data.get_updates})
+    update_settings(chat_id=callback.from_user.id,
+                    update={'get_updates': not callback_data.get_updates})
 
     await callback.message.edit_reply_markup(
-        reply_markup=create_settings_keyboard(get_updates=not callback_data.get_updates, lang=user['lang'])
+        reply_markup=create_settings_keyboard(get_updates=not callback_data.get_updates,
+                                              show_in_donate_table=user_settings['show_in_donate_table'],
+                                              lang=user['lang'])
+    )
+
+    await callback.answer()
+
+
+@router.callback_query(ChangeShowInTableCF.filter())
+async def process_change_show_in_donate_table(callback: CallbackQuery,
+                                              callback_data: ChangeShowInTableCF):
+    user = get_user(callback.from_user.id)
+    user_settings = get_settings(callback.from_user.id)
+
+    update_settings(chat_id=callback.from_user.id,
+                    update={'show_in_donate_table': not callback_data.show_in_donate_table})
+
+    await callback.message.edit_reply_markup(
+        reply_markup=create_settings_keyboard(get_updates=user_settings['get_updates'],
+                                              show_in_donate_table=not callback_data.show_in_donate_table,
+                                              lang=user['lang'])
     )
 
     await callback.answer()

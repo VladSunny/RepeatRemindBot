@@ -96,5 +96,9 @@ class ChangeGetUpdatesCF(CallbackData, prefix='change_get_updates'):
     get_updates: bool
 
 
+class ChangeShowInTableCF(CallbackData, prefix='change_show_in_donate_table'):
+    show_in_donate_table: bool
+
+
 class DonateCF(CallbackData, prefix='donate'):
     value: int

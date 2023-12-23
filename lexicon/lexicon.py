@@ -195,6 +195,10 @@ SETTINGS_LEXICON: dict[str, dict[str, str]] = {
     'get_updates': {
         'en': "Receive notifications about updates: ",
         'ru': "Получать уведомления об обновлениях: "
+    },
+    'show_in_donate_table': {
+        'en': "",
+        'ru': "Показывать моё имя в таблице донатеров: "
     }
 }
 
