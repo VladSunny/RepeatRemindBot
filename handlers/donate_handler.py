@@ -7,6 +7,14 @@ from lexicon.lexicon import CommandsNames, DONATE_LEXICON
 from services.donates_service import send_donate_link
 from keyboards.donate_kb import create_donate_keyboard
 from filters.CallbackDataFactory import DonateCF
+from environs import Env
+
+# Читаем Env
+env = Env()
+env.read_env(None)
+
+provider_token: str = env("PROVIDER_TOKEN")
+owner_chat_id: int = env("OWNER_ID")
 
 router = Router()
 
@@ -41,5 +49,11 @@ async def pre_checkout_query_process(pre_checkout_query: PreCheckoutQuery, bot: 
 @router.message(F.successful_payment)
 async def successful_payment(message: Message):
     user = get_user(message.from_user.id)
+
+    if "TEST" in provider_token:
+        if message.from_user.id != owner_chat_id:
+            return
+
     user_donate(message.from_user.id, message.successful_payment.total_amount // 100)
+
     await message.answer(DONATE_LEXICON['thanks_for_support'][user['lang']])
