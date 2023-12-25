@@ -54,6 +54,7 @@ def add_user(chat_id: int | str) -> None:
 
     response = supabase.table("users_tg").insert(new_user).execute()
     response = supabase.table("settings").insert({"chat_id": chat_id}).execute()
+    response = supabase.table("donates").insert({"chat_id": chat_id}).execute()
 
     local_add_user(int(chat_id), default_lang)
 
@@ -138,4 +139,13 @@ def get_settings(chat_id: int | str) -> dict:
 def get_all_settings() -> list[dict]:
     response = supabase.table("settings").select('*').execute()
     return response.data
+
+
+def user_donate(chat_id: int | str, new_donate: int) -> None:
+    response = supabase.table("donates").select('*').eq("chat_id", chat_id).execute()
+    donated = response.data[0]['donated']
+
+    response = (supabase.table("donates")
+                .update({'donated': donated + new_donate})
+                .eq("chat_id", chat_id).execute())
 

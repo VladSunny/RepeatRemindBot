@@ -41,4 +41,5 @@ async def pre_checkout_query_process(pre_checkout_query: PreCheckoutQuery, bot: 
 @router.message(F.successful_payment)
 async def successful_payment(message: Message):
     user = get_user(message.from_user.id)
+    user_donate(message.from_user.id, message.successful_payment.total_amount // 100)
     await message.answer(DONATE_LEXICON['thanks_for_support'][user['lang']])
