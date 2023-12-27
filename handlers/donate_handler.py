@@ -34,7 +34,7 @@ async def process_pay_command(message: Message, bot: Bot):
         try:
             chat = await bot(GetChat(chat_id=donater[1]))
             successful_donaters_count += 1
-            donaters_text += f"{successful_donaters_count}. {chat.first_name} - {donater[0]}РУБ\n"
+            donaters_text += f"{successful_donaters_count}. {chat.first_name} - {donater[0]}₽\n"
         except Exception as e:
             continue
             # print(e, donater[1])
