@@ -144,6 +144,10 @@ DONATE_LEXICON: dict[str, dict[str, str]] = {
         'en': "How much do you want to donate to the bot?",
         'ru': "Сколько вы хотите пожертвовать боту?"
     },
+    'donaters_table': {
+        'en': "",
+        'ru': "Список донатеров:\n"
+    }
 }
 
 SETTINGS_LEXICON: dict[str, dict[str, str]] = {
@@ -197,7 +201,7 @@ SETTINGS_LEXICON: dict[str, dict[str, str]] = {
         'ru': "Получать уведомления об обновлениях: "
     },
     'show_in_donate_table': {
-        'en': "",
+        'en': "Show my name in the donation table: ",
         'ru': "Показывать моё имя в таблице донатеров: "
     }
 }
@@ -624,7 +628,6 @@ GET_MODULE_BY_ID_LEXICON: dict[str, dict[str, str]] = {
         'en': "Saving the module by its ID has been cancelled.",
         'ru': "Сохранение модуля по его ID было отменено."
     }
-
 }
 
 LEXICON_COMMANDS: dict[str, str] = {

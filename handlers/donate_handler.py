@@ -1,6 +1,7 @@
 from aiogram import F, Router, Bot
 from aiogram.filters import Command
 from aiogram.types import Message, PreCheckoutQuery, CallbackQuery
+from aiogram.methods.get_chat import GetChat
 
 from database.database import *
 from lexicon.lexicon import CommandsNames, DONATE_LEXICON
@@ -23,8 +24,26 @@ router = Router()
 async def process_pay_command(message: Message, bot: Bot):
     user = get_user(message.from_user.id)
 
-    await bot.send_message(
-        chat_id=message.from_user.id,
+    donaters_dict: list[dict] = get_donaters()
+    donaters = sorted([list(i.values())[::-1] for i in donaters_dict], reverse=True)
+
+    donaters_text = DONATE_LEXICON['donaters_table'][user['lang']]
+    successful_donaters_count = 0
+
+    for donater in donaters:
+        try:
+            chat = await bot(GetChat(chat_id=donater[1]))
+            successful_donaters_count += 1
+            donaters_text += f"{successful_donaters_count}. {chat.first_name} - {donater[0]}РУБ\n"
+        except Exception as e:
+            continue
+            # print(e, donater[1])
+
+    await message.answer(
+        text=donaters_text
+    )
+
+    await message.answer(
         text=DONATE_LEXICON['choose_value'][user['lang']],
         reply_markup=create_donate_keyboard()
     )
