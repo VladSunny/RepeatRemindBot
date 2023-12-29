@@ -145,8 +145,8 @@ DONATE_LEXICON: dict[str, dict[str, str]] = {
         'ru': "Сколько вы хотите пожертвовать боту?"
     },
     'donaters_table': {
-        'en': "",
-        'ru': "Список донатеров:\n"
+        'en': "List of users who supported the project:",
+        'ru': "Список пользователей, поддержавших проект:\n"
     }
 }
 
@@ -556,7 +556,8 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
         'ru': "Ответ был верный 😤"
     },
     'progress': {
-        'en': "",
+        'en': "\n\nThis time your result is:\n"
+              "<b>{correct} correct answers from {questions} questions</b>",
         'ru': "\n\nВ этот раз ваш результат:\n"
               "<b>{correct} правильных ответов из {questions} вопросов</b>"
     },
