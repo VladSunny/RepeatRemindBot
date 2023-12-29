@@ -30,18 +30,19 @@ async def process_pay_command(message: Message, bot: Bot):
     donaters_text = DONATE_LEXICON['donaters_table'][user['lang']]
     successful_donaters_count = 0
 
-    for donater in donaters:
-        try:
-            chat = await bot(GetChat(chat_id=donater[1]))
-            successful_donaters_count += 1
-            donaters_text += f"{successful_donaters_count}. {chat.first_name} - {donater[0]}₽\n"
-        except Exception as e:
-            continue
-            # print(e, donater[1])
+    if len(donaters):
+        for donater in donaters:
+            try:
+                chat = await bot(GetChat(chat_id=donater[1]))
+                successful_donaters_count += 1
+                donaters_text += f"{successful_donaters_count}. {chat.first_name} - {donater[0]}₽\n"
+            except Exception as e:
+                continue
+                # print(e, donater[1])
 
-    await message.answer(
-        text=donaters_text
-    )
+        await message.answer(
+            text=donaters_text
+        )
 
     await message.answer(
         text=DONATE_LEXICON['choose_value'][user['lang']],
@@ -70,7 +71,7 @@ async def successful_payment(message: Message):
     user = get_user(message.from_user.id)
 
     if "TEST" in provider_token:
-        if message.from_user.id != owner_chat_id:
+        if str(message.from_user.id) != str(owner_chat_id):
             return
 
     user_donate(message.from_user.id, message.successful_payment.total_amount // 100)
