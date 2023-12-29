@@ -158,8 +158,11 @@ async def next_question(data, chat_id, state, bot: Bot):
                     await state.update_data(data)
 
                     await bot.edit_message_text(chat_id=chat_id,
-                                                text=REPEATING_MODULE_LEXICON['repeating_all_module'][
-                                                    data['user_lang']],
+                                                text=
+                                                REPEATING_MODULE_LEXICON['repeating_all_module'][data['user_lang']] +
+                                                REPEATING_MODULE_LEXICON['progress'][data['user_lang']].
+                                                format(correct=data['cw_blocks'][-2][0],
+                                                       questions=data['cw_blocks'][-2][1]),
                                                 message_id=data['question_message_id'],
                                                 reply_markup=correct_answer_keyboard(data['user_lang']))
 
@@ -184,7 +187,10 @@ async def next_question(data, chat_id, state, bot: Bot):
                 await state.update_data(data)
 
                 await bot.edit_message_text(chat_id=chat_id,
-                                            text=REPEATING_MODULE_LEXICON['finish_block'][data['user_lang']],
+                                            text=REPEATING_MODULE_LEXICON['finish_block'][data['user_lang']] +
+                                                 REPEATING_MODULE_LEXICON['progress'][data['user_lang']].
+                                            format(correct=data['cw_blocks'][-2][0],
+                                                   questions=data['cw_blocks'][-2][1]),
                                             message_id=data['question_message_id'],
                                             reply_markup=correct_answer_keyboard(data['user_lang']))
 
@@ -208,17 +214,22 @@ async def next_question(data, chat_id, state, bot: Bot):
             data['current_repetitions'] += 1
             data['current_questions'] = deque(get_current_questions(data['learning_content']
                                                                     [f'block_{data["current_block"]}']))
+            data['cw_blocks'].append([0, 0])
+
             await state.update_data(data)
 
             await bot.edit_message_text(chat_id=chat_id,
-                                        text=REPEATING_MODULE_LEXICON['finish_repetition'][data['user_lang']],
+                                        text=REPEATING_MODULE_LEXICON['finish_repetition'][data['user_lang']] +
+                                             REPEATING_MODULE_LEXICON['progress'][data['user_lang']].
+                                        format(correct=data['cw_blocks'][-2][0], questions=data['cw_blocks'][-2][1]),
                                         message_id=data['question_message_id'],
                                         reply_markup=correct_answer_keyboard(data['user_lang']))
 
             await bot.edit_message_text(chat_id=chat_id,
                                         message_id=data['header_message_id'],
                                         reply_markup=None,
-                                        text=REPEATING_MODULE_LEXICON['repeating_module_header'][data['user_lang']]
+                                        text=
+                                        REPEATING_MODULE_LEXICON['repeating_module_header'][data['user_lang']]
                                         .format(module_name=data['module_name'],
                                                 current_repetitions=data['current_repetitions'],
                                                 cur_block=data['current_block'],

@@ -555,6 +555,11 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
         'en': "The answer was correct 😤",
         'ru': "Ответ был верный 😤"
     },
+    'progress': {
+        'en': "",
+        'ru': "\n\nВ этот раз ваш результат:\n"
+              "<b>{correct} правильных ответов из {questions} вопросов</b>"
+    },
     'incorrect_answer': {
         'en': "❌ Incorrect answer!\nCorrect: {correct_answer}",
         'ru': "❌ Неверный ответ!\nПравильный: {correct_answer}"
@@ -569,27 +574,21 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
     },
     'finish_repetition': {
         'en': "You've finished this repetition block! 🎉\n"
-              "Consider taking a 1-3 minute break before continuing."
-              f"\n\n/{CommandsNames.cancel} - to stop the review",
+              "Consider taking a 1-3 minute break before continuing.",
         'ru': "Вы закончили одно из повторений блока! 🎉\n"
               "Советуем отдохнуть 1-3 минуты перед продолжением."
-              f"\n\n/{CommandsNames.cancel} - чтобы остановить повторение модуля"
     },
     'finish_block': {
         'en': "You've finished reviewing the entire block! 🎉🎉\n"
-              "Consider taking a 1-3 minute break before starting the next block."
-              f"\n\n/{CommandsNames.cancel} - to stop the review",
+              "Consider taking a 1-3 minute break before starting the next block.",
         'ru': "Вы закончили повторять целый блок! 🎉🎉\n"
               "Советуем отдохнуть 1-3 минуты перед началом следующего блока!"
-              f"\n\n/{CommandsNames.cancel} - чтобы остановить повторение модуля"
     },
     'repeating_all_module': {
         'en': "You've repeated all blocks! 🎉🎉🎉\n"
-              "Consider taking a 1-3 minute break before the final review of the entire module."
-              f"\n\n/{CommandsNames.cancel} - to stop the review",
+              "Consider taking a 1-3 minute break before the final review of the entire module.",
         'ru': "Вы повторили все блоки! 🎉🎉🎉\n"
               "Советуем отдохнуть 1-3 минуты перед финальным повторением всего модуля."
-              f"\n\n/{CommandsNames.cancel} - чтобы остановить повторение модуля"
     },
     'repeating_all_module_header': {
         'en': "You are reviewing all elements of the module {module_name}.",
