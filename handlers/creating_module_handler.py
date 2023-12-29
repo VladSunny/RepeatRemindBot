@@ -163,7 +163,7 @@ async def process_content_sent(message: Message, state: FSMContext, bot: Bot):
     if has_mistake:
         await send_and_delete_message(message.chat.id,
                                       CREATING_MODULE_LEXICON['incorrect_pair'][user['lang']].format(
-                                          separator=data['separator']), 5)
+                                          separator=data['separator']), 7)
 
     if reach_local_max:
         await send_and_delete_message(message.chat.id,

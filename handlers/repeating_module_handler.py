@@ -34,6 +34,7 @@ user_data_template = {
     'user_lang': "en",
     'repetitions': 0,
     'finish_learning_blocks': False,
+    'cw_blocks': []
 }
 
 router = Router()
@@ -82,6 +83,7 @@ async def process_start_repeating_module(callback: CallbackQuery,
     new_user_data['module_name'] = module['name']
     new_user_data['user_lang'] = user['lang']
     new_user_data['repetitions'] = user_settings['repetitions_for_block']
+    new_user_data['cw_blocks'].append([0, 0])
 
     await bot.edit_message_text(chat_id=callback.from_user.id,
                                 message_id=callback.message.message_id,
@@ -107,6 +109,8 @@ async def process_start_repeating_module(callback: CallbackQuery,
 
 # функция для следующего вопроса
 async def next_question(data, chat_id, state, bot: Bot):
+    ic(data['cw_blocks'])
+
     # Проверка есть ли ещё вопросы
     if len(data['current_questions']) > 0:
         # Следующий вопрос
@@ -149,6 +153,8 @@ async def next_question(data, chat_id, state, bot: Bot):
 
                     data['finish_learning_blocks'] = True
                     data['current_questions'] = deque(get_all_questions(data['learning_content']))
+                    data['cw_blocks'].append([0, 0])
+
                     await state.update_data(data)
 
                     await bot.edit_message_text(chat_id=chat_id,
@@ -173,6 +179,8 @@ async def next_question(data, chat_id, state, bot: Bot):
                 data['current_repetitions'] = 0
                 data['current_questions'] = deque(get_current_questions(data['learning_content']
                                                                         [f'block_{data["current_block"]}']))
+                data['cw_blocks'].append([0, 0])
+
                 await state.update_data(data)
 
                 await bot.edit_message_text(chat_id=chat_id,
@@ -227,10 +235,13 @@ async def next_question(data, chat_id, state, bot: Bot):
 async def process_got_answer(message: Message, state: FSMContext, bot: Bot):
     data = await state.get_data()
     current_pair = data['current_questions'][0]
+    data['cw_blocks'][-1][1] += 1
 
     await message.delete()
 
     if message.text is None or current_pair[1].lower().strip() != message.text.lower().strip():
+        # Ответ неверный
+
         await bot.edit_message_text(chat_id=message.from_user.id,
                                     text=REPEATING_MODULE_LEXICON['incorrect_answer'][data['user_lang']].format(
                                         correct_answer=f"{current_pair[0]} {data['separator']} {current_pair[1]}"
@@ -245,7 +256,10 @@ async def process_got_answer(message: Message, state: FSMContext, bot: Bot):
         await state.update_data(data)
 
     else:
+        # Ответ правильный
+
         data['current_questions'].popleft()
+        data['cw_blocks'][-1][0] += 1
 
         await state.update_data(data)
 
@@ -268,6 +282,7 @@ async def process_answer_was_correct(callback: CallbackQuery,
     question = data['current_questions'][-1]
 
     data['current_questions'].pop()
+    data['cw_blocks'][-1][0] += 1
 
     await bot.edit_message_text(chat_id=callback.from_user.id,
                                 text=REPEATING_MODULE_LEXICON['answer_was_correct_pressed'][data['user_lang']].format(
