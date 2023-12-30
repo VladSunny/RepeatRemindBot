@@ -109,8 +109,6 @@ async def process_start_repeating_module(callback: CallbackQuery,
 
 # функция для следующего вопроса
 async def next_question(data, chat_id, state, bot: Bot):
-    ic(data['cw_blocks'])
-
     # Проверка есть ли ещё вопросы
     if len(data['current_questions']) > 0:
         # Следующий вопрос
@@ -141,7 +139,10 @@ async def next_question(data, chat_id, state, bot: Bot):
                 if data['finish_learning_blocks']:
                     await bot.edit_message_text(chat_id=chat_id,
                                                 text=REPEATING_MODULE_LEXICON['finish_all_repeating'][
-                                                    data['user_lang']],
+                                                         data['user_lang']] +
+                                                     REPEATING_MODULE_LEXICON['progress'][data['user_lang']].
+                                                format(correct=data['cw_blocks'][-1][0],
+                                                       questions=data['cw_blocks'][-1][1]),
                                                 message_id=data['question_message_id'],
                                                 reply_markup=None)
 
@@ -248,8 +249,6 @@ async def process_got_answer(message: Message, state: FSMContext, bot: Bot):
     current_pair = data['current_questions'][0]
     data['cw_blocks'][-1][1] += 1
 
-    await message.delete()
-
     if message.text is None or current_pair[1].lower().strip() != message.text.lower().strip():
         # Ответ неверный
 
@@ -265,6 +264,7 @@ async def process_got_answer(message: Message, state: FSMContext, bot: Bot):
 
         await state.set_state(FSMRepeatingModule.wait_next_question)
         await state.update_data(data)
+        await message.delete()
 
     else:
         # Ответ правильный
@@ -276,10 +276,14 @@ async def process_got_answer(message: Message, state: FSMContext, bot: Bot):
 
         await next_question(data=data, chat_id=message.from_user.id, state=state, bot=bot)
 
-        await send_and_delete_message(chat_id=message.from_user.id,
-                                      text=REPEATING_MODULE_LEXICON['correct_answer'][data['user_lang']].format(
-                                          correct_answer=f"{current_pair[0]} {data['separator']} {current_pair[1]}"
-                                      ), delete_after=3)
+        await message.delete()
+
+        # await send_and_delete_message(chat_id=message.from_user.id,
+        #                               text=REPEATING_MODULE_LEXICON['correct_answer'][data['user_lang']].format(
+        #                                   correct_answer=f"{current_pair[0]} {data['separator']} {current_pair[1]}"
+        #                               ), delete_after=3)
+
+        # await bot.answer_inline_query()
 
 
 # Пользователь выбрал, что ответ был все же верным

@@ -592,8 +592,10 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
               "Советуем отдохнуть 1-3 минуты перед финальным повторением всего модуля."
     },
     'repeating_all_module_header': {
-        'en': "You are reviewing all elements of the module {module_name}.",
+        'en': "You are reviewing all elements of the module {module_name}."
+              f"\n\n/{CommandsNames.cancel} - to stop the review",
         'ru': "Сейчас вы повторяете все элементы модуля {module_name}."
+              "\n\n/{CommandsNames.cancel} - чтобы остановить повторение модуля"
     },
     'finish_all_repeating': {
         'en': "You have successfully finished reviewing the module! 🎉🎉🎉🎉\n"
