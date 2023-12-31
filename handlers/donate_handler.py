@@ -25,7 +25,7 @@ router = Router()
 async def process_pay_command(message: Message, bot: Bot):
     user = get_user(message.from_user.id)
 
-    donaters: list = sorted(get_donaters())  # Получаем список кортежей вида (общая сумма донатов, chat_id)
+    donaters: list = sorted(get_donaters(), reverse=True)  # Получаем список кортежей вида (общая сумма донатов, chat_id)
 
     donaters_text = DONATE_LEXICON['donaters_table'][user['lang']]
     successful_donaters_count = 0
