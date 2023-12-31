@@ -73,7 +73,7 @@ async def process_start_repeating_module(callback: CallbackQuery,
     learning_content = data['learning_content']
     current_questions = deque(get_current_questions(learning_content[f'block_{1}']))
 
-    # заполнение нужной информации
+    # Заполнение нужной информации
     new_user_data = deepcopy(user_data_template)
     new_user_data['header_message_id'] = callback.message.message_id
     new_user_data['module_id'] = module_id
@@ -101,13 +101,13 @@ async def process_start_repeating_module(callback: CallbackQuery,
 
     new_user_data['question_message_id'] = question_message.message_id
 
-    await state.update_data(new_user_data)  # сохраняем нужную информацию локально
+    await state.update_data(new_user_data)  # Сохраняем нужную информацию локально
     await state.set_state(FSMRepeatingModule.repeating_module)
 
     await callback.answer()
 
 
-# функция для следующего вопроса
+# Функция для следующего вопроса
 async def next_question(data, chat_id, state, bot: Bot):
     # Проверка есть ли ещё вопросы
     if len(data['current_questions']) > 0:
@@ -242,12 +242,12 @@ async def next_question(data, chat_id, state, bot: Bot):
             await state.set_state(FSMRepeatingModule.wait_next_question)
 
 
-# ответ получен
+# Ответ получен
 @router.message(StateFilter(FSMRepeatingModule.repeating_module))
 async def process_got_answer(message: Message, state: FSMContext, bot: Bot):
     data = await state.get_data()
     current_pair = data['current_questions'][0]
-    data['cw_blocks'][-1][1] += 1
+    data['cw_blocks'][-1][1] += 1  # Прибавляем 1 к количеству вопросов в этом повторении
 
     if message.text is None or current_pair[1].lower().strip() != message.text.lower().strip():
         # Ответ неверный
@@ -270,20 +270,13 @@ async def process_got_answer(message: Message, state: FSMContext, bot: Bot):
         # Ответ правильный
 
         data['current_questions'].popleft()
-        data['cw_blocks'][-1][0] += 1
+        data['cw_blocks'][-1][0] += 1  # Прибавляем 1 к количеству правильных ответов в этом повторении
 
         await state.update_data(data)
 
         await next_question(data=data, chat_id=message.from_user.id, state=state, bot=bot)
 
         await message.delete()
-
-        # await send_and_delete_message(chat_id=message.from_user.id,
-        #                               text=REPEATING_MODULE_LEXICON['correct_answer'][data['user_lang']].format(
-        #                                   correct_answer=f"{current_pair[0]} {data['separator']} {current_pair[1]}"
-        #                               ), delete_after=3)
-
-        # await bot.answer_inline_query()
 
 
 # Пользователь выбрал, что ответ был все же верным
@@ -297,7 +290,7 @@ async def process_answer_was_correct(callback: CallbackQuery,
     question = data['current_questions'][-1]
 
     data['current_questions'].pop()
-    data['cw_blocks'][-1][0] += 1
+    data['cw_blocks'][-1][0] += 1  # Прибавляем 1 к количеству правильных ответов в этом повторении
 
     await bot.edit_message_text(chat_id=callback.from_user.id,
                                 text=REPEATING_MODULE_LEXICON['answer_was_correct_pressed'][data['user_lang']].format(

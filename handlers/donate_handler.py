@@ -20,12 +20,12 @@ owner_chat_id: int = env("OWNER_ID")
 router = Router()
 
 
+# Команда /donate
 @router.message(Command(commands=CommandsNames.donate))
 async def process_pay_command(message: Message, bot: Bot):
     user = get_user(message.from_user.id)
 
-    donaters_dict: list[dict] = get_donaters()
-    donaters = sorted([list(i.values())[::-1] for i in donaters_dict], reverse=True)
+    donaters: list = sorted(get_donaters())  # Получаем список кортежей вида (общая сумма донатов, chat_id)
 
     donaters_text = DONATE_LEXICON['donaters_table'][user['lang']]
     successful_donaters_count = 0
@@ -38,7 +38,6 @@ async def process_pay_command(message: Message, bot: Bot):
                 donaters_text += f"{successful_donaters_count}. {chat.first_name} - {donater[0]}₽\n"
             except Exception as e:
                 continue
-                # print(e, donater[1])
 
         await message.answer(
             text=donaters_text
@@ -50,6 +49,7 @@ async def process_pay_command(message: Message, bot: Bot):
     )
 
 
+# Пользователь выбрал сумму для доната
 @router.callback_query(DonateCF.filter())
 async def process_chose_donate(callback: CallbackQuery,
                                callback_data: DonateCF,
@@ -61,11 +61,13 @@ async def process_chose_donate(callback: CallbackQuery,
     await send_donate_link(bot=bot, chat_id=callback.from_user.id, lang=user['lang'], amount=callback_data.value)
 
 
+# Подтверждение доната
 @router.pre_checkout_query()
 async def pre_checkout_query_process(pre_checkout_query: PreCheckoutQuery, bot: Bot):
     await bot.answer_pre_checkout_query(pre_checkout_query.id, ok=True)
 
 
+# Донат был успешно совершен
 @router.message(F.successful_payment)
 async def successful_payment(message: Message):
     user = get_user(message.from_user.id)

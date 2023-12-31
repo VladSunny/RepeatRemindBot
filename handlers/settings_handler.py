@@ -31,6 +31,7 @@ async def process_settings_command(message: Message):
     )
 
 
+# Изменение параметра получения уведомлений об обновлениях бота
 @router.callback_query(ChangeGetUpdatesCF.filter())
 async def process_change_get_updates(callback: CallbackQuery,
                                      callback_data: ChangeGetUpdatesCF):
@@ -49,6 +50,7 @@ async def process_change_get_updates(callback: CallbackQuery,
     await callback.answer()
 
 
+# Изменение параметра, который разрешает показывать имя пользовтеля в таблице поддержавших проект
 @router.callback_query(ChangeShowInTableCF.filter())
 async def process_change_show_in_donate_table(callback: CallbackQuery,
                                               callback_data: ChangeShowInTableCF):

@@ -6,6 +6,7 @@ from config_data.donates_config import suggested_donates_amounts
 from lexicon.lexicon import DONATE_LEXICON
 
 
+# Создание клавиатуры с доступными суммами
 def create_donate_keyboard() -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
 

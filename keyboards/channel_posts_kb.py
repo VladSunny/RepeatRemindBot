@@ -4,6 +4,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from filters.CallbackDataFactory import SendPostFromChannelCF
 
 
+# Запрос подтверждения на отправку поста всем пользователям бота
 def send_channel_post_keyboard(post_id: int) -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
 

@@ -136,11 +136,13 @@ def get_settings(chat_id: int | str) -> dict:
     return response.data[0]
 
 
+# Получение параметров всех пользователей
 def get_all_settings() -> list[dict]:
     response = supabase.table("settings").select('*').execute()
     return response.data
 
 
+# Сохранение данные о донате пользователя
 def user_donate(chat_id: int | str, new_donate: int) -> None:
     response = supabase.table("donates").select('*').eq("chat_id", chat_id).execute()
     donated = response.data[0]['donated']
@@ -150,13 +152,14 @@ def user_donate(chat_id: int | str, new_donate: int) -> None:
                 .eq("chat_id", chat_id).execute())
 
 
-def get_donaters() -> list[dict]:
+# Получение списка всех пользователей, которые поддержали проект и не против показаться в таблице поддержавших проект
+def get_donaters() -> list:
     response = supabase.table("donates").select('*').execute()
     donaters = []
     all_settings = dict([(i['chat_id'], i['show_in_donate_table']) for i in get_all_settings()])
 
     for user in response.data:
         if user['donated'] > 0 and all_settings[user['chat_id']]:
-            donaters.append(user)
+            donaters.append(list(user.values())[::-1])
 
     return donaters

@@ -16,10 +16,12 @@ with open("config_data/receipt.json", "r", encoding='utf-8') as my_file:
     str_receipt = my_file.read()
 
 
+# Отправить кнопку для оплаты выбранной суммы
 async def send_donate_link(bot: Bot, chat_id: int, lang: str, amount: int):
-    json_receipt = json.loads(str_receipt)
-    json_receipt['receipt']['items'][0]['amount']['value'] = str(amount) + '.00'
+    json_receipt = json.loads(str_receipt)  # Получение шаблона чека на оплату
+    json_receipt['receipt']['items'][0]['amount']['value'] = str(amount) + '.00'  # Заплонение чека для выбранной оплаты
 
+    # Отправка кнопки для оплаты с нужными настройками
     await bot.send_invoice(
         chat_id=chat_id,
         title=DONATE_LEXICON['title'][lang],
