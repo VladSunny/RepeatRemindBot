@@ -31,12 +31,14 @@ def create_new_module_keyboard(content: dict[str, str], lang: str, module_name: 
                        text=CREATING_MODULE_LEXICON['edit_module_separator_button'][lang],
                        callback_data=EditNewModuleSeparatorCF(module_name=module_name).pack()
                    ),
-                   InlineKeyboardButton(
-                       text=CREATING_MODULE_LEXICON['finish_module_button'][lang],
-                       callback_data=SaveNewModuleCF(module_name=module_name).pack()
-                   ),
                    width=1
-                   )
+    )
+
+    if len(items):
+        kb_builder.row(InlineKeyboardButton(
+                           text=CREATING_MODULE_LEXICON['finish_module_button'][lang],
+                           callback_data=SaveNewModuleCF(module_name=module_name).pack()
+                       ))
 
     return kb_builder.as_markup()
 
