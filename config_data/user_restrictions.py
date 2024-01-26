@@ -5,4 +5,4 @@ max_items_in_module = 30
 max_local_items_in_module = 50
 
 max_name_length = 20
-max_element_length = 60
+max_element_length = 200
