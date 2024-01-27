@@ -18,7 +18,7 @@ from keyboards.new_module_kb import create_new_module_keyboard, create_separator
 from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON
 from services.auto_translate_service import translate_all_phrases_into_module_pairs
 from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs, elements_to_text
-from services.service import send_and_delete_message, download_file
+from services.service import send_and_delete_message, download_photo, download_voice
 from services.tesseract_service import get_eng_from_photo, clear_text, format_phrases_to_text
 
 storage = MemoryStorage()
@@ -38,6 +38,7 @@ new_module_dict: dict[str, str | dict[str, str]] = {
     "cur_photo_path": "",
     "photo_id": "",
     "photo_message_id": 0,
+    "voice_message_id": 0,
     "phrases_to_translate": []
 }
 
@@ -190,7 +191,7 @@ async def process_photo_sent(message: Message, state: FSMContext):
         return
 
     # Скачиваем фото
-    path = await download_file(photo.file_id)
+    path = await download_photo(photo.file_id)
 
     # Сохраняем путь к нему
     await state.update_data(cur_photo_path=path)
@@ -203,6 +204,22 @@ async def process_photo_sent(message: Message, state: FSMContext):
     await state.update_data(photo_message_id=photo_message.message_id)
     await state.update_data(photo_id=message.message_id)
 
+
+# Отправлено голосовое сообщение
+@router.message(StateFilter(FSMCreatingModule.fill_content), F.voice)
+async def process_photo_sent(message: Message, state: FSMContext):
+    ic(message)
+    voice = message.voice
+
+    data = await state.get_data()
+
+    if data['cur_voice_path']:
+        await message.delete()
+        return
+
+    path = await download_voice(voice.file_id)
+
+    await state.update_data(cur_voice_path=path)
 
 # Получить текст с фото
 @router.callback_query(SeparatorForPhotoCF.filter(), StateFilter(FSMCreatingModule.fill_content))
@@ -464,6 +481,9 @@ async def process_save_module(callback: CallbackQuery,
 @router.message(StateFilter(*creating_module_states))
 async def process_unintended_command(message: Message):
     user = get_user(message.from_user.id)
-    await message.answer(
-        text=CREATING_MODULE_LEXICON['unintended_creating_module'][user['lang']]
-    )
+
+    await send_and_delete_message(chat_id=message.chat.id,
+                                  text=CREATING_MODULE_LEXICON['unintended_creating_module'][user['lang']],
+                                  delete_after=4)
+
+    await message.delete()

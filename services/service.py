@@ -13,6 +13,7 @@ config: Config = load_config()
 
 
 PHOTOS_FOLDER = 'photos'
+VOICES_FOLDER = 'voices'
 
 os.makedirs(PHOTOS_FOLDER, exist_ok=True)
 
@@ -34,12 +35,25 @@ async def send_and_delete_message(chat_id: int, text: str, delete_after: int):
 
 
 # Скачать файл
-async def download_file(file_id) -> str:
+async def download_photo(file_id) -> str:
     # Получаем объект файла
     file = await bot.get_file(file_id)
 
     # Составляем путь для сохранения файла
     file_path = os.path.join(PHOTOS_FOLDER, f"{file_id}.jpg")
+
+    # Скачиваем фотографию используя метод download_file
+    await bot.download_file(file_path=file.file_path, destination=file_path)
+
+    return file_path
+
+
+async def download_voice(file_id) -> str:
+    # Получаем объект файла
+    file = await bot.get_file(file_id)
+
+    # Составляем путь для сохранения файла
+    file_path = os.path.join(VOICES_FOLDER, f"{file_id}.jpg")
 
     # Скачиваем фотографию используя метод download_file
     await bot.download_file(file_path=file.file_path, destination=file_path)
