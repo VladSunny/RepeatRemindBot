@@ -207,7 +207,7 @@ async def process_photo_sent(message: Message, state: FSMContext):
 
 # Отправлено голосовое сообщение
 @router.message(StateFilter(FSMCreatingModule.fill_content), F.voice)
-async def process_photo_sent(message: Message, state: FSMContext):
+async def process_voice_sent(message: Message, state: FSMContext):
     ic(message)
     voice = message.voice
 
