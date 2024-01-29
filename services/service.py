@@ -53,7 +53,7 @@ async def download_voice(file_id) -> str:
     file = await bot.get_file(file_id)
 
     # Составляем путь для сохранения файла
-    file_path = os.path.join(VOICES_FOLDER, f"{file_id}.jpg")
+    file_path = os.path.join(VOICES_FOLDER, f"{file_id}.WAV")
 
     # Скачиваем фотографию используя метод download_file
     await bot.download_file(file_path=file.file_path, destination=file_path)

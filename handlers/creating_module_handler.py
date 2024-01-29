@@ -20,6 +20,7 @@ from services.auto_translate_service import translate_all_phrases_into_module_pa
 from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs, elements_to_text
 from services.service import send_and_delete_message, download_photo, download_voice
 from services.tesseract_service import get_eng_from_photo, clear_text, format_phrases_to_text
+from services.get_voice_text_service import get_text_from_voice
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
@@ -36,6 +37,7 @@ new_module_dict: dict[str, str | dict[str, str]] = {
     "is_editing": False,
     "editing_module_id": 0,
     "cur_photo_path": "",
+    "cur_voice_path": "",
     "photo_id": "",
     "photo_message_id": 0,
     "voice_message_id": 0,
@@ -208,18 +210,20 @@ async def process_photo_sent(message: Message, state: FSMContext):
 # Отправлено голосовое сообщение
 @router.message(StateFilter(FSMCreatingModule.fill_content), F.voice)
 async def process_voice_sent(message: Message, state: FSMContext):
-    ic(message)
     voice = message.voice
 
     data = await state.get_data()
 
-    if data['cur_voice_path']:
-        await message.delete()
-        return
+    # if data['cur_voice_path']:
+    #     await message.delete()
+    #     return
 
     path = await download_voice(voice.file_id)
 
+    get_text_from_voice(path)
+
     await state.update_data(cur_voice_path=path)
+
 
 # Получить текст с фото
 @router.callback_query(SeparatorForPhotoCF.filter(), StateFilter(FSMCreatingModule.fill_content))
