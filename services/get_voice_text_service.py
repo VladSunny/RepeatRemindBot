@@ -19,10 +19,8 @@ def get_text_from_voice(audio_file: str, lang: str) -> str:
         # Пытаемся распознать речь используя Google Web Speech API
         try:
             text = recognizer.recognize_google(audio_data, language=lang)
-            print(f"Recognized text: {text}")
             return text
         except sr.UnknownValueError:
-            print("Google Speech Recognition could not understand audio")
             return "Google Speech Recognition could not understand audio"
         except sr.RequestError as e:
             print(f"Could not request results from Google Speech Recognition service; {e}")
