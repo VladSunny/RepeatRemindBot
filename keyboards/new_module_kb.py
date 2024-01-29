@@ -3,7 +3,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from filters.CallbackDataFactory import \
     DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF, SaveNewModuleCF, SeparatorForPhotoCF, \
-    AutoTranslatePhrasesCF, CancelTranslatingPhrasesCF, AddPhrasesFromPhotoCF
+    AutoTranslatePhrasesCF, CancelTranslatingPhrasesCF, AddPhrasesFromPhotoCF, AddVoicePhraseCF, CancelVoiceCF
 from lexicon.lexicon import CREATING_MODULE_LEXICON
 
 
@@ -99,6 +99,28 @@ def add_translated_phrases_keyboard(lang: str) -> InlineKeyboardMarkup:
             callback_data=AddPhrasesFromPhotoCF().pack()
         ),
         width=1
+    )
+
+    return kb_builder.as_markup()
+
+
+def voice_keyboard(lang: str) -> InlineKeyboardMarkup:
+    kb_builder = InlineKeyboardBuilder()
+
+    kb_builder.row(
+        InlineKeyboardButton(
+            text=CREATING_MODULE_LEXICON['get_voice']['ru'],
+            callback_data=AddVoicePhraseCF(lang='ru-RU').pack()
+        ),
+        InlineKeyboardButton(
+            text=CREATING_MODULE_LEXICON['get_voice']['en'],
+            callback_data=AddVoicePhraseCF(lang='en-EN').pack()
+        ),
+        InlineKeyboardButton(
+            text=CREATING_MODULE_LEXICON['cancel_voice'][lang],
+            callback_data=CancelVoiceCF().pack()
+        ),
+        width=2
     )
 
     return kb_builder.as_markup()

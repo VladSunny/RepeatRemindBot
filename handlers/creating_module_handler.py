@@ -12,9 +12,10 @@ from FSM.fsm import FSMCreatingModule, creating_module_states
 from config_data.user_restrictions import *
 from database.database import *
 from filters.CallbackDataFactory import DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF, \
-    SaveNewModuleCF, SeparatorForPhotoCF, CancelTranslatingPhrasesCF, AutoTranslatePhrasesCF, AddPhrasesFromPhotoCF
+    SaveNewModuleCF, SeparatorForPhotoCF, CancelTranslatingPhrasesCF, AutoTranslatePhrasesCF, AddPhrasesFromPhotoCF, \
+    AddVoicePhraseCF, CancelVoiceCF
 from keyboards.new_module_kb import create_new_module_keyboard, create_separator_on_photo_keyboard, \
-    translate_text_from_photo_keyboard, add_translated_phrases_keyboard
+    translate_text_from_photo_keyboard, add_translated_phrases_keyboard, voice_keyboard
 from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON
 from services.auto_translate_service import translate_all_phrases_into_module_pairs
 from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs, elements_to_text
@@ -39,6 +40,7 @@ new_module_dict: dict[str, str | dict[str, str]] = {
     "cur_photo_path": "",
     "cur_voice_path": "",
     "photo_id": "",
+    "voice_id": "",
     "photo_message_id": 0,
     "voice_message_id": 0,
     "phrases_to_translate": []
@@ -210,19 +212,24 @@ async def process_photo_sent(message: Message, state: FSMContext):
 # Отправлено голосовое сообщение
 @router.message(StateFilter(FSMCreatingModule.fill_content), F.voice)
 async def process_voice_sent(message: Message, state: FSMContext):
+    user = get_user(message.from_user.id)
     voice = message.voice
 
     data = await state.get_data()
 
-    # if data['cur_voice_path']:
-    #     await message.delete()
-    #     return
+    if data['cur_voice_path']:
+        await message.delete()
+        return
 
     path = await download_voice(voice.file_id)
 
-    get_text_from_voice(path)
+    voice_message = await message.answer(text=CREATING_MODULE_LEXICON['choose_voice_lang'][user['lang']],
+                                         reply_markup=voice_keyboard(user['lang']),
+                                         reply_to_message_id=message.message_id)
 
     await state.update_data(cur_voice_path=path)
+    await state.update_data(voice_id=message.message_id)
+    await state.update_data(voice_message_id=voice_message.message_id)
 
 
 # Получить текст с фото
@@ -253,6 +260,19 @@ async def process_got_text_from_photo(callback: CallbackQuery,
                                 reply_markup=translate_text_from_photo_keyboard(user['lang']))
 
 
+@router.callback_query(AddVoicePhraseCF.filter(), StateFilter(FSMCreatingModule.fill_content))
+async def process_got_text_from_voice(callback: CallbackQuery,
+                                      callback_data: AddVoicePhraseCF,
+                                      state: FSMContext,
+                                      bot: Bot):
+    user = get_user(callback.from_user.id)
+    data = await state.get_data()
+
+    voice_text = get_text_from_voice(data['cur_voice_path'], callback_data.lang)
+
+    await callback.answer(voice_text)
+
+
 # Отмена действий с фото
 @router.callback_query(CancelTranslatingPhrasesCF.filter(), StateFilter(FSMCreatingModule.fill_content))
 async def process_cancel_translating_phrases(callback: CallbackQuery,
@@ -270,6 +290,23 @@ async def process_cancel_translating_phrases(callback: CallbackQuery,
         await state.update_data(cur_photo_path="")
         await bot.delete_message(chat_id=callback.from_user.id, message_id=data['photo_id'])
         await bot.delete_message(chat_id=callback.from_user.id, message_id=data['photo_message_id'])
+
+
+@router.callback_query(CancelVoiceCF.filter(), StateFilter(FSMCreatingModule.fill_content))
+async def process_cancel_voice(callback: CallbackQuery,
+                                             callback_data: CancelVoiceCF,
+                                             state: FSMContext,
+                                             bot: Bot):
+    await callback.answer()
+
+    data = await state.get_data()
+
+    try:
+        os.remove(data['cur_voice_path'])
+    finally:
+        await state.update_data(cur_voice_path="")
+        await bot.delete_message(chat_id=callback.from_user.id, message_id=data['voice_id'])
+        await bot.delete_message(chat_id=callback.from_user.id, message_id=data['voice_message_id'])
 
 
 # Автоматический перевод полученных фраз с фото

@@ -3,10 +3,14 @@ from __future__ import annotations
 from aiogram.filters.callback_data import CallbackData
 
 
+# Settings
+
 # Callback для ивента "смена языка"
 class LanguageSelectionCF(CallbackData, prefix='lang'):
     language: str
 
+
+# Creating module --
 
 # Callback для ивента "удаление пары из создаваемого модуля"
 class DelPairFromNewModuleCF(CallbackData, prefix='del_pair'):
@@ -48,6 +52,32 @@ class BackToSavedModulesCF(CallbackData, prefix='back_to_saved_modules'):
 class EditModuleCF(CallbackData, prefix='edit_module'):
     module_id: int
 
+class SeparatorForPhotoCF(CallbackData, prefix='separator_for_photo'):
+    sep: str
+
+
+class AutoTranslatePhrasesCF(CallbackData, prefix='auto_translate'):
+    pass
+
+
+class CancelTranslatingPhrasesCF(CallbackData, prefix='cancel_translating_phrases'):
+    pass
+
+
+class AddPhrasesFromPhotoCF(CallbackData, prefix='add_translating_phrases'):
+    pass
+
+
+class AddVoicePhraseCF(CallbackData, prefix='add_voice_phrase'):
+    lang: str
+
+
+class CancelVoiceCF(CallbackData, prefix='cancel_voice'):
+    pass
+
+
+# Repeating module --
+
 
 # Callback для ивента "повторение модуля"
 class RepeatModuleCF(CallbackData, prefix='repeat_module'):
@@ -71,21 +101,7 @@ class NextQuestionCF(CallbackData, prefix='next_question'):
 class AnswerWasCorrectCF(CallbackData, prefix='answer_was_correct'):
     pass
 
-
-class SeparatorForPhotoCF(CallbackData, prefix='separator_for_photo'):
-    sep: str
-
-
-class AutoTranslatePhrasesCF(CallbackData, prefix='auto_translate'):
-    pass
-
-
-class CancelTranslatingPhrasesCF(CallbackData, prefix='cancel_translating_phrases'):
-    pass
-
-
-class AddPhrasesFromPhotoCF(CallbackData, prefix='add_translating_phrases'):
-    pass
+# Other --
 
 
 class SendPostFromChannelCF(CallbackData, prefix='send_post'):
@@ -102,3 +118,4 @@ class ChangeShowInTableCF(CallbackData, prefix='change_show_in_donate_table'):
 
 class DonateCF(CallbackData, prefix='donate'):
     value: int
+
