@@ -17,7 +17,7 @@ from filters.CallbackDataFactory import DelPairFromNewModuleCF, RenameNewModuleC
 from keyboards.new_module_kb import create_new_module_keyboard, create_separator_on_photo_keyboard, \
     translate_text_from_photo_keyboard, add_translated_phrases_keyboard, voice_keyboard
 from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON
-from services.auto_translate_service import translate_all_phrases_into_module_pairs
+from services.auto_translate_service import *
 from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs, elements_to_text
 from services.service import send_and_delete_message, download_photo, download_voice
 from services.tesseract_service import get_eng_from_photo, clear_text, format_phrases_to_text
@@ -74,6 +74,33 @@ async def send_new_module_info(chat_id, data, user, content, bot: Bot):
                                        size=len(content)
                                        )
                                 )
+
+
+async def add_new_pairs(state, valid_pairs, chat_id, bot):
+    data = await state.get_data()
+    user = get_user(chat_id)
+
+    valid_pairs = data['content'] | valid_pairs
+
+    reach_local_max = False
+
+    if len(valid_pairs) > max_local_items_in_module:
+        valid_pairs = list(valid_pairs.items())[:max_local_items_in_module]
+        valid_pairs = dict(valid_pairs)
+        reach_local_max = True
+
+    await state.update_data(content=valid_pairs)
+
+    await send_new_module_info(chat_id, data, user, valid_pairs, bot)
+
+    if reach_local_max:
+        await send_and_delete_message(chat_id,
+                                      CREATING_MODULE_LEXICON['max_local_items_in_module'][user['lang']],
+                                      delete_after=7)
+    elif len(valid_pairs) > max_items_in_module:
+        await send_and_delete_message(chat_id,
+                                      CREATING_MODULE_LEXICON['max_items_in_module'][user['lang']],
+                                      delete_after=7)
 
 
 # Отмена создания модуля
@@ -150,34 +177,14 @@ async def process_content_sent(message: Message, state: FSMContext, bot: Bot):
 
     data = await state.get_data()
 
-    valid_pairs, has_mistake = get_valid_pairs(message.text, data['separator'])
+    new_pairs, has_mistake = get_valid_pairs(message.text, data['separator'])
 
-    valid_pairs = data['content'] | valid_pairs
-
-    reach_local_max = False
-
-    if len(valid_pairs) > max_local_items_in_module:
-        valid_pairs = list(valid_pairs.items())[:max_local_items_in_module]
-        valid_pairs = dict(valid_pairs)
-        reach_local_max = True
-
-    await state.update_data(content=valid_pairs)
-
-    await send_new_module_info(message.from_user.id, data, user, valid_pairs, bot)
+    await add_new_pairs(state=state, valid_pairs=new_pairs, chat_id=message.from_user.id, bot=bot)
 
     if has_mistake:
         await send_and_delete_message(message.chat.id,
                                       CREATING_MODULE_LEXICON['incorrect_pair'][user['lang']].format(
                                           separator=data['separator']), 7)
-
-    if reach_local_max:
-        await send_and_delete_message(message.chat.id,
-                                      CREATING_MODULE_LEXICON['max_local_items_in_module'][user['lang']],
-                                      delete_after=7)
-    elif len(valid_pairs) > max_items_in_module:
-        await send_and_delete_message(message.chat.id,
-                                      CREATING_MODULE_LEXICON['max_items_in_module'][user['lang']],
-                                      delete_after=7)
 
 
 # Отправлено фото
@@ -265,12 +272,26 @@ async def process_got_text_from_voice(callback: CallbackQuery,
                                       callback_data: AddVoicePhraseCF,
                                       state: FSMContext,
                                       bot: Bot):
-    user = get_user(callback.from_user.id)
     data = await state.get_data()
 
-    voice_text = get_text_from_voice(data['cur_voice_path'], callback_data.lang)
+    voice_text = get_text_from_voice(data['cur_voice_path'], callback_data.lang).lower()
+    translated_voice_text = translate_phrase(voice_text,
+                                             ('ru', 'en')[callback_data.lang == 'en-EN'],
+                                             ('ru', 'en')[callback_data.lang == 'ru-RU']).lower()
 
-    await callback.answer(voice_text)
+    await add_new_pairs(state=state,
+                        valid_pairs={voice_text: translated_voice_text},
+                        chat_id=callback.from_user.id,
+                        bot=bot)
+
+    try:
+        os.remove(data['cur_voice_path'])
+    finally:
+        await state.update_data(cur_voice_path="")
+        await bot.delete_message(chat_id=callback.from_user.id, message_id=data['voice_id'])
+        await bot.delete_message(chat_id=callback.from_user.id, message_id=data['voice_message_id'])
+
+    await callback.answer()
 
 
 # Отмена действий с фото
@@ -337,37 +358,17 @@ async def process_add_translated_phrases(callback: CallbackQuery,
                                          callback_data: AddPhrasesFromPhotoCF,
                                          state: FSMContext,
                                          bot: Bot):
-    user = get_user(callback.from_user.id)
-
     data = await state.get_data()
 
-    valid_pairs = data['content'] | data['phrases_to_translate']
+    new_pairs = data['phrases_to_translate']
 
-    reach_local_max = False
-
-    if len(valid_pairs) > max_local_items_in_module:
-        valid_pairs = list(valid_pairs.items())[:max_local_items_in_module]
-        valid_pairs = dict(valid_pairs)
-        reach_local_max = True
-
-    await state.update_data(content=valid_pairs)
-
-    await send_new_module_info(callback.from_user.id, data, user, valid_pairs, bot)
+    await add_new_pairs(state=state, valid_pairs=new_pairs, chat_id=callback.from_user.id, bot=bot)
 
     await callback.answer()
 
     await bot.delete_message(callback.from_user.id, data['photo_id'])
     await bot.delete_message(callback.from_user.id, data['photo_message_id'])
     await state.update_data(cur_photo_path="")
-
-    if reach_local_max:
-        await send_and_delete_message(callback.from_user.id,
-                                      CREATING_MODULE_LEXICON['max_local_items_in_module'][user['lang']],
-                                      delete_after=7)
-    elif len(valid_pairs) > max_items_in_module:
-        await send_and_delete_message(callback.from_user.id,
-                                      CREATING_MODULE_LEXICON['max_items_in_module'][user['lang']],
-                                      delete_after=7)
 
 
 # Отправлено новое имя
