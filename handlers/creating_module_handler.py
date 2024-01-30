@@ -279,17 +279,17 @@ async def process_got_text_from_voice(callback: CallbackQuery,
                                              ('ru', 'en')[callback_data.lang == 'en-EN'],
                                              ('ru', 'en')[callback_data.lang == 'ru-RU']).lower()
 
-    await add_new_pairs(state=state,
-                        valid_pairs={voice_text: translated_voice_text},
-                        chat_id=callback.from_user.id,
-                        bot=bot)
-
     try:
         os.remove(data['cur_voice_path'])
     finally:
         await state.update_data(cur_voice_path="")
         await bot.delete_message(chat_id=callback.from_user.id, message_id=data['voice_id'])
         await bot.delete_message(chat_id=callback.from_user.id, message_id=data['voice_message_id'])
+
+    await add_new_pairs(state=state,
+                        valid_pairs={voice_text: translated_voice_text},
+                        chat_id=callback.from_user.id,
+                        bot=bot)
 
     await callback.answer()
 
@@ -362,13 +362,13 @@ async def process_add_translated_phrases(callback: CallbackQuery,
 
     new_pairs = data['phrases_to_translate']
 
-    await add_new_pairs(state=state, valid_pairs=new_pairs, chat_id=callback.from_user.id, bot=bot)
-
-    await callback.answer()
-
     await bot.delete_message(callback.from_user.id, data['photo_id'])
     await bot.delete_message(callback.from_user.id, data['photo_message_id'])
     await state.update_data(cur_photo_path="")
+
+    await add_new_pairs(state=state, valid_pairs=new_pairs, chat_id=callback.from_user.id, bot=bot)
+
+    await callback.answer()
 
 
 # Отправлено новое имя
