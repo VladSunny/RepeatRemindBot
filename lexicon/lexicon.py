@@ -404,8 +404,10 @@ CREATING_MODULE_LEXICON = {
     },
 
     # voices
+
     'choose_voice_lang': {
-        'en': "",
+        'en': "What language is this phrase written in?"
+              " After selection, the phrase will be added to the module with a translation in the opposite language",
         'ru': "На каком языке записана данная фраза? После выбора, фраза будет добавлена в модуль"
               " с переводом на противоположном языке"
     },
