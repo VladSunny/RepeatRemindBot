@@ -209,7 +209,8 @@ async def process_photo_sent(message: Message, state: FSMContext):
 
     photo_message = await message.answer(
         text=CREATING_MODULE_LEXICON['sent_first_photo'][user['lang']],
-        reply_markup=create_separator_on_photo_keyboard(user['lang'])
+        reply_markup=create_separator_on_photo_keyboard(user['lang']),
+        reply_to_message_id=message.message_id
     )
 
     await state.update_data(photo_message_id=photo_message.message_id)
