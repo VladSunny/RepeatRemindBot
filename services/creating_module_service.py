@@ -30,8 +30,9 @@ def get_valid_pairs(pairs: str, separator: str) -> tuple[dict[str, str], bool]:
 
     for pair in pairs:
         pair = pair.split(f' {separator} ')
-        if len(pair) != 2 or len(pair[0]) + len(pair[1]) > max_element_length:
-            has_mistake =  True
+        if (len(pair) != 2) or (len(pair[0]) >= 64) or (len(pair[0]) + len(pair[1]) > max_element_length):
+            has_mistake = True
+            print("mistake")
             continue
         valid_pairs[pair[0].strip()] = pair[1].strip()
 

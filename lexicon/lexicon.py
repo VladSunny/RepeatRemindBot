@@ -291,11 +291,13 @@ CREATING_MODULE_LEXICON = {
     'incorrect_pair': {
         'en': ("❌ <b>Incorrect format / reached maximum size of element!</b>"
                "\n\nExample:\nfruit {separator} apple\n\n"
+               "<b>Maximum size of key - 63</b>"
                f"<b>Maximum size of element (sum of key size and value size) - {max_element_length}</b>"
                f"/{CommandsNames.cancel} - to cancel module "
                "creation"),
         'ru': ("❌ <b>Неправильный формат / слишком большой размер элемента!</b>"
                "\n\nПример:\nфрукт {separator} яблоко\n\n"
+               "<b>Максимальный размер ключа - 63</b>"
                f"<b>Максимальный размер элемента (сумма размеров ключа и значения) - {max_element_length}</b>\n\n"
                f"/{CommandsNames.cancel} - чтобы отменить "
                "создание модуля")
