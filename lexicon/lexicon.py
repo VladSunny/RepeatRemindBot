@@ -79,27 +79,13 @@ LEXICON: dict[str, dict[str, str]] = {
     # Feed back
 
     CommandsNames.send_feedback: {
-        'en': "Thank you for your decision to share your feedback!\n"
-              "Your feedback is incredibly important for us to become even better and more useful.\n"
-              "Please tell us what you liked or what you may have missed in our interaction.\n"
-              "I look forward to your comments!",
-        'ru': "Благодарю вас за ваше решение поделиться обратной связью!\n"
-              "Ваше мнение невероятно важно для меня, чтобы стать еще лучше и более полезным.\n"
-              "Пожалуйста, расскажите, что вам понравилось или чего, возможно, вам не хватало в нашем взаимодействии.\n"
-              "С нетерпением жду ваших комментариев!"
+        'en': "Please share an idea or report a bug. I will be glad to take into account your wishes! Thank you!",
+        'ru': "Пожалуйста, поделитесь идеей или сообщите об ошибке. Буду рад учесть пожелания! Спасибо!"
     },
 
     'feedback_sent': {
-        'en': "<b>Your feedback has been sent successfully!</b>\n"
-              "Thank you for your contribution and time spent with us!\n"
-              "We appreciate the opportunity to improve our service thanks to your feedback.\n"
-              "If you have any other ideas or suggestions, we will be glad to hear them.\n"
-              "Thank you for your support!",
-        'ru': "<b>Ваш фидбек успешно отправлен!</b>\n"
-              "Спасибо за ваш вклад и время, уделенное нам!\n"
-              "Мы ценим возможность улучшать наш сервис благодаря вашим отзывам.\n"
-              "Если у вас возникнут еще какие-либо идеи или предложения, будем рады их услышать.\n"
-              "Спасибо за вашу поддержку!"
+        'en': "Your review has been successfully sent to the author",
+        'ru': "Ваш отзыв успешно отправлен автору"
     },
 
     # Other
