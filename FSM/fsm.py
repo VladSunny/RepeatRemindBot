@@ -40,3 +40,8 @@ settings_states = [
 # Состояние при получении модуля по id
 class FSMGetModuleById(StatesGroup):
     send_module_id = State()
+
+
+# Состояние при отправке отзыва
+class FSMFeedback(StatesGroup):
+    send_feedback = State()

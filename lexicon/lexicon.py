@@ -12,6 +12,7 @@ class CommandsNames:
     change_repetitions_for_block = 'change_repetitions_for_block'
     get_module_by_id = 'get_module_by_id'
     donate = 'donate'
+    send_feedback = 'send_feedback'
 
 
 LEXICON: dict[str, dict[str, str]] = {
@@ -74,11 +75,31 @@ LEXICON: dict[str, dict[str, str]] = {
 
     },
 
-    # Donate
 
-    '/donate': {
-        'en': "https://donate.stream/repeatreminddonate",
-        'ru': "https://donate.stream/repeatreminddonate"
+    # Feed back
+
+    CommandsNames.send_feedback: {
+        'en': "Thank you for your decision to share your feedback!\n"
+              "Your feedback is incredibly important for us to become even better and more useful.\n"
+              "Please tell us what you liked or what you may have missed in our interaction.\n"
+              "I look forward to your comments!",
+        'ru': "Благодарю вас за ваше решение поделиться обратной связью!\n"
+              "Ваше мнение невероятно важно для меня, чтобы стать еще лучше и более полезным.\n"
+              "Пожалуйста, расскажите, что вам понравилось или чего, возможно, вам не хватало в нашем взаимодействии.\n"
+              "С нетерпением жду ваших комментариев!"
+    },
+
+    'feedback_sent': {
+        'en': "<b>Your feedback has been sent successfully!</b>\n"
+              "Thank you for your contribution and time spent with us!\n"
+              "We appreciate the opportunity to improve our service thanks to your feedback.\n"
+              "If you have any other ideas or suggestions, we will be glad to hear them.\n"
+              "Thank you for your support!",
+        'ru': "<b>Ваш фидбек успешно отправлен!</b>\n"
+              "Спасибо за ваш вклад и время, уделенное нам!\n"
+              "Мы ценим возможность улучшать наш сервис благодаря вашим отзывам.\n"
+              "Если у вас возникнут еще какие-либо идеи или предложения, будем рады их услышать.\n"
+              "Спасибо за вашу поддержку!"
     },
 
     # Other
@@ -651,11 +672,13 @@ GET_MODULE_BY_ID_LEXICON: dict[str, dict[str, str]] = {
     }
 }
 
+
 LEXICON_COMMANDS: dict[str, str] = {
     '/help': 'Description of available commands.',
     f'/{CommandsNames.settings}': 'Your settings.',
     f'/{CommandsNames.create_new_module}': 'Create a new module.',
     f'/{CommandsNames.saved_modules}': 'Your saved modules.',
     f'/{CommandsNames.get_module_by_id}': "Save someone else's module using ID.",
-    f'/{CommandsNames.donate}': "Support the project"
+    f'/{CommandsNames.donate}': "Support the project",
+    f'/{CommandsNames.send_feedback}': "Send your feedback about bot"
 }
