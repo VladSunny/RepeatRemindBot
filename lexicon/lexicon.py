@@ -88,6 +88,11 @@ LEXICON: dict[str, dict[str, str]] = {
         'ru': "Ваш отзыв успешно отправлен автору"
     },
 
+    'feedbacks_limit': {
+        'en': "The number of reviews per day has been exceeded! Save an idea or a problem message until tomorrow!",
+        'ru': "Превышено количество отзывов за день! Приберегите идею или сообщение о проблеме до завтра!"
+    },
+
     # Other
 
     'maximum_number_of_modules': {
