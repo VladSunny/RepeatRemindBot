@@ -1,15 +1,17 @@
-from aiogram import Router, Bot
+from aiogram import Router, Bot, F
 from aiogram.filters import Command, CommandStart, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
-from aiogram.types import CallbackQuery, Message
+from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 
 from FSM.fsm import FSMCreatingModule
 from config_data.user_restrictions import *
 from database.database import *
 from filters.CallbackDataFactory import LanguageSelectionCF
 from messages_keyboards.change_language_kb import create_change_language_keyboard
-from lexicon.lexicon import LEXICON, CommandsNames, SETTINGS_LEXICON
+from lexicon.lexicon import LEXICON, CommandsNames, SETTINGS_LEXICON, main_keyboard_lexicon, system_lexicon
+from keyboards.keyboards import get_main_keyboard
+from services.service import send_and_delete_message
 
 router = Router()
 
@@ -21,7 +23,7 @@ router.message.filter(StateFilter(default_state))
 async def unregistered_user(message: Message):
     add_user(message.from_user.id)
     user = get_user(message.from_user.id)
-    await message.answer(LEXICON['/start'][user['lang']])
+    await message.answer(LEXICON['/start'][user['lang']], reply_markup=get_main_keyboard(user['lang']))
 
 
 # /start
@@ -29,16 +31,18 @@ async def unregistered_user(message: Message):
 @router.message(CommandStart())
 async def process_start_command(message: Message):
     user = get_user(message.from_user.id)
-    await message.answer(LEXICON['/start'][user['lang']])
+    await message.answer(LEXICON['/start'][user['lang']], reply_markup=get_main_keyboard(user['lang']))
     if message.from_user.id not in get_users_chat_ids():
         add_user(message.from_user.id)
 
 
 # /help
 @router.message(Command(commands='help'))
+@router.message(F.text == main_keyboard_lexicon['/help']['ru'])
+@router.message(F.text == main_keyboard_lexicon['/help']['en'])
 async def process_help_command(message: Message):
     user = get_user(message.from_user.id)
-    await message.answer(LEXICON['/help'][user['lang']])
+    await message.answer(LEXICON['/help'][user['lang']], reply_markup=get_main_keyboard(user['lang']))
 
 
 # /cancel когда нечего отменять
@@ -46,7 +50,8 @@ async def process_help_command(message: Message):
 async def process_cancel_command(message: Message):
     user = get_user(message.from_user.id)
     await message.answer(
-        text=LEXICON['nothing_to_cancel'][user['lang']]
+        text=LEXICON['nothing_to_cancel'][user['lang']],
+        reply_markup=get_main_keyboard(user['lang'])
     )
 
 
@@ -60,12 +65,19 @@ async def process_change_language_command(message: Message):
 
 # /new_module для создания нового модуля
 @router.message(Command(commands=CommandsNames.create_new_module))
+@router.message(F.text == main_keyboard_lexicon[CommandsNames.create_new_module]['ru'])
+@router.message(F.text == main_keyboard_lexicon[CommandsNames.create_new_module]['en'])
 async def process_new_module_command(message: Message, state: FSMContext, bot: Bot):
     user = get_user(message.from_user.id)
 
     if get_modules_number(message.from_user.id) >= max_modules:
         await message.answer(LEXICON['maximum_number_of_modules'][user['lang']])
     else:
+        await send_and_delete_message(chat_id=message.from_user.id,
+                                      text=system_lexicon['delete_keyboard'][user['lang']],
+                                      delete_after=0,
+                                      reply_markup=ReplyKeyboardRemove())
+
         instruction_message = await bot.send_message(chat_id=message.from_user.id,
                                                      text=LEXICON[CommandsNames.create_new_module][user['lang']])
         await state.update_data(instruction_message_id=instruction_message.message_id)

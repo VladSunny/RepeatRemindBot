@@ -23,9 +23,9 @@ bot = Bot(token=config.tg_bot.token,
 
 
 # Отправить сообщение на время
-async def send_and_delete_message(chat_id: int, text: str, delete_after: int):
+async def send_and_delete_message(chat_id: int, text: str, delete_after: int, reply_markup=None):
     # Отправляем сообщение
-    message = await bot.send_message(chat_id, text)
+    message = await bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup)
 
     # Ожидаем указанное количество секунд
     await asyncio.sleep(delete_after)

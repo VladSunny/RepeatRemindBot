@@ -13,9 +13,10 @@ from FSM.fsm import FSMRepeatingModule
 from database.database import *
 from filters.CallbackDataFactory import ConfirmRepeatingCF, AnswerWasCorrectCF, NextQuestionCF
 from messages_keyboards.reapeating_module_kb import correct_answer_keyboard, incorrect_answer_keyboard
-from lexicon.lexicon import REPEATING_MODULE_LEXICON, CommandsNames
+from lexicon.lexicon import REPEATING_MODULE_LEXICON, CommandsNames, system_lexicon
 from services.repeating_module_service import get_current_questions, get_all_questions
 from services.service import send_and_delete_message
+from keyboards.keyboards import get_main_keyboard
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
@@ -47,12 +48,13 @@ async def process_cancel_command(message: Message, state: FSMContext, bot: Bot):
     user = get_user(message.from_user.id)
     await message.answer(
         text=REPEATING_MODULE_LEXICON['cancel_repeating_module'][user['lang']],
-        reply_markup=ReplyKeyboardRemove()
+        reply_markup=get_main_keyboard(user['lang'])
     )
 
     data = await state.get_data()
 
-    await bot.delete_message(chat_id=message.chat.id, message_id=data['question_message_id'])
+    await bot.delete_message(chat_id=message.chat.id,
+                             message_id=data['question_message_id'])
 
     await state.clear()
 
@@ -85,15 +87,20 @@ async def process_start_repeating_module(callback: CallbackQuery,
     new_user_data['repetitions'] = user_settings['repetitions_for_block']
     new_user_data['cw_blocks'].append([0, 0])
 
+    await send_and_delete_message(chat_id=callback.from_user.id,
+                                  text=system_lexicon['delete_keyboard'][user['lang']],
+                                  delete_after=0,
+                                  reply_markup=ReplyKeyboardRemove())
+
     await bot.edit_message_text(chat_id=callback.from_user.id,
                                 message_id=callback.message.message_id,
-                                reply_markup=None,
                                 text=REPEATING_MODULE_LEXICON['repeating_module_header'][user['lang']].format(
                                     module_name=module['name'],
                                     current_repetitions=0,
                                     cur_block=1,
                                     repetitions=user_settings['repetitions_for_block'],
-                                    blocks=len(learning_content))
+                                    blocks=len(learning_content)),
+                                reply_markup=None
                                 )
 
     question_message = await bot.send_message(chat_id=callback.from_user.id,
@@ -137,14 +144,14 @@ async def next_question(data, chat_id, state, bot: Bot):
 
                 # Провекра сделано ли финальное повторение (вопросы из всех блоков)
                 if data['finish_learning_blocks']:
-                    await bot.edit_message_text(chat_id=chat_id,
+                    await bot.delete_message(chat_id=chat_id, message_id=data['question_message_id'])
+                    await bot.send_message(chat_id=chat_id,
                                                 text=REPEATING_MODULE_LEXICON['finish_all_repeating'][
                                                          data['user_lang']] +
                                                      REPEATING_MODULE_LEXICON['progress'][data['user_lang']].
                                                 format(correct=data['cw_blocks'][-1][0],
                                                        questions=data['cw_blocks'][-1][1]),
-                                                message_id=data['question_message_id'],
-                                                reply_markup=None)
+                                                reply_markup=get_main_keyboard(data['user_lang']))
 
                     # Окончание повторения
                     await state.clear()

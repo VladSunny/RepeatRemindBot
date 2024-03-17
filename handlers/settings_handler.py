@@ -1,4 +1,4 @@
-from aiogram import Router, Bot
+from aiogram import Router, Bot, F
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
@@ -6,7 +6,7 @@ from aiogram.types import Message, CallbackQuery
 
 from FSM.fsm import FSMChangeSettings
 from database.database import *
-from lexicon.lexicon import LEXICON, CommandsNames, SETTINGS_LEXICON
+from lexicon.lexicon import LEXICON, CommandsNames, SETTINGS_LEXICON, main_keyboard_lexicon
 from services.service import send_and_delete_message
 from services.settings_service import is_valid_words_in_block, is_valid_repetitions_for_block
 from messages_keyboards.settings_kb import create_settings_keyboard
@@ -17,6 +17,8 @@ router = Router()
 
 # Отправка доступных команд для изменения параметров
 @router.message(Command(commands=CommandsNames.settings), StateFilter(default_state))
+@router.message(F.text == main_keyboard_lexicon[CommandsNames.settings]['ru'])
+@router.message(F.text == main_keyboard_lexicon[CommandsNames.settings]['en'])
 async def process_settings_command(message: Message):
     user = get_user(message.from_user.id)
     user_settings = get_settings(message.from_user.id)

@@ -17,6 +17,7 @@ from filters.CallbackDataFactory import DelPairFromNewModuleCF, RenameNewModuleC
 from messages_keyboards.new_module_kb import create_new_module_keyboard, create_separator_on_photo_keyboard, \
     translate_text_from_photo_keyboard, add_translated_phrases_keyboard, voice_keyboard
 from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON
+from keyboards.keyboards import get_main_keyboard
 from services.auto_translate_service import *
 from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs, elements_to_text
 from services.service import send_and_delete_message, download_photo, download_voice
@@ -117,11 +118,13 @@ async def process_cancel_command(message: Message, state: FSMContext):
     finally:
         if data.get('is_editing'):
             await message.answer(
-                text=CREATING_MODULE_LEXICON['cancel_editing_module'][user['lang']]
+                text=CREATING_MODULE_LEXICON['cancel_editing_module'][user['lang']],
+                reply_markup=get_main_keyboard(user['lang'])
             )
         else:
             await message.answer(
-                text=CREATING_MODULE_LEXICON['cancel_creating_module'][user['lang']]
+                text=CREATING_MODULE_LEXICON['cancel_creating_module'][user['lang']],
+                reply_markup=get_main_keyboard(user['lang'])
             )
 
         await state.clear()
@@ -155,7 +158,7 @@ async def process_name_sent(message: Message, state: FSMContext, bot: Bot):
     await bot.edit_message_text(
         chat_id=message.from_user.id,
         message_id=data['instruction_message_id'],
-        text=CREATING_MODULE_LEXICON['fill_content'][user['lang']]
+        text=CREATING_MODULE_LEXICON['fill_content'][user['lang']],
     )
 
     msg = await message.answer(
@@ -515,7 +518,8 @@ async def process_save_module(callback: CallbackQuery,
 
     await bot.send_message(chat_id=callback.from_user.id,
                            text=CREATING_MODULE_LEXICON['module_saved'][user['lang']].format(module_name=module_name,
-                                                                                             module_id=module['id']))
+                                                                                             module_id=module['id']),
+                           reply_markup=get_main_keyboard(user['lang']))
 
     await bot.delete_message(chat_id=callback.from_user.id, message_id=data['message_id'])
 

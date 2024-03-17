@@ -675,17 +675,23 @@ LEXICON_COMMANDS: dict[str, str] = {
     f'/{CommandsNames.send_feedback}': "Send your feedback about bot"
 }
 
+system_lexicon: dict[str, dict[str, str]] = {
+    'delete_keyboard': {
+        'en': "Deleting keyboard...",
+        'ru': "Удаляем клавиатуру..."
+    }
+}
 
 main_keyboard_lexicon: dict[str, dict[str, str]] = {
-    f'/{CommandsNames.saved_modules}': {
+    CommandsNames.saved_modules: {
         'en': "Saved modules",
         'ru': "Сохраненные модули"
     },
-    f'/{CommandsNames.create_new_module}': {
+    CommandsNames.create_new_module: {
         'en': "Create a new module",
         'ru': "Создать новый модуль"
     },
-    f'/{CommandsNames.settings}': {
+    CommandsNames.settings: {
         'en': "Settings",
         'ru': "Настройки"
     },
