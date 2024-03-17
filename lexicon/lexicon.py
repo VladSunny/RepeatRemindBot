@@ -41,7 +41,8 @@ LEXICON: dict[str, dict[str, str]] = {
               f"\t<b>/{CommandsNames.saved_modules}</b> - Просмотр сохраненных модулей\n"
               f"\t<b>/{CommandsNames.get_module_by_id}</b> - Получение модуля по ID"
               f" (например, для общего использования с учителем)\n"
-              f"\t<b>/{CommandsNames.donate}</b> - Поддержать проект"
+              f"\t<b>/{CommandsNames.donate}</b> - Поддержать проект\n"
+              f"\t<b>/{CommandsNames.send_feedback}</b> - Предложить идею или сообщить об ошибке"
 
     },
     CommandsNames.settings: {
@@ -673,3 +674,24 @@ LEXICON_COMMANDS: dict[str, str] = {
     f'/{CommandsNames.donate}': "Support the project",
     f'/{CommandsNames.send_feedback}': "Send your feedback about bot"
 }
+
+
+main_keyboard_lexicon: dict[str, dict[str, str]] = {
+    f'/{CommandsNames.saved_modules}': {
+        'en': "Saved modules",
+        'ru': "Сохраненные модули"
+    },
+    f'/{CommandsNames.create_new_module}': {
+        'en': "Create a new module",
+        'ru': "Создать новый модуль"
+    },
+    f'/{CommandsNames.settings}': {
+        'en': "Settings",
+        'ru': "Настройки"
+    },
+    '/help': {
+        'en': "Help",
+        'ru': "Помощь"
+    }
+}
+

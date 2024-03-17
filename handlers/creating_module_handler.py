@@ -14,7 +14,7 @@ from database.database import *
 from filters.CallbackDataFactory import DelPairFromNewModuleCF, RenameNewModuleCF, EditNewModuleSeparatorCF, \
     SaveNewModuleCF, SeparatorForPhotoCF, CancelTranslatingPhrasesCF, AutoTranslatePhrasesCF, AddPhrasesFromPhotoCF, \
     AddVoicePhraseCF, CancelVoiceCF
-from keyboards.new_module_kb import create_new_module_keyboard, create_separator_on_photo_keyboard, \
+from messages_keyboards.new_module_kb import create_new_module_keyboard, create_separator_on_photo_keyboard, \
     translate_text_from_photo_keyboard, add_translated_phrases_keyboard, voice_keyboard
 from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON
 from services.auto_translate_service import *

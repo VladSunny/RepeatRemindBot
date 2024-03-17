@@ -6,7 +6,7 @@ from aiogram.methods.get_chat import GetChat
 from database.database import *
 from lexicon.lexicon import CommandsNames, DONATE_LEXICON
 from services.donates_service import send_donate_link
-from keyboards.donate_kb import create_donate_keyboard
+from messages_keyboards.donate_kb import create_donate_keyboard
 from filters.CallbackDataFactory import DonateCF
 from environs import Env
 

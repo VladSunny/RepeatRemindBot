@@ -9,7 +9,7 @@ from database.database import *
 from lexicon.lexicon import LEXICON, CommandsNames, SETTINGS_LEXICON
 from services.service import send_and_delete_message
 from services.settings_service import is_valid_words_in_block, is_valid_repetitions_for_block
-from keyboards.settings_kb import create_settings_keyboard
+from messages_keyboards.settings_kb import create_settings_keyboard
 from filters.CallbackDataFactory import ChangeGetUpdatesCF, ChangeShowInTableCF
 
 router = Router()

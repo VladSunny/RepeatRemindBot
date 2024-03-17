@@ -8,7 +8,7 @@ from FSM.fsm import FSMCreatingModule
 from config_data.user_restrictions import *
 from database.database import *
 from filters.CallbackDataFactory import LanguageSelectionCF
-from keyboards.change_language_kb import create_change_language_keyboard
+from messages_keyboards.change_language_kb import create_change_language_keyboard
 from lexicon.lexicon import LEXICON, CommandsNames, SETTINGS_LEXICON
 
 router = Router()

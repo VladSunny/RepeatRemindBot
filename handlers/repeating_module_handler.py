@@ -12,7 +12,7 @@ from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 from FSM.fsm import FSMRepeatingModule
 from database.database import *
 from filters.CallbackDataFactory import ConfirmRepeatingCF, AnswerWasCorrectCF, NextQuestionCF
-from keyboards.reapeating_module_kb import correct_answer_keyboard, incorrect_answer_keyboard
+from messages_keyboards.reapeating_module_kb import correct_answer_keyboard, incorrect_answer_keyboard
 from lexicon.lexicon import REPEATING_MODULE_LEXICON, CommandsNames
 from services.repeating_module_service import get_current_questions, get_all_questions
 from services.service import send_and_delete_message

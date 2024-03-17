@@ -11,9 +11,9 @@ from config_data.user_restrictions import *
 from database.database import *
 from filters.CallbackDataFactory import OpenSavedModuleCF, DeleteSavedModuleCF, BackToSavedModulesCF, EditModuleCF, \
     RepeatModuleCF, MixWordsInRepeatingModuleCF
-from keyboards.new_module_kb import create_new_module_keyboard
-from keyboards.reapeating_module_kb import confirm_repeating_keyboard
-from keyboards.saved_modules_kb import list_of_saved_modules_keyboard, module_info_keyboard
+from messages_keyboards.new_module_kb import create_new_module_keyboard
+from messages_keyboards.reapeating_module_kb import confirm_repeating_keyboard
+from messages_keyboards.saved_modules_kb import list_of_saved_modules_keyboard, module_info_keyboard
 from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON, SAVED_MODULES_LEXICON, REPEATING_MODULE_LEXICON
 from services.repeating_module_service import get_blocks_num, get_blocks, get_blocks_str
 

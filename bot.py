@@ -8,7 +8,7 @@ from database.init_sql import init_local_database
 from handlers import (user_handlers, other_handlers, base_commands_handler, saved_modules_handler,
                       creating_module_handler, settings_handler, repeating_module_handler, get_module_by_id_handler,
                       donate_handler, channel_posts_handler, feedback_handler)
-from keyboards.main_menu import set_main_menu
+from messages_keyboards.main_menu import set_main_menu
 from middleware.middleware import AntiFloodMiddleware
 
 # Инициализируем логгер

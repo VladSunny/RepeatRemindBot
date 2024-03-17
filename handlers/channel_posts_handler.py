@@ -1,7 +1,7 @@
 from aiogram import F, Router, Bot
 from aiogram.types import Message, CallbackQuery
 
-from keyboards import channel_posts_kb
+from messages_keyboards import channel_posts_kb
 from filters.CallbackDataFactory import SendPostFromChannelCF
 from environs import Env
 from database.database import get_all_settings, get_user

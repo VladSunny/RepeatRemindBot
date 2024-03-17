@@ -49,4 +49,3 @@ class AntiFloodMiddleware(BaseMiddleware, ABC):
             user_messages.append(current_time)
             await self.cache.set(user_id, user_messages, ttl=self.interval)
             return await handler(message, data)
-
