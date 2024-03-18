@@ -14,11 +14,12 @@ def get_text_from_voice(audio_file: str, lang: str) -> str:
 
     with sr.AudioFile(converted_voice_path) as source:
         # Записываем данные из файла
+        recognizer.adjust_for_ambient_noise(source, duration=0)
         audio_data = recognizer.record(source)
 
         # Пытаемся распознать речь используя Google Web Speech API
         try:
-            text = recognizer.recognize_google(audio_data, language=lang)
+            text = recognizer.recognize_google(audio_data=audio_data, language=lang).lower()
             return text
         except sr.UnknownValueError:
             return "Google Speech Recognition could not understand audio"
