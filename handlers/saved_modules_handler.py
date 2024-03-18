@@ -4,7 +4,7 @@ from aiogram import Router, Bot, F
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
-from aiogram.types import CallbackQuery, Message
+from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 
 from FSM.fsm import FSMCreatingModule
 from config_data.user_restrictions import *
@@ -15,8 +15,9 @@ from messages_keyboards.new_module_kb import create_new_module_keyboard
 from messages_keyboards.reapeating_module_kb import confirm_repeating_keyboard
 from messages_keyboards.saved_modules_kb import list_of_saved_modules_keyboard, module_info_keyboard
 from lexicon.lexicon import (CommandsNames, CREATING_MODULE_LEXICON, SAVED_MODULES_LEXICON, REPEATING_MODULE_LEXICON,
-                             main_keyboard_lexicon)
+                             main_keyboard_lexicon, system_lexicon)
 from services.repeating_module_service import get_blocks_num, get_blocks, get_blocks_str
+from services.service import send_and_delete_message
 
 router = Router()
 
@@ -188,6 +189,11 @@ async def process_edit_saved_module(callback: CallbackQuery,
                             is_editing=True,
                             editing_module_id=module_id,
                             cur_photo_path="")
+
+    await send_and_delete_message(chat_id=callback.from_user.id,
+                                  text=system_lexicon['delete_keyboard'][user['lang']],
+                                  delete_after=0,
+                                  reply_markup=ReplyKeyboardRemove())
 
 
 # Запрос на подтверждение повторения выбранного модуля
