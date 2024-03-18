@@ -684,20 +684,20 @@ system_lexicon: dict[str, dict[str, str]] = {
 
 main_keyboard_lexicon: dict[str, dict[str, str]] = {
     CommandsNames.saved_modules: {
-        'en': "Saved modules",
-        'ru': "Сохраненные модули"
+        'en': "💾My modules💾",
+        'ru': "💾Мои модули💾"
     },
     CommandsNames.create_new_module: {
-        'en': "Create a new module",
-        'ru': "Создать новый модуль"
+        'en': "✨Create a module✨",
+        'ru': "✨Создать модуль✨"
     },
     CommandsNames.settings: {
-        'en': "Settings",
-        'ru': "Настройки"
+        'en': "⚙Settings⚙",
+        'ru': "⚙Настройки⚙"
     },
     '/help': {
-        'en': "Help",
-        'ru': "Помощь"
+        'en': "ℹ️Helpℹ️",
+        'ru': "ℹ️Помощьℹ️"
     }
 }
 
