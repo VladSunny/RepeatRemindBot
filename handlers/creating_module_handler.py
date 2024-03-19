@@ -200,7 +200,7 @@ async def process_photo_sent(message: Message, state: FSMContext):
     data = await state.get_data()
 
     # Если уже есть отправленное фото, то выходим с функции
-    if data['cur_photo_path']:
+    if data.get('cur_photo_path'):
         await message.delete()
         return
 
@@ -228,11 +228,12 @@ async def process_voice_sent(message: Message, state: FSMContext):
 
     data = await state.get_data()
 
-    if data['cur_voice_path']:
+    if data.get('cur_voice_path'):
         await message.delete()
         return
 
     path = await download_voice(voice.file_id)
+
 
     voice_message = await message.answer(text=CREATING_MODULE_LEXICON['choose_voice_lang'][user['lang']],
                                          reply_markup=voice_keyboard(user['lang']),
