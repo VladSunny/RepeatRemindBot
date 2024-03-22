@@ -32,6 +32,8 @@ class SaveNewModuleCF(CallbackData, prefix='save_new_module'):
     module_name: str
 
 
+# Saved model --
+
 # Callback для ивента "открытие сохраненного модуля"
 class OpenSavedModuleCF(CallbackData, prefix='open_saved_module'):
     module_id: int
@@ -41,6 +43,10 @@ class OpenSavedModuleCF(CallbackData, prefix='open_saved_module'):
 class DeleteSavedModuleCF(CallbackData, prefix='delete_saved_module'):
     module_id: int
     module_name: str
+
+
+class GameForModuleCF(CallbackData, prefix='game_for_module'):
+    module_id: int
 
 
 # Callback для ивента "возвращение к сохраненным модулям"

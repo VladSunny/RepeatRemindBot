@@ -490,6 +490,10 @@ SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
         'en': "Repeat module 🤓",
         'ru': "Повторить модуль 🤓"
     },
+    'game_of_module': {
+        'en': "Game of module 🎮",
+        'ru': "Игра по модулю 🎮"
+    },
     'edit_saved_module': {
         'en': "Edit ✏️",
         'ru': "Изменить ✏️"

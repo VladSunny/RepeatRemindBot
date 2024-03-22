@@ -5,7 +5,8 @@ from filters.CallbackDataFactory import OpenSavedModuleCF, \
     DeleteSavedModuleCF, \
     BackToSavedModulesCF, \
     EditModuleCF, \
-    RepeatModuleCF
+    RepeatModuleCF, \
+    GameForModuleCF
 from lexicon.lexicon import SAVED_MODULES_LEXICON
 
 
@@ -34,6 +35,10 @@ def module_info_keyboard(lang: str, module_id: int, module_name: str) -> InlineK
         InlineKeyboardButton(
             text=SAVED_MODULES_LEXICON['repeat_module'][lang],
             callback_data=RepeatModuleCF(module_id=module_id).pack()
+        ),
+        InlineKeyboardButton(
+            text=SAVED_MODULES_LEXICON['game_of_module'][lang],
+            callback_data=GameForModuleCF(module_id=module_id).pack()
         ),
         InlineKeyboardButton(
             text=SAVED_MODULES_LEXICON['edit_saved_module'][lang],
