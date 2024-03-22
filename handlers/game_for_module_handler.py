@@ -12,7 +12,11 @@ from database.database import *
 router = Router()
 router.message.filter(StateFilter(default_state))
 
-GAME_SHORT_NAME = 'RepeatRemindGame'
+env = Env()
+env.read_env(None)
+
+
+GAME_SHORT_NAME = env("GAME_SHORT_NAME")
 game_message_ids = {}
 
 
