@@ -45,7 +45,7 @@ async def query_inline_game(callback_query: types.CallbackQuery, bot: Bot, state
     data = await state.get_data()
 
     # Базовый URL игры
-    game_url = f'https://repeatclicker.netlify.app/test-game?module_id={data["module_id"]}'
+    game_url = f'https://repeatclicker.netlify.app/repeat-remind-game?module_id={data["module_id"]}'
 
     # Для inline сообщений добавляем inline_message_id, иначе добавляем chat_id
     if callback_query.inline_message_id:
