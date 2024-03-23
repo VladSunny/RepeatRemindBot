@@ -6,7 +6,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 
-from filters.CallbackDataFactory import GameForModuleCF, GameCF
+from filters.CallbackDataFactory import GameForModuleCF
 from database.database import *
 
 router = Router()
