@@ -58,6 +58,7 @@ class BackToSavedModulesCF(CallbackData, prefix='back_to_saved_modules'):
 class EditModuleCF(CallbackData, prefix='edit_module'):
     module_id: int
 
+
 class SeparatorForPhotoCF(CallbackData, prefix='separator_for_photo'):
     sep: str
 

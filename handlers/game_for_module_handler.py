@@ -4,9 +4,9 @@ from aiogram import Router, Bot, types
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
-from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
+from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 
-from filters.CallbackDataFactory import GameForModuleCF
+from filters.CallbackDataFactory import GameForModuleCF, GameCF
 from database.database import *
 
 router = Router()
@@ -14,7 +14,6 @@ router.message.filter(StateFilter(default_state))
 
 env = Env()
 env.read_env(None)
-
 
 GAME_SHORT_NAME = env("GAME_SHORT_NAME")
 game_message_ids = {}
@@ -31,7 +30,7 @@ async def process_mix_words_in_repeating_module(callback: CallbackQuery,
 
     await state.update_data(module_id=module_id)
 
-    game_message = await bot.send_game(chat_id=chat_id, game_short_name=GAME_SHORT_NAME)
+    game_message = await bot.send_game(chat_id=chat_id, game_short_name=GAME_SHORT_NAME, reply_to_message_id=callback.message.message_id)
     # Сохраняем message_id в словарь с ключом по user_id
     game_message_ids[chat_id] = game_message.message_id
 
@@ -56,4 +55,3 @@ async def query_inline_game(callback_query: types.CallbackQuery, bot: Bot, state
 
     # Ответ на callback_query с URL игры
     await bot.answer_callback_query(callback_query.id, url=game_url)
-
