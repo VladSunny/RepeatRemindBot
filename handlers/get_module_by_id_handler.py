@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from aiogram import Router
+from aiogram import Router, F
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
@@ -9,7 +9,7 @@ from aiogram.types import Message
 from FSM.fsm import FSMGetModuleById
 from config_data.user_restrictions import *
 from database.database import *
-from lexicon.lexicon import CommandsNames
+from lexicon.lexicon import CommandsNames, main_keyboard_lexicon
 from lexicon.lexicon import GET_MODULE_BY_ID_LEXICON, LEXICON
 from services.service import send_and_delete_message
 
@@ -18,6 +18,8 @@ router = Router()
 
 # /get_module_by_id
 @router.message(Command(commands=CommandsNames.get_module_by_id), StateFilter(default_state))
+@router.message(F.text == main_keyboard_lexicon[CommandsNames.get_module_by_id]['ru'], StateFilter(default_state))
+@router.message(F.text == main_keyboard_lexicon[CommandsNames.get_module_by_id]['en'], StateFilter(default_state))
 async def process_get_module_by_id_command(message: Message,
                                            state: FSMContext):
     user = get_user(message.from_user.id)

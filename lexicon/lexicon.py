@@ -699,6 +699,10 @@ main_keyboard_lexicon: dict[str, dict[str, str]] = {
         'en': "⚙Settings⚙",
         'ru': "⚙Настройки⚙"
     },
+    CommandsNames.get_module_by_id: {
+        'en': "📥Module by ID📥",
+        'ru': "📥Модуль по ID📥"
+    },
     '/help': {
         'en': "ℹ️Helpℹ️",
         'ru': "ℹ️Помощьℹ️"

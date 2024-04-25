@@ -17,8 +17,8 @@ router = Router()
 
 # Отправка доступных команд для изменения параметров
 @router.message(Command(commands=CommandsNames.settings), StateFilter(default_state))
-@router.message(F.text == main_keyboard_lexicon[CommandsNames.settings]['ru'])
-@router.message(F.text == main_keyboard_lexicon[CommandsNames.settings]['en'])
+@router.message(F.text == main_keyboard_lexicon[CommandsNames.settings]['ru'], StateFilter(default_state))
+@router.message(F.text == main_keyboard_lexicon[CommandsNames.settings]['en'], StateFilter(default_state))
 async def process_settings_command(message: Message):
     user = get_user(message.from_user.id)
     user_settings = get_settings(message.from_user.id)
