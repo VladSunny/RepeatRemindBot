@@ -6,3 +6,4 @@ max_local_items_in_module = 50
 
 max_name_length = 20
 max_element_length = 200
+max_key_length = 50

@@ -136,8 +136,11 @@ async def process_name_sent(message: Message, state: FSMContext, bot: Bot):
     user = get_user(message.from_user.id)
 
     if (message.text is None) or (not is_valid_name(message.text)):
-        await message.answer(
-            text=CREATING_MODULE_LEXICON['not_valid_name'][user['lang']]
+        await message.delete()
+        await send_and_delete_message(
+            chat_id=message.chat.id,
+            text=CREATING_MODULE_LEXICON['not_valid_name'][user['lang']],
+            delete_after=5
         )
         return
 
@@ -384,8 +387,10 @@ async def process_new_name_sent(message: Message, state: FSMContext, bot: Bot):
     await message.delete()
 
     if (message.text is None) or (not is_valid_name(message.text)):
-        await message.answer(
-            text=CREATING_MODULE_LEXICON['not_valid_name'][user['lang']]
+        await send_and_delete_message(
+            chat_id=message.chat.id,
+            text=CREATING_MODULE_LEXICON['not_valid_name'][user['lang']],
+            delete_after=5
         )
         return
 
@@ -410,8 +415,10 @@ async def process_new_separator_sent(message: Message, state: FSMContext, bot: B
     await message.delete()
 
     if (message.text is None) or (not is_valid_separator(message.text)):
-        await message.answer(
-            text=CREATING_MODULE_LEXICON['not_valid_separator'][user['lang']]
+        await send_and_delete_message(
+            chat_id=message.chat.id,
+            text=CREATING_MODULE_LEXICON['not_valid_separator'][user['lang']],
+            delete_after=5
         )
         return
 
