@@ -49,6 +49,10 @@ class GameForModuleCF(CallbackData, prefix='game_for_module'):
     module_id: int
 
 
+class ChangeVisibilityModuleCF(CallbackData, prefix='change_visibility_module'):
+    module_id: int
+
+
 # Callback для ивента "возвращение к сохраненным модулям"
 class BackToSavedModulesCF(CallbackData, prefix='back_to_saved_modules'):
     pass

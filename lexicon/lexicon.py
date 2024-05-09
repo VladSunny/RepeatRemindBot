@@ -502,6 +502,10 @@ SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
         'en': "Delete 🗑️",
         'ru': "Удалить 🗑️"
     },
+    'visibility_of_module': {
+        'en': "Visibility: {visibility}",
+        'ru': "Видимость: {visibility}"
+    },
     'back_to_saved_modules': {
         'en': "⬅️ Back to saved modules",
         'ru': "⬅️ Вернуться к сохраненным модулям"
@@ -706,6 +710,9 @@ main_keyboard_lexicon: dict[str, dict[str, str]] = {
     '/help': {
         'en': "ℹ️Helpℹ️",
         'ru': "ℹ️Помощьℹ️"
-    }
+    },
 }
-
+mini_app_button: dict[str, str] = {
+    'en': "📖Library📖",
+    'ru': "📖Каталог📖"
+}

@@ -6,7 +6,8 @@ from filters.CallbackDataFactory import OpenSavedModuleCF, \
     BackToSavedModulesCF, \
     EditModuleCF, \
     RepeatModuleCF, \
-    GameForModuleCF
+    GameForModuleCF, \
+    ChangeVisibilityModuleCF
 from lexicon.lexicon import SAVED_MODULES_LEXICON
 
 
@@ -28,7 +29,7 @@ def list_of_saved_modules_keyboard(modules: list[tuple[str, int]]) -> InlineKeyb
 
 
 # Кнопки для выбранного сохраненного модуля
-def module_info_keyboard(lang: str, module_id: int, module_name: str) -> InlineKeyboardMarkup:
+def module_info_keyboard(lang: str, module_id: int, module_name: str, public: bool) -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
 
     kb_builder.row(
@@ -47,6 +48,10 @@ def module_info_keyboard(lang: str, module_id: int, module_name: str) -> InlineK
         InlineKeyboardButton(
             text=SAVED_MODULES_LEXICON['delete_module'][lang],
             callback_data=DeleteSavedModuleCF(module_id=module_id, module_name=module_name).pack()
+        ),
+        InlineKeyboardButton(
+            text=SAVED_MODULES_LEXICON['visibility_of_module'][lang].format(visibility="🔓" if public else "🔒"),
+            callback_data=ChangeVisibilityModuleCF(module_id=module_id).pack()
         ),
         InlineKeyboardButton(
             text=SAVED_MODULES_LEXICON['back_to_saved_modules'][lang],

@@ -10,7 +10,7 @@ from FSM.fsm import FSMCreatingModule
 from config_data.user_restrictions import *
 from database.database import *
 from filters.CallbackDataFactory import OpenSavedModuleCF, DeleteSavedModuleCF, BackToSavedModulesCF, EditModuleCF, \
-    RepeatModuleCF, MixWordsInRepeatingModuleCF
+    RepeatModuleCF, MixWordsInRepeatingModuleCF, ChangeVisibilityModuleCF
 from messages_keyboards.new_module_kb import create_new_module_keyboard
 from messages_keyboards.reapeating_module_kb import confirm_repeating_keyboard
 from messages_keyboards.saved_modules_kb import list_of_saved_modules_keyboard, module_info_keyboard
@@ -86,7 +86,7 @@ async def process_module_info(callback: CallbackQuery,
         cnt += 1
         elements += f"{cnt}. {i[0]} {module['separator']} {i[1]}\n"
 
-    reply_markup = module_info_keyboard(lang=user['lang'], module_id=module_id, module_name=module['name'])
+    reply_markup = module_info_keyboard(lang=user['lang'], module_id=module_id, module_name=module['name'], public=module['public'])
 
     await bot.edit_message_text(chat_id=callback.from_user.id,
                                 message_id=callback.message.message_id,
@@ -100,6 +100,30 @@ async def process_module_info(callback: CallbackQuery,
                                 ))
 
     await callback.answer()
+
+
+@router.callback_query(ChangeVisibilityModuleCF.filter())
+async def process_change_visibility_module(callback: CallbackQuery,
+                                           callback_data: ChangeVisibilityModuleCF,
+                                           bot: Bot):
+    user = get_user(callback.from_user.id)
+    module_id = callback_data.module_id
+    module = get_module(module_id)
+
+    update_module_params(module_id, {'public': not module['public']})
+
+    reply_markup = module_info_keyboard(
+        lang=user['lang'],
+        module_id=module_id,
+        module_name=module['name'],
+        public=not module['public']
+    )
+
+    await bot.edit_message_reply_markup(chat_id=callback.from_user.id,
+                                        message_id=callback.message.message_id,
+                                        reply_markup=reply_markup
+    )
+    await callback.answer("Visibility has been changed", show_alert=True)
 
 
 # Вернуться к списку сохраненных модулей

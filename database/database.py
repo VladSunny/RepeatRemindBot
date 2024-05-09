@@ -99,6 +99,10 @@ def get_module(id: int) -> dict | None:
     return response.data[0] if response.data != [] else None
 
 
+def update_module_params(module_id: int, update: dict) -> None:
+    response = supabase.table("modules").update(update).eq("id", module_id).execute()
+
+
 # Обновление пользователя в таблице users_tg
 # (в основном это обновление языка)
 def update_user(chat_id: int | str, update: dict) -> None:
