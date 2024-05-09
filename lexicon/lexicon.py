@@ -506,6 +506,14 @@ SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
         'en': "Visibility: {visibility}",
         'ru': "Видимость: {visibility}"
     },
+    'change_to_public': {
+        'en': "Now the module is public, other peoples can see it in the modules library",
+        'ru': "Теперь ваш модуль публичный, другие люди смогу его видеть в каталоге модулей"
+    },
+    'change_to_private': {
+        'en': "Now the module is private, nobody can see it in the modules library",
+        'ru': "Теперь ваш модуль приватный, никто не сможет его увидеть в каталоге модулей"
+    },
     'back_to_saved_modules': {
         'en': "⬅️ Back to saved modules",
         'ru': "⬅️ Вернуться к сохраненным модулям"

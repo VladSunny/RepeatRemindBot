@@ -123,7 +123,11 @@ async def process_change_visibility_module(callback: CallbackQuery,
                                         message_id=callback.message.message_id,
                                         reply_markup=reply_markup
     )
-    await callback.answer("Visibility has been changed", show_alert=True)
+
+    if (module['public']):
+        await callback.answer(SAVED_MODULES_LEXICON['change_to_private'][user['lang']], show_alert=True)
+    else:
+        await callback.answer(SAVED_MODULES_LEXICON['change_to_public'][user['lang']], show_alert=True)
 
 
 # Вернуться к списку сохраненных модулей
