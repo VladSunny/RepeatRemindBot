@@ -5,7 +5,7 @@ from aiogram import Bot, Dispatcher
 
 from config_data.config import Config, load_config
 from database.init_sql import init_local_database
-from handlers import (user_handlers, other_handlers, base_commands_handler, saved_modules_handler,
+from handlers import (ai_chat_handler, user_handlers, other_handlers, base_commands_handler, saved_modules_handler,
                       creating_module_handler, settings_handler, repeating_module_handler, get_module_by_id_handler,
                       donate_handler, channel_posts_handler, feedback_handler, game_for_module_handler)
 from messages_keyboards.main_menu import set_main_menu
@@ -42,6 +42,7 @@ async def main():
     await set_main_menu(bot)
 
     # Регистрируем роутеры в диспетчере
+    dp.include_router(ai_chat_handler.router)
     dp.include_router(feedback_handler.router)
     dp.include_router(base_commands_handler.router)
     dp.include_router(settings_handler.router)
