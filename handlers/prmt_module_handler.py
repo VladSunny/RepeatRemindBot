@@ -18,6 +18,6 @@ router = Router()
 
 
 @router.message(Command(commands='prompt'))
-async def unregistered_user(message: Message):
-    text = await ai_generate_module(message.text[6:])
-    await message.answer(text)
+async def generate_module_by_prompt(message: Message):
+    module = await ai_generate_module(message.text[6:])
+    await message.answer(str(module))

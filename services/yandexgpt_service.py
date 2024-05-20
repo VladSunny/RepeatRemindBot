@@ -1,8 +1,26 @@
 import requests
 import aiohttp
 import config_data.module_generation_prmt as prmt
+import json
+import re
 
-async def ai_generate_module(text: str):
+async def ai_generate_module(text: str) -> dict[str, str]:
+
+    def extract_json_from_response(response):
+        # Регулярное выражение для нахождения JSON
+        json_pattern = r'\{.*?\}'
+        match = re.search(json_pattern, response, re.DOTALL)
+        if match:
+            json_str = match.group(0)
+            try:
+                json_data = json.loads(json_str)
+                return json_data
+            except json.JSONDecodeError as e:
+                print("Error decoding JSON:", e)
+        else:
+            print("No JSON found in the response")
+        return None
+
     prompt = {
         "modelUri": "gpt://b1gfks0khjkqtiosesft/yandexgpt", #-lite",
         "completionOptions": {
@@ -29,7 +47,7 @@ async def ai_generate_module(text: str):
             async with session.post(url, headers=headers, json=prompt) as response:
                 if response.status == 200:
                     result = await response.json()
-                    return result['result']['alternatives'][0]['message']['text']
+                    return extract_json_from_response(result['result']['alternatives'][0]['message']['text'])
                 else:
                     response_text = await response.text()
                     raise Exception(
@@ -37,13 +55,3 @@ async def ai_generate_module(text: str):
                         f"Status code: {response.status}"
                         f"\n{response_text}"
                     )
-
-    # response = requests.post(url, headers=headers, json=prompt)
-    # response = await requests.get()
-
-    # print(response.json())
-
-    # # convert string to json
-    # result = response.json()['result']['alternatives'][0]['message']['text']
-
-    # return result
