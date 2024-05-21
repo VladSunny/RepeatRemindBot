@@ -32,6 +32,34 @@ class SaveNewModuleCF(CallbackData, prefix='save_new_module'):
     module_name: str
 
 
+class SeparatorForPhotoCF(CallbackData, prefix='separator_for_photo'):
+    sep: str
+
+
+class AutoTranslatePhrasesCF(CallbackData, prefix='auto_translate'):
+    pass
+
+
+class CancelTranslatingPhrasesCF(CallbackData, prefix='cancel_translating_phrases'):
+    pass
+
+
+class AddPhrasesFromPhotoCF(CallbackData, prefix='add_translating_phrases'):
+    pass
+
+
+class AddVoicePhraseCF(CallbackData, prefix='add_voice_phrase'):
+    lang: str
+
+
+class CancelVoiceCF(CallbackData, prefix='cancel_voice'):
+    pass
+
+
+class GPTModuleCF(CallbackData, prefix='gpt_module'):
+    pass
+
+
 # Saved model --
 
 # Callback для ивента "открытие сохраненного модуля"
@@ -61,30 +89,6 @@ class BackToSavedModulesCF(CallbackData, prefix='back_to_saved_modules'):
 # Callback для ивента "изменение модуля"
 class EditModuleCF(CallbackData, prefix='edit_module'):
     module_id: int
-
-
-class SeparatorForPhotoCF(CallbackData, prefix='separator_for_photo'):
-    sep: str
-
-
-class AutoTranslatePhrasesCF(CallbackData, prefix='auto_translate'):
-    pass
-
-
-class CancelTranslatingPhrasesCF(CallbackData, prefix='cancel_translating_phrases'):
-    pass
-
-
-class AddPhrasesFromPhotoCF(CallbackData, prefix='add_translating_phrases'):
-    pass
-
-
-class AddVoicePhraseCF(CallbackData, prefix='add_voice_phrase'):
-    lang: str
-
-
-class CancelVoiceCF(CallbackData, prefix='cancel_voice'):
-    pass
 
 
 # Repeating module --

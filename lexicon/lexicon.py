@@ -435,6 +435,17 @@ CREATING_MODULE_LEXICON = {
         'ru': "Отменить ❌"
     },
 
+    # GPT
+
+    'apply_gpt_module' : {
+        'en': "Apply ✅",
+        'ru': "Применить ✅"
+    },
+    'cancel_gpt_module' : {
+        'en': "Cancel ❌",
+        'ru': "Отменить ❌"
+    },
+
     # other
 
     'finish_module_button': {
