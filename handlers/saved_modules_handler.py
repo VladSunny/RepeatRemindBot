@@ -221,6 +221,7 @@ async def process_edit_saved_module(callback: CallbackQuery,
     module_content['is_editing'] = True
     module_content['editing_module_id'] = module_id
     module_content['cur_photo_path'] = ""
+    module_content['name'] = module['name']
 
     await state.update_data(**module_content)
 
