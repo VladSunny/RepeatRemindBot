@@ -43,7 +43,10 @@ new_module_dict: dict[str, str | dict[str, str]] = {
     "voice_id": "",
     "photo_message_id": 0,
     "voice_message_id": 0,
-    "phrases_to_translate": []
+    "phrases_to_translate": [],
+    "gpt_module": None,
+    "gpt_message_id":0,
+    "prompt_message_id":0
 }
 
 router = Router()

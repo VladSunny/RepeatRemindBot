@@ -81,7 +81,7 @@ async def send_new_module_info(chat_id, data, user, content, bot: Bot):
                                 )
 
 
-async def add_new_pairs(state, valid_pairs, chat_id, bot):
+async def add_new_pairs(state, valid_pairs: dict, chat_id, bot):
     data = await state.get_data()
     user = get_user(chat_id)
 

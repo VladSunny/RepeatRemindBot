@@ -56,7 +56,11 @@ class CancelVoiceCF(CallbackData, prefix='cancel_voice'):
     pass
 
 
-class GPTModuleCF(CallbackData, prefix='gpt_module'):
+class AddGPTModuleCF(CallbackData, prefix='gpt_module'):
+    pass
+
+
+class CancelGPTModuleCF(CallbackData, prefix='cancel_gpt_module'):
     pass
 
 
