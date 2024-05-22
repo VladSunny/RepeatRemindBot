@@ -18,6 +18,9 @@ from lexicon.lexicon import (CommandsNames, CREATING_MODULE_LEXICON, SAVED_MODUL
                              main_keyboard_lexicon, system_lexicon)
 from services.repeating_module_service import get_blocks_num, get_blocks, get_blocks_str
 from services.service import send_and_delete_message
+from services.creating_module_service import new_module_dict
+
+from copy import deepcopy
 
 router = Router()
 
@@ -210,13 +213,24 @@ async def process_edit_saved_module(callback: CallbackQuery,
                                 message_id=callback.message.message_id,
                                 text=SAVED_MODULES_LEXICON['cancel_to_over_editing'][user['lang']]
                                 )
-    await state.update_data(name=module['name'],
-                            content=module['content'],
-                            separator=module['separator'],
-                            message_id=header_message_id.message_id,
-                            is_editing=True,
-                            editing_module_id=module_id,
-                            cur_photo_path="")
+    
+    module_content = deepcopy(new_module_dict)
+    module_content['content'] = module['content']
+    module_content['separator'] = module['separator']
+    module_content['message_id'] = header_message_id.message_id
+    module_content['is_editing'] = True
+    module_content['editing_module_id'] = module_id
+    module_content['cur_photo_path'] = ""
+
+    await state.update_data(**module_content)
+
+    # await state.update_data(name=module['name'],
+    #                         content=module['content'],
+    #                         separator=module['separator'],
+    #                         message_id=header_message_id.message_id,
+    #                         is_editing=True,
+    #                         editing_module_id=module_id,
+    #                         cur_photo_path="")
 
     await send_and_delete_message(chat_id=callback.from_user.id,
                                   text=system_lexicon['delete_keyboard'][user['lang']],

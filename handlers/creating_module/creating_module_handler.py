@@ -18,36 +18,11 @@ from lexicon.lexicon import CommandsNames, CREATING_MODULE_LEXICON
 from keyboards.keyboards import get_main_keyboard
 from services.auto_translate_service import *
 from services.creating_module_service import is_valid_name, is_valid_separator, get_valid_pairs, add_new_pairs, \
-    send_and_delete_message, send_new_module_info
+    send_and_delete_message, send_new_module_info, new_module_dict
 from services.service import send_and_delete_message
-
-from handlers.creating_module import photo_module_handler, voice_module_handler, prmt_module_handler
 
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
-
-# Шаблон словаря нового модуля
-new_module_dict: dict[str, str | dict[str, str]] = {
-    "name": "",
-    "separator": "=",
-    "content": {
-
-    },
-    "instruction_message_id": 0,
-    "message_id": "",
-    "is_editing": False,
-    "editing_module_id": 0,
-    "cur_photo_path": "",
-    "cur_voice_path": "",
-    "photo_id": "",
-    "voice_id": "",
-    "photo_message_id": 0,
-    "voice_message_id": 0,
-    "phrases_to_translate": [],
-    "gpt_module": None,
-    "gpt_message_id":0,
-    "prompt_message_id":0
-}
 
 router = Router()
 

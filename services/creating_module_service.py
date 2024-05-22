@@ -12,6 +12,30 @@ from services.service import send_and_delete_message
 from messages_keyboards.new_module_kb import create_new_module_keyboard
 
 
+# Шаблон словаря нового модуля
+new_module_dict: dict[str, str | dict[str, str]] = {
+    "name": "",
+    "separator": "=",
+    "content": {
+
+    },
+    "instruction_message_id": 0,
+    "message_id": "",
+    "is_editing": False,
+    "editing_module_id": 0,
+    "cur_photo_path": "",
+    "cur_voice_path": "",
+    "photo_id": "",
+    "voice_id": "",
+    "photo_message_id": 0,
+    "voice_message_id": 0,
+    "phrases_to_translate": [],
+    "gpt_module": None,
+    "gpt_message_id":0,
+    "prompt_message_id":0
+}
+
+
 # Проверка имени
 def is_valid_name(name: str) -> bool:
     pattern = r'^[a-zA-Z0-9 ]+$'
