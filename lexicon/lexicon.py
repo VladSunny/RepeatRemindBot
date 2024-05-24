@@ -445,6 +445,14 @@ CREATING_MODULE_LEXICON = {
         'en': "Cancel ❌",
         'ru': "Отменить ❌"
     },
+    'waiting_for_gpt_response' : {
+        'en': "Generations left: {generations}. Waiting for response...\nIt may take up to 1-3 minutes",
+        'ru': "Осталось генераций: {generations}. Ожидание ответа...\nЭто может занять от 1 до 3 минут"
+    },
+    'no_generations' : {
+        'en': "No generations left(\nWait for tomorrow, each day gives you free uses",
+        'ru': "Не осталось генераций(\nДождитесь завтра, каждый день даётся несколько бесплатных использований"
+    },
 
     # other
 

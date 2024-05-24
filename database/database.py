@@ -167,3 +167,12 @@ def get_donaters() -> list:
             donaters.append(list(user.values())[::-1])
 
     return donaters
+
+
+def get_user_capabilities(chat_id: int | str) -> dict:
+    response = supabase.table("capabilities").select('*').eq("chat_id", chat_id).execute()
+    return response.data[0]
+
+
+def set_user_capabilities(chat_id: int | str, capabilities: dict) -> None:
+    response = supabase.table("capabilities").update(capabilities).eq("chat_id", chat_id).execute()
