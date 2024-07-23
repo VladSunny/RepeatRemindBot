@@ -3,6 +3,8 @@ from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 
+from datetime import datetime
+
 from FSM.fsm import FSMCreatingModule
 from config_data.user_restrictions import *
 from database.database import *
@@ -27,7 +29,9 @@ owner_id = env("OWNER_ID")
 async def generate_module_by_prompt(message: Message, state: FSMContext, bot: Bot):
     user = get_user(message.from_user.id)
     data = await state.get_data()
-    generations = get_user_capabilities(message.from_user.id)['generations']
+    capabilities = get_user_capabilities(message.from_user.id)
+    generations = capabilities['generations']
+    last_generation_date = datetime.strptime(capabilities['last_generation_date'], '%Y-%m-%d')
 
     if (data["gpt_module"] != None):
         await message.delete()
@@ -35,15 +39,28 @@ async def generate_module_by_prompt(message: Message, state: FSMContext, bot: Bo
     
     await state.update_data(gpt_module="generating")
 
-    if not generations and str(message.chat.id) != str(owner_id):
+    if datetime.now().date() > last_generation_date.date() and generations < 5:
+        generations = daily_free_generations
+
+    if not generations:
+        await message.delete()
+
         await send_and_delete_message(
             chat_id=message.chat.id,
             text=CREATING_MODULE_LEXICON['no_generations'][user['lang']],
             delete_after=3
         )
+
         return
 
-    set_user_capabilities(message.from_user.id, {'generations': generations - 1})
+    set_user_capabilities(
+        message.from_user.id,
+        {
+            'generations': generations - 1,
+            'last_generation_date': datetime.now().strftime('%Y-%m-%d')
+        }
+    )
+
     generations -= 1
     
     gpt_module_message = await message.answer(
