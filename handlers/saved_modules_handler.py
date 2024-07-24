@@ -19,6 +19,7 @@ from lexicon.lexicon import (CommandsNames, CREATING_MODULE_LEXICON, SAVED_MODUL
 from services.repeating_module_service import get_blocks_num, get_blocks, get_blocks_str
 from services.service import send_and_delete_message
 from services.creating_module_service import new_module_dict
+from icecream import ic
 
 from copy import deepcopy
 
@@ -61,7 +62,7 @@ async def ask_to_repeating(chat_id, module_id, state, message_id, bot: Bot):
 @router.message(F.text == main_keyboard_lexicon[CommandsNames.saved_modules]['en'])
 async def process_saved_modules_command(message: Message):
     user = get_user(message.from_user.id)
-    modules = sorted([(module['name'], module['id']) for module in get_modules(message.chat.id)],
+    modules = sorted([(module['name'], module['uuid']) for module in get_modules(message.chat.id)],
                      key=lambda item: (item[0].lower(), item[1]))
 
     reply_markup = list_of_saved_modules_keyboard(modules=modules)
@@ -138,7 +139,7 @@ async def process_change_visibility_module(callback: CallbackQuery,
 async def process_back_to_saved_modules(callback: CallbackQuery,
                                         bot: Bot):
     user = get_user(callback.from_user.id)
-    modules = sorted([(module['name'], module['id']) for module in get_modules(callback.message.chat.id)],
+    modules = sorted([(module['name'], module['uuid']) for module in get_modules(callback.message.chat.id)],
                      key=lambda item: (item[0].lower(), item[1]))
 
     reply_markup = list_of_saved_modules_keyboard(modules=modules)
@@ -159,11 +160,17 @@ async def process_delete_saved_module(callback: CallbackQuery,
     user = get_user(callback.from_user.id)
 
     module_id = callback_data.module_id
-    module_name = callback_data.module_name
+    module_name = get_module(module_id)['name']
+
+    ic(module_id)
 
     delete_saved_module(module_id=module_id)
+    
+    await callback.answer(
+        SAVED_MODULES_LEXICON['module_has_been_deleted'][user['lang']].format(module_name=module_name)
+    )
 
-    modules = sorted([(module['name'], module['id']) for module in get_modules(callback.message.chat.id)],
+    modules = sorted([(module['name'], module['uuid']) for module in get_modules(callback.message.chat.id)],
                      key=lambda item: (item[0].lower(), item[1]))
 
     reply_markup = list_of_saved_modules_keyboard(modules=modules)
@@ -172,10 +179,6 @@ async def process_delete_saved_module(callback: CallbackQuery,
                                 reply_markup=reply_markup,
                                 text=SAVED_MODULES_LEXICON['list_of_saved_modules'][user['lang']]
                                 )
-
-    await callback.answer(
-        SAVED_MODULES_LEXICON['module_has_been_deleted'][user['lang']].format(module_name=module_name)
-    )
 
 
 # Изменение сохраненного модуля

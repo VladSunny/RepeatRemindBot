@@ -18,17 +18,17 @@ class DelPairFromNewModuleCF(CallbackData, prefix='del_pair'):
 
 
 # Callback для ивента "изменение названия модуля"
-class RenameNewModuleCF(CallbackData, prefix='rename_new_module'):
+class RenameNewModuleCF(CallbackData, prefix='rename'):
     module_name: str
 
 
 # Callback для ивента "изменение разделителя"
-class EditNewModuleSeparatorCF(CallbackData, prefix='edit_new_module_separator'):
+class EditNewModuleSeparatorCF(CallbackData, prefix='edit_sep'):
     module_name: str
 
 
 # Callback для ивента "сохранение модуля"
-class SaveNewModuleCF(CallbackData, prefix='save_new_module'):
+class SaveNewModuleCF(CallbackData, prefix='save'):
     module_name: str
 
 
@@ -67,22 +67,22 @@ class CancelGPTModuleCF(CallbackData, prefix='cancel_gpt_module'):
 # Saved model --
 
 # Callback для ивента "открытие сохраненного модуля"
-class OpenSavedModuleCF(CallbackData, prefix='open_saved_module'):
-    module_id: int
+class OpenSavedModuleCF(CallbackData, prefix='open'):
+    module_id: str
 
 
 # Callback для ивента "удаление сохраненного модуля"
-class DeleteSavedModuleCF(CallbackData, prefix='delete_saved_module'):
-    module_id: int
-    module_name: str
+class DeleteSavedModuleCF(CallbackData, prefix='delete'):
+    module_id: str
+    # module_name: str
 
 
-class GameForModuleCF(CallbackData, prefix='game_for_module'):
-    module_id: int
+class GameForModuleCF(CallbackData, prefix='game'):
+    module_id: str
 
 
-class ChangeVisibilityModuleCF(CallbackData, prefix='change_visibility_module'):
-    module_id: int
+class ChangeVisibilityModuleCF(CallbackData, prefix='change_vis'):
+    module_id: str
 
 
 # Callback для ивента "возвращение к сохраненным модулям"
@@ -91,26 +91,26 @@ class BackToSavedModulesCF(CallbackData, prefix='back_to_saved_modules'):
 
 
 # Callback для ивента "изменение модуля"
-class EditModuleCF(CallbackData, prefix='edit_module'):
-    module_id: int
+class EditModuleCF(CallbackData, prefix='edit'):
+    module_id: str
 
 
 # Repeating module --
 
 
 # Callback для ивента "повторение модуля"
-class RepeatModuleCF(CallbackData, prefix='repeat_module'):
-    module_id: int
+class RepeatModuleCF(CallbackData, prefix='repeat'):
+    module_id: str
 
 
 # Callback для ивента "подтверждение начала повторения модуля"
-class ConfirmRepeatingCF(CallbackData, prefix='confirmed_repeating_module'):
-    module_id: int
+class ConfirmRepeatingCF(CallbackData, prefix='confirmed_rep'):
+    module_id: str
 
 
 # Callback для ивента "перемешать слова в повторяемом модуле"
-class MixWordsInRepeatingModuleCF(CallbackData, prefix='shuffle_words_in_repeating_module'):
-    module_id: int
+class MixWordsInRepeatingModuleCF(CallbackData, prefix='shuffle_words'):
+    module_id: str
 
 
 class NextQuestionCF(CallbackData, prefix='next_question'):

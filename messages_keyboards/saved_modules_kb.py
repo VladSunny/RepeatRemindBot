@@ -17,7 +17,7 @@ def list_of_saved_modules_keyboard(modules: list[tuple[str, int]]) -> InlineKeyb
 
     kb_builder.row(*[
         InlineKeyboardButton(
-            text=f"{module[0]}_id:{module[1]}",
+            text=f"{module[0]}",
             callback_data=OpenSavedModuleCF(module_id=module[1]).pack()
         )
         for module in modules

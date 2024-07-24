@@ -94,13 +94,13 @@ def get_modules_number(chat_id: int | str) -> int:
 
 
 # Получение модуля через Supabase
-def get_module(id: int) -> dict | None:
-    response = supabase.table("modules").select('*').eq("id", id).execute()
+def get_module(id: str) -> dict | None:
+    response = supabase.table("modules").select('*').eq("uuid", id).execute()
     return response.data[0] if response.data != [] else None
 
 
-def update_module_params(module_id: int, update: dict) -> None:
-    response = supabase.table("modules").update(update).eq("id", module_id).execute()
+def update_module_params(module_id: str, update: dict) -> None:
+    response = supabase.table("modules").update(update).eq("uuid", module_id).execute()
 
 
 # Обновление пользователя в таблице users_tg
@@ -124,8 +124,8 @@ def save_module(chat_id: int | str, data: dict[str, any]) -> dict:
 
 
 # Удаление модуля через Supabase
-def delete_saved_module(module_id: int) -> bool:
-    response = supabase.table("modules").delete().eq("id", module_id).execute()
+def delete_saved_module(module_id: str) -> bool:
+    response = supabase.table("modules").delete().eq("uuid", module_id).execute()
     return True
 
 
