@@ -48,14 +48,14 @@ async def process_sent_module_id(message: Message,
                                  state: FSMContext):
     user = get_user(message.from_user.id)
 
-    if message.text is None or not message.text.isdigit():
-        await message.delete()
-        await send_and_delete_message(chat_id=message.from_user.id,
-                                      text=GET_MODULE_BY_ID_LEXICON['incorrect_type'][user['lang']],
-                                      delete_after=3)
-        return
+    # if message.text is None or not message.text.isdigit():
+    #     await message.delete()
+    #     await send_and_delete_message(chat_id=message.from_user.id,
+    #                                   text=GET_MODULE_BY_ID_LEXICON['incorrect_type'][user['lang']],
+    #                                   delete_after=3)
+    #     return
 
-    module: dict = get_module(int(message.text))
+    module: dict = get_module(message.text)
 
     if module is None:
         await message.delete()
@@ -73,6 +73,6 @@ async def process_sent_module_id(message: Message,
 
     await message.answer(text=GET_MODULE_BY_ID_LEXICON['module_was_saved'][user['lang']].format(
         module_name=saved_module['name'],
-        module_id=saved_module['id']
+        module_id=saved_module['uuid']
     )
     )

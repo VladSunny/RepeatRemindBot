@@ -461,8 +461,8 @@ CREATING_MODULE_LEXICON = {
         'ru': "Сохранить ✅"
     },
     'module_saved': {
-        'en': "You saved module {module_name}. It has ID: {module_id}",
-        'ru': "Вы сохранили модуль {module_name}. Его ID: {module_id}"
+        'en': "You saved module {module_name}. It has ID: <pre>{module_id}</pre>",
+        'ru': "Вы сохранили модуль {module_name}. Его ID: <pre>{module_id}</pre>"
     },
     'cancel_creating_module': {
         'en': "You have exited the module creation mode. Now you can perform other actions.\n/help",
@@ -491,12 +491,12 @@ SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
     },
     'module_info': {
         'en': "Name: {name}\n"
-              "ID: {id}\n"
+              "ID: <pre>{id}</pre>\n"
               "Separator: {separator}\n"
               "Number of elements: {number_of_elements}\n"
               "\nElements:\n{elements}",
         'ru': "Название: {name}\n"
-              "ID: {id}\n"
+              "ID: <pre>{id}</pre>\n"
               "Разделитель: {separator}\n"
               "Количество элементов: {number_of_elements}\n"
               "\nЭлементы:\n{elements}"
@@ -690,8 +690,8 @@ GET_MODULE_BY_ID_LEXICON: dict[str, dict[str, str]] = {
         'ru': "❌ Модуль с указанным ID не был найден."
     },
     'module_was_saved': {
-        'en': "✅ The module {module_name} was successfully found and saved! Your copy has the ID: {module_id}.",
-        'ru': "✅ Модуль {module_name} был успешно найден и сохранён! Его копия у вас имеет ID: {module_id}."
+        'en': "✅ The module {module_name} was successfully found and saved! Your copy has the ID: <pre>{module_id}</pre>",
+        'ru': "✅ Модуль {module_name} был успешно найден и сохранён! Его копия у вас имеет ID: <pre>{module_id}</pre>"
     },
     'cancel': {
         'en': "Saving the module by its ID has been cancelled.",

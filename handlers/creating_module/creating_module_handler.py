@@ -262,7 +262,7 @@ async def process_save_module(callback: CallbackQuery,
 
     await bot.send_message(chat_id=callback.from_user.id,
                            text=CREATING_MODULE_LEXICON['module_saved'][user['lang']].format(module_name=module_name,
-                                                                                             module_id=module['id']),
+                                                                                             module_id=module['uuid']),
                            reply_markup=get_main_keyboard(user['lang']))
 
     await bot.delete_message(chat_id=callback.from_user.id, message_id=data['message_id'])
