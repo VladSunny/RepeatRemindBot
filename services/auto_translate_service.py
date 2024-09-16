@@ -3,7 +3,7 @@ import translators as ts
 
 #  Перевод фраз
 def translate_phrase(phrase: str, from_lang: str, to_lang: str) -> str:
-    translation = ts.translate_text(query_text=phrase, from_language=from_lang, to_language=to_lang)
+    translation = ts.translate_text(query_text=phrase, translator='yandex', from_language=from_lang, to_language=to_lang)
     return translation
 
 
