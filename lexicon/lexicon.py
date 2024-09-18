@@ -340,7 +340,7 @@ CREATING_MODULE_LEXICON = {
     'max_local_items_in_module': {
         'en': "<b>The maximum number of elements for module creation has been exceeded!"
               " This is because the project is still in development. This limitation"
-              " was made to prevent server lag</b>",
+              " was made to codevent server lag</b>",
         'ru': "<b>Превышено максимально возможное количество элементов при создании модуля!"
               " Это связано с тем, что проект в стадии развития. Это ограничение"
               " было сделано чтобы сервер не тормозил</b>"
@@ -461,8 +461,8 @@ CREATING_MODULE_LEXICON = {
         'ru': "Сохранить ✅"
     },
     'module_saved': {
-        'en': "You saved module {module_name}. It has ID: <pre>{module_id}</pre>",
-        'ru': "Вы сохранили модуль {module_name}. Его ID: <pre>{module_id}</pre>"
+        'en': "You saved module {module_name}. It has ID: <code>{module_id}</code>",
+        'ru': "Вы сохранили модуль {module_name}. Его ID: <code>{module_id}</code>"
     },
     'cancel_creating_module': {
         'en': "You have exited the module creation mode. Now you can perform other actions.\n/help",
@@ -491,12 +491,12 @@ SAVED_MODULES_LEXICON: dict[str, dict[str, str]] = {
     },
     'module_info': {
         'en': "Name: {name}\n"
-              "ID: <pre>{id}</pre>\n"
+              "ID: <code>{id}</code>\n"
               "Separator: {separator}\n"
               "Number of elements: {number_of_elements}\n"
               "\nElements:\n{elements}",
         'ru': "Название: {name}\n"
-              "ID: <pre>{id}</pre>\n"
+              "ID: <code>{id}</code>\n"
               "Разделитель: {separator}\n"
               "Количество элементов: {number_of_elements}\n"
               "\nЭлементы:\n{elements}"
@@ -636,7 +636,7 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
         'en': "✅ Nice! Correct, the answer is {correct_answer}!",
         'ru': "✅ Отлично! Верно, ответ — {correct_answer}!"
     },
-    'answer_was_correct_pressed': {
+    'answer_was_correct_codessed': {
         'en': "✅ Okay, {correct_answer}, is correct",
         'ru': "✅ Хорошо, {correct_answer}, это правильный ответ"
     },
@@ -690,8 +690,8 @@ GET_MODULE_BY_ID_LEXICON: dict[str, dict[str, str]] = {
         'ru': "❌ Модуль с указанным ID не был найден."
     },
     'module_was_saved': {
-        'en': "✅ The module {module_name} was successfully found and saved! Your copy has the ID: <pre>{module_id}</pre>",
-        'ru': "✅ Модуль {module_name} был успешно найден и сохранён! Его копия у вас имеет ID: <pre>{module_id}</pre>"
+        'en': "✅ The module {module_name} was successfully found and saved! Your copy has the ID: <code>{module_id}</code>",
+        'ru': "✅ Модуль {module_name} был успешно найден и сохранён! Его копия у вас имеет ID: <code>{module_id}</code>"
     },
     'cancel': {
         'en': "Saving the module by its ID has been cancelled.",
