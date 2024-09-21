@@ -1,8 +1,13 @@
-import requests
 import aiohttp
 import config_data.module_generation_prmt as prmt
 import json
 import re
+from environs import Env
+
+env = Env()
+env.read_env(None)
+
+TOKEN = env('YANDEX_GPT_TOKEN')
 
 async def ai_generate_module(text: str) -> dict[str, str]:
 
@@ -40,7 +45,7 @@ async def ai_generate_module(text: str) -> dict[str, str]:
     url = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion" #Async"
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Api-Key AQVNxR6zGEOE6NwZxLzAg__WTaw2R788WOjcY1Dk"
+        "Authorization": TOKEN
     }
 
     async with aiohttp.ClientSession() as session:
