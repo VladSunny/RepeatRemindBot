@@ -636,7 +636,7 @@ REPEATING_MODULE_LEXICON: dict[str, dict[str, str]] = {
         'en': "✅ Nice! Correct, the answer is {correct_answer}!",
         'ru': "✅ Отлично! Верно, ответ — {correct_answer}!"
     },
-    'answer_was_correct_codessed': {
+    'answer_was_correct_pressed': {
         'en': "✅ Okay, {correct_answer}, is correct",
         'ru': "✅ Хорошо, {correct_answer}, это правильный ответ"
     },
